@@ -1,5 +1,5 @@
 import React from 'react'
-import AddObject from "../../Components/AddObject";
+import ListObject from "../../Components/ListObject/ListObject";
 import classes from './homePage.module.css'
 
 
@@ -9,7 +9,7 @@ const HomePage = () => {
             <h1 className={classes.home}>
                 Выбрать объект
             </h1>
-            <AddObject/>
+            <ListObject/>
         </>
     )
 }
