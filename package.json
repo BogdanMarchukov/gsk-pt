@@ -1,0 +1,24 @@
+{
+  "name": "gsk_pt",
+  "version": "1.0.0",
+  "description": "marck",
+  "main": "app.js",
+  "scripts": {
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "MarchukovBogdan <bogdan_info@mail.ru>",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.6",
+    "create-react-app": "^4.0.3",
+    "express": "^4.17.1",
+    "git": "^0.1.5",
+    "mongoose": "^5.12.3"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "nodemon": "^2.0.7"
+  }
+}
