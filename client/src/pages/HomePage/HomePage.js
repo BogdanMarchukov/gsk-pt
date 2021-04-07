@@ -1,6 +1,7 @@
 import React from 'react'
 import ListObject from "../../Components/ListObject/ListObject";
 import classes from './homePage.module.css'
+import AddObject from "../../Components/AddObject/AddObject";
 
 
 const HomePage = () => {
@@ -10,6 +11,7 @@ const HomePage = () => {
                 Выбрать объект
             </h1>
             <ListObject/>
+            <AddObject/>
         </>
     )
 }

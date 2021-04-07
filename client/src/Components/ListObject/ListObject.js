@@ -7,6 +7,7 @@ const ListObject = () => {
 
     return (
         <div className= {`${classes.listObj} row`}>
+
             <Link
                 to='/' className={`col l3 s12 waves-effect waves-light btn-large light-green accent-3 grey-text text-darken-4 `}
             >
@@ -28,7 +29,7 @@ const ListObject = () => {
                 Мажайская-Давыдкова
             </Link>
             <Link
-                to='/' className=" col l4 s12 waves-effect waves-light btn-large light-green accent-3 grey-text text-darken-4"
+                to='/' className=" col l3 s12 waves-effect waves-light btn-large light-green accent-3 grey-text text-darken-4"
             >
                 Мажайская-Давыдкова
             </Link>
