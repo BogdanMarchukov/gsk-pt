@@ -1,18 +1,19 @@
 import React from 'react'
 import classes from './AddObject.module.css'
-import {Link} from "react-router-dom";
 
-const AddObject = () => {
+const AddObject = ({openWindowObj}) => {
+
     return (
-        <div className={classes.Flex}>
-            <div className={`row`}>
-                <div className="col">
-                    <div className="card blue-grey darken-1">
-                        <div className="card-content white-text">
-                            <span className="card-title">Создание нового объекта</span>
-                        </div>
-                        <div className="card-action">
-                            <form action="#">
+        <div className={`${classes.Flex} row`}>
+            <div className={`${classes.margin} col l6`}>
+                <div className="card light-blue darken-4">
+                    <div className="card-content white-text">
+                        <span className="card-title">Создание нового объекта</span>
+                        <div>
+                            <div className="input-field">
+                                <input placeholder="Введите название" id="name" name="name" type="text"
+                                       className="validate"/>
+                                <label htmlFor="name">Название объекта</label>
                                 <div className="file-field input-field">
                                     <div className="btn">
                                         <span>ПВО.txt</span>
@@ -21,21 +22,28 @@ const AddObject = () => {
                                     <div className="file-path-wrapper">
                                         <input className="file-path validate" type="text"/>
                                     </div>
-                                    <div className="btn">
-                                        <span>RP.txt</span>
-                                        <input type="file"/>
-                                    </div>
-                                    <div className="file-path-wrapper">
-                                        <input className="file-path validate" type="text"/>
+                                    <div className="file-field input-field">
+                                        <div className="btn">
+                                            <span>RP.txt</span>
+                                            <input type="file"/>
+                                        </div>
+                                        <div className="file-path-wrapper">
+                                            <input className="file-path validate" type="text"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
+                    </div>
+                    <div className="card-action">
+                        <button className={`${classes.marginRight} btn yellow darken-4`}>Создать</button>
+                        <button
+                            className='btn grey lighten-1 black-text'
+                            onClick={openWindowObj}
+                        >Отмена</button>
                     </div>
                 </div>
             </div>
-            <Link to='/' className="btn-floating btn-large waves-effect waves-light red"><i
-                className="material-icons">add</i></Link>
         </div>
     )
 }

@@ -4,9 +4,20 @@
     justify-content: center;
     align-items: center;
 }
+.Flex span {
+    text-align: center;
+}
 
 .block {
     display: block;
+}
+
+.margin {
+    margin: 0 !important;
+}
+
+.marginRight {
+    margin-right: 10px;
 }
 
 @media (max-width: 600px) {

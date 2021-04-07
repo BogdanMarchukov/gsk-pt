@@ -1,0 +1,1 @@
+export const OPEN_WINDOW_NEW_OBJ = "OPEN_WINDOW_NEW_OBJ"
