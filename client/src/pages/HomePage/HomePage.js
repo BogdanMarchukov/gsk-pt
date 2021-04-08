@@ -5,6 +5,11 @@ import AddObject from "../../Components/AddObject/AddObject";
 import {connect} from 'react-redux'
 import ButtonNewObject from "../../Components/ButtonNewObject/ButtonNewObject";
 import {OPEN_WINDOW_NEW_OBJ} from "../../redux/types";
+import {
+    inputFilePvoHandler,
+    inputFileRpHandler,
+    inputNameObjectHandler
+} from "../../redux/actions/homePageActionsCreate";
 
 
 const HomePage = (props) => {
@@ -15,19 +20,25 @@ const HomePage = (props) => {
             </h1>
             <ListObject/>
             {
-                 props.isOpen ?
-                    <AddObject openWindowObj={props.openWindowObj}/>
+                props.isOpen ?
+                    <AddObject
+                        openWindowObj={props.openWindowObj}
+                        inputNameObjectHandler={props.inputNameObjectHandler}
+                        inputFilePvoHandler={props.inputFilePvoHandler}
+                        inputFileRpHandler={props.inputFileRpHandler}
+                    />
                     : null
             }
             {
                 !props.isOpen ?
-                    <ButtonNewObject openWindowObj={props.openWindowObj} />
+                    <ButtonNewObject openWindowObj={props.openWindowObj}/>
                     : null
             }
 
         </>
     )
 }
+
 function mapSateToProps(state) {
     return {
         isOpen: state.homePageReducer.isOpen
@@ -36,8 +47,11 @@ function mapSateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-         openWindowObj: ()=> dispatch({type: OPEN_WINDOW_NEW_OBJ})
+        openWindowObj: () => dispatch({type: OPEN_WINDOW_NEW_OBJ}),
+        inputNameObjectHandler: (event) => dispatch(()=> inputNameObjectHandler(dispatch, event)),
+        inputFilePvoHandler: (event) => dispatch(()=> inputFilePvoHandler(dispatch, event)),
+        inputFileRpHandler: (event) => dispatch(()=> inputFileRpHandler(dispatch, event))
     }
 }
 
-export default connect(mapSateToProps,mapDispatchToProps)(HomePage)
+export default connect(mapSateToProps, mapDispatchToProps)(HomePage)
