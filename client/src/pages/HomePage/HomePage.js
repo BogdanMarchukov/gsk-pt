@@ -8,7 +8,7 @@ import {OPEN_WINDOW_NEW_OBJ} from "../../redux/types";
 import {
     inputFilePvoHandler,
     inputFileRpHandler,
-    inputNameObjectHandler
+    inputNameObjectHandler, submitFormCreateObject
 } from "../../redux/actions/homePageActionsCreate";
 
 
@@ -26,6 +26,8 @@ const HomePage = (props) => {
                         inputNameObjectHandler={props.inputNameObjectHandler}
                         inputFilePvoHandler={props.inputFilePvoHandler}
                         inputFileRpHandler={props.inputFileRpHandler}
+                        submitFormCreateObject={props.submitFormCreateObject}
+                        content={props.content}
                     />
                     : null
             }
@@ -41,7 +43,8 @@ const HomePage = (props) => {
 
 function mapSateToProps(state) {
     return {
-        isOpen: state.homePageReducer.isOpen
+        isOpen: state.homePageReducer.isOpen,
+        content: state.homePageReducer.createObjectForm
     }
 }
 
@@ -50,7 +53,8 @@ function mapDispatchToProps(dispatch) {
         openWindowObj: () => dispatch({type: OPEN_WINDOW_NEW_OBJ}),
         inputNameObjectHandler: (event) => dispatch(()=> inputNameObjectHandler(dispatch, event)),
         inputFilePvoHandler: (event) => dispatch(()=> inputFilePvoHandler(dispatch, event)),
-        inputFileRpHandler: (event) => dispatch(()=> inputFileRpHandler(dispatch, event))
+        inputFileRpHandler: (event) => dispatch(()=> inputFileRpHandler(dispatch, event)),
+        submitFormCreateObject: (content) => dispatch(()=> submitFormCreateObject(dispatch, content))
     }
 }
 

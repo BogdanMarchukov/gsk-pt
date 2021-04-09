@@ -18,7 +18,7 @@ export const homePageReducer = (state = initState, action) => {
     switch (action.type) {
         case OPEN_WINDOW_NEW_OBJ:
             return {
-                ...state, isOpen: !state.isOpen
+                ...state, isOpen: !state.isOpen , createObjectForm: initState.createObjectForm
             }
         case SAVE_TO_STORE_INPUT_NAME:
             return {

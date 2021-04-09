@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './AddObject.module.css'
 
-const AddObject = ({openWindowObj, inputNameObjectHandler, inputFilePvoHandler, inputFileRpHandler}) => {
+const AddObject = (props) => {
 
     return (
         <div className={`${classes.Flex} row`}>
@@ -16,7 +16,7 @@ const AddObject = ({openWindowObj, inputNameObjectHandler, inputFilePvoHandler, 
                                     name="name"
                                     type="text"
                                     className="validate"
-                                    onChange={(event) => inputNameObjectHandler(event)}
+                                    onChange={(event) => props.inputNameObjectHandler(event)}
                                 />
                                 <label htmlFor="name">Название объекта</label>
                                 <div className="file-field input-field">
@@ -24,7 +24,7 @@ const AddObject = ({openWindowObj, inputNameObjectHandler, inputFilePvoHandler, 
                                         <span>ПВО.txt</span>
                                         <input
                                             type="file"
-                                            onChange={(event) => inputFilePvoHandler(event)}
+                                            onChange={(event) => props.inputFilePvoHandler(event)}
                                         />
 
                                     </div>
@@ -36,7 +36,7 @@ const AddObject = ({openWindowObj, inputNameObjectHandler, inputFilePvoHandler, 
                                             <span>RP.txt</span>
                                             <input
                                                 type="file"
-                                                onChange={(event) => inputFileRpHandler(event)}
+                                                onChange={(event) => props.inputFileRpHandler(event)}
                                             />
                                         </div>
                                         <div className="file-path-wrapper">
@@ -48,11 +48,17 @@ const AddObject = ({openWindowObj, inputNameObjectHandler, inputFilePvoHandler, 
                         </div>
                     </div>
                     <div className="card-action">
-                        <button className={`${classes.marginRight} btn yellow darken-4`}>Создать</button>
+                        <button
+                            className={`${classes.marginRight} btn yellow darken-4`}
+                            onClick={()=> props.submitFormCreateObject(props.content)}
+                        >
+                            Создать
+                        </button>
                         <button
                             className='btn grey lighten-1 black-text'
-                            onClick={openWindowObj}
-                        >Отмена
+                            onClick={props.openWindowObj}
+                        >
+                            Отмена
                         </button>
                     </div>
                 </div>
