@@ -1,4 +1,11 @@
-import {SAVE_TO_STORE_INPUT_FILE_PVO, SAVE_TO_STORE_INPUT_FILE_RP, SAVE_TO_STORE_INPUT_NAME} from "../types";
+import {
+    OPEN_WINDOW_NEW_OBJ,
+    RESET_ERROR,
+    SAVE_TO_STORE_INPUT_FILE_PVO,
+    SAVE_TO_STORE_INPUT_FILE_RP,
+    SAVE_TO_STORE_INPUT_NAME,
+    VALIDATE_FORM_ERROR
+} from "../types";
 
 
 
@@ -15,8 +22,13 @@ export function inputFileRpHandler(dispatch, event) {
 
 //            Отправка данных на сервер
 export async function submitFormCreateObject(dispatch, content){
-     await saveForm(content)
-
+    if(content.name !== '' && content.pvo !=='' && content.rp !=='') {
+        await saveForm(content)
+        dispatch({type: OPEN_WINDOW_NEW_OBJ})
+    } else {
+        dispatch({type: VALIDATE_FORM_ERROR})
+        resetError(dispatch, 500)
+    }
 }
 
 async function saveForm(content) {
@@ -36,5 +48,16 @@ async function saveForm(content) {
         console.error(e)
     }
 }
-
 // *********************************************************
+
+
+
+// ==================== Сброс ошибок ==========
+function resetError(dispatch, ms){
+     setTimeout(()=>{
+        dispatch({type:RESET_ERROR})
+    }, ms)
+}
+//**********************************************
+
+

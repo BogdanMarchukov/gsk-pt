@@ -1,8 +1,8 @@
 import {
-    OPEN_WINDOW_NEW_OBJ,
+    OPEN_WINDOW_NEW_OBJ, RESET_ERROR,
     SAVE_TO_STORE_INPUT_FILE_PVO,
     SAVE_TO_STORE_INPUT_FILE_RP,
-    SAVE_TO_STORE_INPUT_NAME
+    SAVE_TO_STORE_INPUT_NAME, VALIDATE_FORM_ERROR
 } from "../types";
 
 const initState = {
@@ -11,6 +11,10 @@ const initState = {
         name: '',
         pvo: '',
         rp: ''
+    },
+    errors: {
+        errorState: false,
+        errorMassage: null
     }
 }
 
@@ -31,6 +35,14 @@ export const homePageReducer = (state = initState, action) => {
         case SAVE_TO_STORE_INPUT_FILE_RP:
             return {
                 ...state, createObjectForm: {...state.createObjectForm, rp: action.payload}
+            }
+        case VALIDATE_FORM_ERROR:
+            return {
+                ...state, errors: {errorState: true, errorMassage: "Ошибка: \"заполните все поля формы\" "}
+            }
+        case RESET_ERROR:
+            return {
+                ...state, errors: initState.errors
             }
         default:
             return state

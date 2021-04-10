@@ -10,15 +10,21 @@ import {
     inputFileRpHandler,
     inputNameObjectHandler, submitFormCreateObject
 } from "../../redux/actions/homePageActionsCreate";
+import Errors from "../../Components/Errors/Errors";
 
 
 const HomePage = (props) => {
+
     return (
         <>
             <h1 className={classes.home}>
                 Выбрать объект
             </h1>
             <ListObject/>
+            <Errors
+                error={props.error}
+                errorMassage={props.errorMassage}
+            />
             {
                 props.isOpen ?
                     <AddObject
@@ -37,6 +43,7 @@ const HomePage = (props) => {
                     : null
             }
 
+
         </>
     )
 }
@@ -44,7 +51,10 @@ const HomePage = (props) => {
 function mapSateToProps(state) {
     return {
         isOpen: state.homePageReducer.isOpen,
-        content: state.homePageReducer.createObjectForm
+        content: state.homePageReducer.createObjectForm,
+        error: state.homePageReducer.errors.errorState,
+        errorMassage: state.homePageReducer.errors.errorMassage
+
     }
 }
 
