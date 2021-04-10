@@ -1,13 +1,10 @@
 const {Router} = require('express')
 const router = Router()
 
-router.post('/save', (req, res) => {
-    console.log(req)
-    let test = {
-        age: 23,
-        name: "Bogdan"
-    }
-    res.send(JSON.stringify(test))
+router.post('/save', async (req, res) => {
+    let {nameObj} = {...req.body}
+    console.log(nameObj)
+    res.send('12')
 })
 
 module.exports = router

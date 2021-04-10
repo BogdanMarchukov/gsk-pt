@@ -5,8 +5,9 @@ const fileMiddleware = require('./middleware/file')
 //const mongoose = require('mongoose')
 
 const PORT = config.get('port') || 5000
+app.use(fileMiddleware.array("csv",2))
 app.use(express.json({extended: true}))
-app.use(fileMiddleware.fields('pvo', 'rp'))
+
 
 app.use('/api/add', require('./routes/add.routes'))
 

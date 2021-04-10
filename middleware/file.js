@@ -1,18 +1,28 @@
 const multer = require('multer')
-
+let i = 0
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, 'csv')
+        cb(null, "./csv")
 
     },
     filename(req, file, cb) {
-        cb(null, file.originalname)
+        if (i === 0) {
+            cb(null, 'pvo.csv')
+            i = 1
+            return
+        }
+        if (i === 1) {
+            cb(null, 'rp.csv')
+            i = 0
+        }
+
     }
 })
 
-const allowedTypes = ['text/csv']
+const allowedTypes = ["multipart/form-data", "text/csv"]
 
 const filFilter = (req, file, cb) => {
+
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
