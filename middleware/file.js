@@ -1,4 +1,5 @@
 const multer = require('multer')
+
 let i = 0
 const storage = multer.diskStorage({
     destination(req, file, cb) {
@@ -7,22 +8,21 @@ const storage = multer.diskStorage({
     },
     filename(req, file, cb) {
         if (i === 0) {
-            cb(null, 'pvo.cssv')
+            cb(null, 'pvo.csv')
             i = 1
             return
         }
         if (i === 1) {
-            cb(null, 'rp.cssv')
+            cb(null, 'rp.csv')
             i = 0
         }
 
     }
 })
 
-const allowedTypes = ["multipart/form-data", "text/csv"]
+const allowedTypes = ['application/vnd.ms-excel']
 
-const filFilter = (req, file, cb) => {
-
+const fileFilter = (req, file, cb) => {
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
@@ -31,5 +31,5 @@ const filFilter = (req, file, cb) => {
 }
 
 module.exports = multer({
-    storage, filFilter
+    storage, fileFilter
 })

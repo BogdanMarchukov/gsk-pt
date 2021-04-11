@@ -12,23 +12,15 @@ class AddObject {
     }
 
     start() {
-        return new Promise((resolve, reject) => {
-
-            else {
-                reject()
-
-            }
+        console.log()
+        return new Promise(resolve => {
+            fs.createReadStream(path.join(__dirname, '../', 'csv', 'pvo.csv'))
+                .pipe(csv())
+                .on('data', (data) => this.pvo.push(data))
+                .on('end', () => {
+                    resolve()
+                });
         })
-            .then(() => {
-                return new Promise(resolve => {
-                    fs.createReadStream(path.join(__dirname, '../', 'csv', 'pvo.csv'))
-                        .pipe(csv())
-                        .on('data', (data) => this.pvo.push(data))
-                        .on('end', () => {
-                            resolve()
-                        });
-                })
-            })
             .then(() => {
                 return new Promise(resolve => {
                     fs.createReadStream(path.join(__dirname, '../', 'csv', 'rp.csv'))
@@ -44,13 +36,17 @@ class AddObject {
             .then(() => {
                 return this.status
             })
-            .catch(()=> {
-                this.status = {
-                    errorMassage: '!!!!!!!!!!!!!!!!!',
-                }
+            .catch(() => {
+                this.error()
                 return this.status
             })
 
+    }
+
+    error() {
+        this.status = {
+            errorMassage: true
+        }
     }
 
 
