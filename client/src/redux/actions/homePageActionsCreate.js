@@ -1,4 +1,5 @@
 import {
+    ERROR_SERVER,
     OPEN_WINDOW_NEW_OBJ,
     RESET_ERROR,
     SAVE_TO_STORE_INPUT_FILE_PVO,
@@ -23,7 +24,7 @@ export function inputFileRpHandler(dispatch, event) {
 //            Отправка данных на сервер
 export async function submitFormCreateObject(dispatch, content){
     if(content.name !== '' && content.pvo !=='' && content.rp !=='') {
-        await saveForm(content)
+        await saveForm(dispatch, content)
         dispatch({type: OPEN_WINDOW_NEW_OBJ})
     } else {
         dispatch({type: VALIDATE_FORM_ERROR})
@@ -31,7 +32,7 @@ export async function submitFormCreateObject(dispatch, content){
     }
 }
 
-async function saveForm(content) {
+async function saveForm(dispatch, content) {
 
     const formData = new FormData()
     formData.append('nameObj', content.name)
@@ -43,11 +44,24 @@ async function saveForm(content) {
             method: 'POST',
             body: formData
         })
-        return response.json()
+        const data = await response.json()
+        errorServerHandler(dispatch, data.errorMassage)
     } catch (e) {
         console.error(e)
     }
 }
+
+function errorServerHandler(dispatch, errorMassage) {
+    switch (errorMassage) {
+        case ("Ошибка: Загрузите \" имя.csv\" "):
+            dispatch({type:ERROR_SERVER, payload:errorMassage})
+            break
+        default : return true
+
+    }
+}
+
+
 // *********************************************************
 
 

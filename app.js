@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const config = require('config')
 const fileMiddleware = require('./middleware/file')
+//const AddObject = require('./models/AddObject')
 //const mongoose = require('mongoose')
 
 const PORT = config.get('port') || 5000
@@ -10,6 +11,7 @@ app.use(express.json({extended: true}))
 
 
 app.use('/api/add', require('./routes/add.routes'))
+
 
 
 const start = async () => {
@@ -29,6 +31,11 @@ const start = async () => {
 }
 
 start()
+
+
+
+
+
 
 
 

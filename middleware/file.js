@@ -1,20 +1,21 @@
 const multer = require('multer')
+const AddObject = require('../models/AddObject')
 
-let i = 0
+
 const storage = multer.diskStorage({
     destination(req, file, cb) {
         cb(null, "./csv")
 
     },
     filename(req, file, cb) {
-        if (i === 0) {
+        if (AddObject.state.fileIndex === 0) {
             cb(null, 'pvo.csv')
-            i = 1
+            AddObject.state.fileIndex = 1
             return
         }
-        if (i === 1) {
+        if (AddObject.state.fileIndex === 1) {
             cb(null, 'rp.csv')
-            i = 0
+            AddObject.state.fileIndex = 0
         }
 
     }
@@ -27,6 +28,8 @@ const fileFilter = (req, file, cb) => {
         cb(null, true)
     } else {
         cb(null, false)
+        AddObject.error()
+        i = 0
     }
 }
 

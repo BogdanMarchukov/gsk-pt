@@ -1,4 +1,5 @@
 import {
+    ERROR_SERVER,
     OPEN_WINDOW_NEW_OBJ, RESET_ERROR,
     SAVE_TO_STORE_INPUT_FILE_PVO,
     SAVE_TO_STORE_INPUT_FILE_RP,
@@ -43,6 +44,13 @@ export const homePageReducer = (state = initState, action) => {
         case RESET_ERROR:
             return {
                 ...state, errors: initState.errors
+            }
+        case ERROR_SERVER:
+            return {
+                ...state, errors: {
+                    errorState: true,
+                    errorMassage: action.payload
+                }
             }
         default:
             return state

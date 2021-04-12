@@ -3,49 +3,80 @@ const path = require('path')
 const csv = require('csv-parser')
 
 class AddObject {
-    constructor() {
-        this.pvo = []
-        this.rp = []
-        this.status = {
-            errorMassage: null,
-        }
+    static state = {
+        fileIndex: 0,
+        pvo: [],
+        rp: [],
+        error: null,
+        errorMassage: null,
+        statusMassage: null
     }
 
-    start() {
-        console.log()
-        return new Promise(resolve => {
-            fs.createReadStream(path.join(__dirname, '../', 'csv', 'pvo.csv'))
-                .pipe(csv())
-                .on('data', (data) => this.pvo.push(data))
-                .on('end', () => {
-                    resolve()
-                });
-        })
-            .then(() => {
-                return new Promise(resolve => {
-                    fs.createReadStream(path.join(__dirname, '../', 'csv', 'rp.csv'))
-                        .pipe(csv())
-                        .on('data', (data) => this.rp.push(data))
-                        .on('end', () => {
-                            this.status = {...this.status, ridFile: 'finish'}
-                            resolve()
-                        });
+    static start() {
+        if (this.state.error === null) {
+            return new Promise(resolve => {
+                fs.createReadStream(path.join(__dirname, '../', 'csv', 'pvo.csv'))
+                    .pipe(csv())
+                    .on('data', (data) => this.state.pvo.push(data))
+                    .on('end', () => {
+                        resolve()
+                    });
+            })
+                .then(() => {
+                    return new Promise(resolve => {
+                        fs.createReadStream(path.join(__dirname, '../', 'csv', 'rp.csv'))
+                            .pipe(csv())
+                            .on('data', (data) => this.state.rp.push(data))
+                            .on('end', () => {
+                                this.state.statusMassage = "Файл прочитан"
+                                this.state.fileIndex = 0
+                                resolve()
+                            });
+                    })
+
+                })
+                .then(() => {
+                    return {
+                        ...this.state, pvo: [], rp: [],
+                    }
+                })
+                .catch(() => {
+                    this.error()
+                    return this.state
                 })
 
-            })
-            .then(() => {
-                return this.status
-            })
-            .catch(() => {
-                this.error()
-                return this.status
-            })
-
+        } else return this.state
     }
 
-    error() {
-        this.status = {
-            errorMassage: true
+
+    static error() {
+        this.clearingDirection()
+        this.state.error = true
+        this.state.errorMassage = "Ошибка: Загрузите \" имя.csv\" "
+    }
+
+    static clearingDirection() {
+        fs.readdir(path.join(__dirname, '../', 'csv'), (err, files) => {
+            if (err) {
+                throw err
+            }else if (files.length) {
+                files.forEach(file=> {
+                    fs.unlink(path.join(__dirname, '../', 'csv', file), (err)=> {
+                        if (err) throw err
+                    })
+                })
+            }
+        })
+    }
+
+    static restartSate() {
+        this.state = {
+            fileIndex: 0,
+            pvo: [],
+            rp: [],
+            error: null,
+            errorMassage: null,
+            statusMassage: null
         }
     }
 
