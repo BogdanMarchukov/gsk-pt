@@ -36,6 +36,7 @@ class AddObject {
 
                 })
                 .then(() => {
+                    this.validateDataFile(this.state.pvo, this.state.rp)
                     return {
                         ...this.state, pvo: [], rp: [],
                     }
@@ -59,12 +60,38 @@ class AddObject {
         fs.readdir(path.join(__dirname, '../', 'csv'), (err, files) => {
             if (err) {
                 throw err
-            }else if (files.length) {
-                files.forEach(file=> {
-                    fs.unlink(path.join(__dirname, '../', 'csv', file), (err)=> {
+            } else if (files.length) {
+                files.forEach(file => {
+                    fs.unlink(path.join(__dirname, '../', 'csv', file), (err) => {
                         if (err) throw err
                     })
                 })
+            }
+        })
+    }
+
+    static validateDataFile(pvo, rp) {
+        const validPvo = ['number', 'x', 'y', 'h', 'keyX', 'keyY', 'keyH']
+        const validRp = ['number', 'pk', 'distance', 'ugr', 'elevation']
+        this.validateForEach(pvo, validPvo)
+        this.validateForEach(rp, validRp)
+        if (this.state.errorMassage) {
+            this.clearingDirection()
+        }
+    }
+
+    static validateForEach(data, validArr) {
+        data.forEach((item) => {
+            let k = 0
+            for (const key in item) {
+                if (key !== validArr[k]) {
+                    this.state.error = true
+                    this.state.errorMassage = "Файл не валидный"
+                } else {
+                    if (k < validArr.length) {
+                        k++
+                    } else k = 0
+                }
             }
         })
     }
