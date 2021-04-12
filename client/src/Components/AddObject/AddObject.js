@@ -21,7 +21,7 @@ const AddObject = (props) => {
                                 <label htmlFor="name">Название объекта</label>
                                 <div className="file-field input-field">
                                     <div className="btn">
-                                        <span>ПВО.txt</span>
+                                        <span>ПВО.CSV</span>
                                         <input
                                             type="file"
                                             onChange={(event) => props.inputFilePvoHandler(event)}
@@ -33,7 +33,7 @@ const AddObject = (props) => {
                                     </div>
                                     <div className="file-field input-field">
                                         <div className="btn">
-                                            <span>RP.txt</span>
+                                            <span>RP.CSV</span>
                                             <input
                                                 type="file"
                                                 onChange={(event) => props.inputFileRpHandler(event)}

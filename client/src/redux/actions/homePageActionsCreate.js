@@ -55,9 +55,11 @@ function errorServerHandler(dispatch, errorMassage) {
     switch (errorMassage) {
         case ("Ошибка: Загрузите \" имя.csv\" "):
             dispatch({type:ERROR_SERVER, payload:errorMassage})
+            dispatch({type:RESET_ERROR})
             break
         case ("Файл не валидный"):
             dispatch({type:ERROR_SERVER, payload: "Ошибка: Содержимое файла не валидно!"})
+            dispatch({type:RESET_ERROR})
             break
         default : return true
 
