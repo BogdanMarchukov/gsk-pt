@@ -38,7 +38,7 @@ class AddObject {
                 .then(() => {
                     this.validateDataFile(this.state.pvo, this.state.rp)
                     return {
-                        ...this.state, pvo: [], rp: [],
+                        ...this.state
                     }
                 })
                 .catch(() => {
@@ -87,6 +87,7 @@ class AddObject {
                 if (key !== validArr[k]) {
                     this.state.error = true
                     this.state.errorMassage = "Файл не валидный"
+                    return true
                 } else {
                     if (k < validArr.length) {
                         k++
