@@ -1,29 +1,30 @@
 import {
-    ERROR_SERVER,
+    ERROR_SERVER, LOADER,
     OPEN_WINDOW_NEW_OBJ,
     RESET_ERROR,
     SAVE_TO_STORE_INPUT_FILE_PVO,
     SAVE_TO_STORE_INPUT_FILE_RP,
-    SAVE_TO_STORE_INPUT_NAME,
+    SAVE_TO_STORE_INPUT_NAME, UPDATE_LIST_OBJECT,
     VALIDATE_FORM_ERROR
 } from "../types";
-
 
 
 // ======================форма создания объекта
 export function inputNameObjectHandler(dispatch, event) {
     dispatch({type: SAVE_TO_STORE_INPUT_NAME, payload: event.target.value})
 }
+
 export function inputFilePvoHandler(dispatch, event) {
     dispatch({type: SAVE_TO_STORE_INPUT_FILE_PVO, payload: event.target.files})
 }
+
 export function inputFileRpHandler(dispatch, event) {
     dispatch({type: SAVE_TO_STORE_INPUT_FILE_RP, payload: event.target.files})
 }
 
-//            Отправка данных на сервер
-export async function submitFormCreateObject(dispatch, content){
-    if(content.name !== '' && content.pvo !=='' && content.rp !=='') {
+// ===========================Отправка данных на сервер
+export async function submitFormCreateObject(dispatch, content) {
+    if (content.name !== '' && content.pvo !== '' && content.rp !== '') {
         await saveForm(dispatch, content)
         dispatch({type: OPEN_WINDOW_NEW_OBJ})
     } else {
@@ -40,7 +41,7 @@ async function saveForm(dispatch, content) {
     formData.append('csv', content.rp[0])
 
     try {
-        const response = await fetch('/api/add/save',{
+        const response = await fetch('/api/add/save', {
             method: 'POST',
             body: formData
         })
@@ -54,14 +55,18 @@ async function saveForm(dispatch, content) {
 function errorServerHandler(dispatch, errorMassage) {
     switch (errorMassage) {
         case ("Ошибка: Загрузите \" имя.csv\" "):
-            dispatch({type:ERROR_SERVER, payload:errorMassage})
-            dispatch({type:RESET_ERROR})
+            dispatch({type: ERROR_SERVER, payload: errorMassage})
+            dispatch({type: RESET_ERROR})
             break
         case ("Файл не валидный"):
-            dispatch({type:ERROR_SERVER, payload: "Ошибка: Содержимое файла не валидно!"})
-            dispatch({type:RESET_ERROR})
+            dispatch({type: ERROR_SERVER, payload: "Ошибка: Содержимое файла не валидно!"})
+            dispatch({type: RESET_ERROR})
             break
-        default : return true
+        case (null):
+            dispatch(fetchObject)
+            break
+        default :
+            return true
 
     }
 }
@@ -70,13 +75,33 @@ function errorServerHandler(dispatch, errorMassage) {
 // *********************************************************
 
 
-
 // ==================== Сброс ошибок ==========
-function resetError(dispatch, ms){
-     setTimeout(()=>{
-        dispatch({type:RESET_ERROR})
+function resetError(dispatch, ms) {
+    setTimeout(() => {
+        dispatch({type: RESET_ERROR})
     }, ms)
 }
+
 //**********************************************
+
+
+
+// ======================Получение всех обьектов из базы данных =========
+export async function fetchObject(dispatch, update) {
+    if (update) {
+        try {
+            dispatch({type: LOADER, payload: true})
+            const response = await fetch('/api/fetch')
+            const data = await response.text()
+            dispatch({type: UPDATE_LIST_OBJECT, payload: JSON.parse(data)})
+            dispatch({type: LOADER, payload: false})
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+
+}
+//****************************************************************************
 
 

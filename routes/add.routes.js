@@ -5,7 +5,6 @@ const {Router} = require('express')
 const router = Router()
 
 router.post('/save', async (req, res) => {
-    console.log(req.body.nameObj)
     try {
         const result = await AddObject.start()
         const addObject = new SaveObject({
