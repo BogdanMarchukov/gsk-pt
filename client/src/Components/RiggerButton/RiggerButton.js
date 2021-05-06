@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Rigger.module.css'
 import {Link} from "react-router-dom";
 
-const Rigger = () => {
+const RiggerButton = () => {
     return (
         <div className={classes.Rigger}>
             <Link
@@ -20,4 +20,4 @@ const Rigger = () => {
     )
 }
 
-export default Rigger
+export default RiggerButton

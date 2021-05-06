@@ -1,12 +1,12 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 
-const RpInfo = () => {
+const RpInfoButton = () => {
 
     return (
         <div>
             <Link
-                to={'/'}
+                to={'/rp'}
                 className="waves-effect blue accent-3 btn-large"
             >
                 <i
@@ -20,4 +20,4 @@ const RpInfo = () => {
     )
 }
 
-export default RpInfo
+export default RpInfoButton

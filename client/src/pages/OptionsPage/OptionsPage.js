@@ -1,8 +1,8 @@
 import React from 'react'
 import classes from './optionsPage.module.css'
 import {connect} from 'react-redux'
-import RpInfo from "../../Components/RpInfo/RpInfo";
-import Rigger from "../../Components/Rigger/Rigger";
+import RpInfoButton from "../../Components/RpInfoBotton/RpInfoButton";
+import RiggerButton from "../../Components/RiggerButton/RiggerButton";
 import ToHome from "../../Components/ToHome/ToHome";
 
 
@@ -11,8 +11,8 @@ const OptionsPage = (props) => {
         <div className={classes.OptionsPage}>
             <h1>{props.currentObject.title}</h1>
             <div className={classes.displayFlex}>
-                <RpInfo/>
-                <Rigger/>
+                <RpInfoButton/>
+                <RiggerButton/>
             </div>
             <ToHome/>
         </div>
@@ -25,9 +25,7 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {}
-}
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(OptionsPage)
+
+export default connect(mapStateToProps)(OptionsPage)

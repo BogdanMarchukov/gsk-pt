@@ -1,0 +1,27 @@
+.RpInfo {
+    margin-top: 80px;
+}
+.RpInfo h1 {
+    font-size: 30px;
+    margin: 0 0 50px 0;
+    text-align: center;
+}
+
+.red {
+    background: red;
+}
+
+.card {
+    border: solid 1px;
+    border-top: none;
+}
+
+.border {
+    height: 50px;
+    border: 1px solid;
+}
+
+.active {
+    background: #b3e5fc;
+    border-bottom: none;
+}

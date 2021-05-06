@@ -4,6 +4,7 @@ import Layout from "./Layout/Layout";
 import {Switch, Route, BrowserRouter} from 'react-router-dom'
 import HomePage from "./pages/HomePage/HomePage";
 import OptionsPage from "./pages/OptionsPage/OptionsPage";
+import RpInfo from "./pages/RpInfo/RpInfo";
 
 function App() {
     return (
@@ -15,6 +16,9 @@ function App() {
                     </Route>
                     <Route path='/options' exact>
                         <OptionsPage/>
+                    </Route>
+                    <Route path='/rp' exact>
+                        <RpInfo/>
                     </Route>
                 </Switch>
             </BrowserRouter>
