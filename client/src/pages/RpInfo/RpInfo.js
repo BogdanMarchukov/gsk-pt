@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from "react-redux";
 import classes from './RpInfo.module.css'
+import ToHome from "../../Components/ToHome/ToHome";
 
 
 const RpInfo = (props) => {
@@ -21,8 +22,10 @@ const RpInfo = (props) => {
                             fugit hic ipsam, libero nam odit placeat, quam quasi rem repellat reprehenderit repudiandae
                             sint, temporibus voluptatem.</h5>
                     </div>
+
                 </div>
             </div>
+            <ToHome/>
 
         </div>
     )
