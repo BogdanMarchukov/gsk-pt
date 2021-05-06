@@ -1,0 +1,9 @@
+.Rigger {
+    margin-left: 20px;
+}
+
+@media (max-width: 600px) {
+    .Rigger {
+        margin-left: 5px;
+    }
+}

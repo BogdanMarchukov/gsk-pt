@@ -12,6 +12,7 @@ import {
     inputNameObjectHandler, submitFormCreateObject
 } from "../../redux/actions/homePageActionsCreate";
 import Errors from "../../Components/Errors/Errors";
+import {currentInfoObject} from "../../redux/actions/optionsPageActionsCreater";
 
 
 
@@ -28,6 +29,7 @@ const HomePage = (props) => {
                 update={props.update}
                 loading={props.loading}
                 objectList={props.objectList}
+                currentInfoObject={props.currentInfoObject}
             />
 
 
@@ -75,11 +77,12 @@ function mapSateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         openWindowObj: () => dispatch({type: OPEN_WINDOW_NEW_OBJ}),
-        inputNameObjectHandler: (event) => dispatch(() => inputNameObjectHandler(dispatch, event)),
-        inputFilePvoHandler: (event) => dispatch(() => inputFilePvoHandler(dispatch, event)),
-        inputFileRpHandler: (event) => dispatch(() => inputFileRpHandler(dispatch, event)),
+        inputNameObjectHandler: event => dispatch(() => inputNameObjectHandler(dispatch, event)),
+        inputFilePvoHandler: event => dispatch(() => inputFilePvoHandler(dispatch, event)),
+        inputFileRpHandler: event => dispatch(() => inputFileRpHandler(dispatch, event)),
         submitFormCreateObject: (content) => dispatch(() => submitFormCreateObject(dispatch, content)),
-        fetchObject: (update) => dispatch(() => fetchObject(dispatch, update))
+        fetchObject: update => dispatch(() => fetchObject(dispatch, update)),
+        currentInfoObject: list => dispatch(()=> currentInfoObject(dispatch, list ))
     }
 }
 

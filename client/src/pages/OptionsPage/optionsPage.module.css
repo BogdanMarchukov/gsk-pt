@@ -1,0 +1,16 @@
+.OptionsPage h1 {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.OptionsPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.displayFlex{
+    display: flex;
+    justify-content: center;
+}
