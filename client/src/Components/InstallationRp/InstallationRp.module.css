@@ -1,0 +1,41 @@
+.InstallationRp {
+    border-bottom: 3px solid;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.marginNull {
+    margin: 0;
+}
+
+.textAlign{
+    text-align: center;
+}
+
+.marginBottom{
+    margin-bottom: 0!important;
+}
+
+.Wrap {
+    display: flex;
+}
+
+.Wrap p {
+    font-size: 15px;
+    margin: 40px 5px 0 0;
+}
+
+.Wrap label {
+    margin-top: 40px;
+    margin-left: 10px;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

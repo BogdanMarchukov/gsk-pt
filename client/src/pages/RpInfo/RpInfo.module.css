@@ -7,6 +7,13 @@
     text-align: center;
 }
 
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+}
+
 .red {
     background: red;
 }
@@ -23,5 +30,6 @@
 
 .active {
     background: #b3e5fc;
-    border-bottom: none;
+    border-bottom: 1px solid #b3e5fc;
+    font-size: 20px;
 }
