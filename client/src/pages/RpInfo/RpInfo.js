@@ -2,7 +2,13 @@ import React from 'react'
 import {connect} from "react-redux";
 import classes from './RpInfo.module.css'
 import ToHome from "../../Components/ToHome/ToHome";
-import {searchPZ, selectTab, startPzChengHandler} from "../../redux/actions/rpInfoPageActionCreater";
+import {
+    calculationGi,
+    calculationRpList,
+    searchPZ,
+    selectTab,
+    startPzChengHandler
+} from "../../redux/actions/rpInfoPageActionCreater";
 import InstallationRp from "../../Components/InstallationRp/InstallationRp";
 import ShootingRp from "../../Components/ShootingRp/ShootingRp";
 import Errors from "../../Components/Errors/Errors";
@@ -42,6 +48,14 @@ const RpInfo = (props) => {
                                      pvo={props.pvo}
                                      startPzFrom={props.startPzFrom}
                                      startPzBefore={props.startPzBefore}
+                                     calculationGi={props.calculationGi}
+                                     calculationRpList={props.calculationRpList}
+                                     rpList={props.rpList}
+                                     exactFrom={props.exactFrom}
+                                     exactBefore={props.exactBefore}
+                                     averageGi={props.averageGi}
+                                     keyH={props.keyH}
+                                     countdownRp={props.countdownRp}
                                  />
                                  :
                                  <ShootingRp/>
@@ -61,6 +75,7 @@ const RpInfo = (props) => {
 }
 
 function mapStateToProps(state) {
+
     return {
         title: state.objectListReducer.currentObject.title,
         rpInfoOption: state.objectListReducer.rpInfoOption,
@@ -70,12 +85,19 @@ function mapStateToProps(state) {
         pzBefore: state.objectListReducer.pzBefore,
         pzFromGi: state.objectListReducer.pzFromGi,
         pzBeforeGi: state.objectListReducer.pzBeforeGi,
+        keyH: state.objectListReducer.currentObject.pvo[0].keyH,
         rp: state.objectListReducer.currentObject.rp,
         pvo: state.objectListReducer.currentObject.pvo,
         startPzFrom: state.objectListReducer.startPzFrom,
         startPzBefore: state.objectListReducer.startPzBefore,
         error: state.homePageReducer.errors.errorState,
-        errorMassage: state.homePageReducer.errors.errorMassage
+        errorMassage: state.homePageReducer.errors.errorMassage,
+        rpList: state.objectListReducer.sortRp,
+        exactFrom: state.objectListReducer.exactFrom,
+        exactBefore: state.objectListReducer.exactBefore,
+        averageGi: state.objectListReducer.averageGi,
+        countdownRp: state.objectListReducer.countdownRp,
+
     }
 }
 
@@ -83,7 +105,9 @@ function mapDispatchToProps(dispatch) {
     return {
         selectTab: payload => dispatch(() => selectTab(dispatch, payload)),
         startPzChengHandler: (name, event)=> dispatch(()=>startPzChengHandler(dispatch, name, event)),
-        searchPZ: (from, before, pvo, rp) => dispatch(()=>searchPZ(dispatch, from, before, pvo, rp))
+        searchPZ: (from, before, pvo, rp) => dispatch(()=>searchPZ(dispatch, from, before, pvo, rp)),
+        calculationGi: (name, dataPz, countdownInput, keyH)=> dispatch(()=> calculationGi(dispatch,name, dataPz, countdownInput, keyH)),
+        calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore))
     }
 }
 

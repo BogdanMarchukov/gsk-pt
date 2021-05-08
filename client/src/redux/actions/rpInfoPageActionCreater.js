@@ -1,9 +1,22 @@
-import {ERROR_SERVER, RESET_ERROR, SELECT_TAB, START_PZ_BEFORE_HANDLER, START_PZ_FROM_HANDLER} from "../types";
+import {
+    CALCULATION_GI_BEFORE,
+    CALCULATION_GI_FROM,
+    ERROR_SERVER, EXPECT_BEFORE_INPUT_FINISH_OFF,
+    EXPECT_BEFORE_INPUT_OFF,
+    EXPECT_BEFORE_INPUT_ON,
+    EXPECT_FROM_INPUT_FINISH_OFF,
+    EXPECT_FROM_INPUT_OFF,
+    EXPECT_FROM_INPUT_ON,
+    RESET_ERROR,
+    SELECT_TAB,
+    SORT_RP_PZ_DATA,
+    START_PZ_BEFORE_HANDLER,
+    START_PZ_FROM_HANDLER
+} from "../types";
 import classes from "../../pages/RpInfo/RpInfo.module.css";
 
 //============Переключение TAB====================
 export function selectTab(dispatch, payload) {
-    console.log(payload)
     if (payload === true) {
         dispatch({
             type: SELECT_TAB, payload: {
@@ -41,30 +54,144 @@ export function startPzChengHandler(dispatch, name, event) {
 
 // Поиск PZ из списка текущего проекта
 export function searchPZ(dispatch, from, before, pvo, rp) {
-    console.log(from, before)
+
     let rangePvo = []
+    let sortRp = []
+    let min = 0
+    let max = 0
+
     pvo.map((item, index) => {
 
         if (+item.number === from || +item.number === before) {
-            console.log(+item.number)
             rangePvo.push(item)
         }
         if (index + 1 === pvo.length) {
-            console.log('test')
             if (rangePvo.length < 2) {
                 dispatch({type: ERROR_SERVER, payload: "Не верный номер PZ"})
 
                 setTimeout(() => {
                     dispatch({type: RESET_ERROR})
                 }, 100)
+                return true
 
-
-            } else console.log(rangePvo)
+            }
 
         }
-
-
         return true
     })
+    if(rangePvo.length === 2) {
+        if (+rangePvo[0].number > +rangePvo[1].number) {
+            max = rangePvo[0]
+            min = rangePvo[1]
+        } else {
+            max = rangePvo[1]
+            min = rangePvo[0]
+        }
+
+        rp.forEach(item => {
+            if (+item.pk > +min.number && +item.pk < +max.number) {
+                sortRp.push(item)
+            }
+        })
+
+        dispatch({
+            type: SORT_RP_PZ_DATA, payload: {
+                sortRp,
+                min,
+                max
+            }
+        })
+    }
+
+
+}
+
+// вычесление ГИ прибора
+export function calculationGi(dispatch, name, dataPz, countdownInput, keyH) {
+
+    switch (name) {
+        case ('From'):
+            const giFrom = (+dataPz*1000 + +countdownInput) / 1000 - +-keyH
+            dispatch({type: CALCULATION_GI_FROM, payload: giFrom})
+            break
+        case ('Before'):
+            const giBefore = (+dataPz*1000 + +countdownInput) / 1000 - +-keyH
+            dispatch({type: CALCULATION_GI_BEFORE, payload: giBefore})
+            break
+        default:
+            return true
+    }
+}
+
+// вычесление отсчетов
+
+export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore) {
+    let list = []
+
+    switch (name) {
+        case ('From'):
+            if (exactBefore === false && exactFrom === false) {
+                rpList.forEach(item => {
+                    list.push({name: item.number, calculation: concat(gi, item)})
+
+                })
+                dispatch({type: EXPECT_FROM_INPUT_ON, payload: {list, gi: +gi} })
+            }
+            if (exactBefore === false && exactFrom === true) {
+                dispatch({type: EXPECT_FROM_INPUT_OFF})
+            }
+            if (exactBefore === true && exactFrom === false) {
+
+                let srGi = (+gi + +averageGi) / 2
+                rpList.forEach(item => {
+                    list.push({name: item.number, calculation: concat(srGi, item)})
+                })
+                dispatch({type: EXPECT_FROM_INPUT_ON, payload: {list, gi: +srGi} })
+            }
+            if (exactBefore === true && exactFrom === true) {
+                dispatch({type: EXPECT_FROM_INPUT_FINISH_OFF})
+
+            }
+            break
+        case ('Before'):
+            if (exactFrom === false && exactBefore === false) {
+                rpList.forEach(item => {
+                    list.push({name: item.number, calculation: concat(gi, item)})
+
+                })
+                dispatch({type: EXPECT_BEFORE_INPUT_ON, payload: {list, gi: +gi}})
+            }
+            if (exactFrom === false && exactBefore === true) {
+                dispatch({type: EXPECT_BEFORE_INPUT_OFF})
+            }
+            if (exactFrom === true && exactBefore === false) {
+                let srGi = (+gi + +averageGi) / 2
+                rpList.forEach(item => {
+                    list.push({name: item.number, calculation: concat(srGi, item)})
+                })
+                dispatch({type: EXPECT_BEFORE_INPUT_ON, payload: {list, gi: +srGi} })
+            }
+            if (exactBefore === true && exactFrom === true) {
+                dispatch({type: EXPECT_BEFORE_INPUT_FINISH_OFF})
+
+            }
+
+            break
+        default:
+            return true
+    }
+}
+
+ /// добавляет 0 если число трехзначное
+function concat(gi, item) {
+    let i = +gi*1000 - +item.ugr*1000
+    if( i < 1000 && i >= 100) {
+        return "0" + i
+    }
+    else if (i < 100) {
+        return "00" +i
+    }else {
+        return i
+    }
 
 }

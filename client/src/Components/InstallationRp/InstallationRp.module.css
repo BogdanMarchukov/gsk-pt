@@ -7,6 +7,21 @@
     justify-content: center;
     margin-bottom: 15px;
 }
+.content {
+    display: flex;
+    justify-content: space-around;
+    border: solid 1px;
+
+}
+
+.content p {
+    margin: 8px 0;
+    font-size: 20px;
+}
+
+.content label {
+    margin-top: 10px;
+}
 
 .marginNull {
     margin: 0;
