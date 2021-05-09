@@ -33,3 +33,21 @@
     border-bottom: 1px solid #b3e5fc;
     font-size: 20px;
 }
+.content, .activeText {
+    display: flex;
+    justify-content: space-around;
+    border: solid 1px;
+
+}
+
+.content p, .activeText p {
+    margin: 8px 0;
+    font-size: 20px;
+}
+
+.content label, .activeText label {
+    margin-top: 10px;
+}
+.activeText{
+    text-decoration: line-through;
+}

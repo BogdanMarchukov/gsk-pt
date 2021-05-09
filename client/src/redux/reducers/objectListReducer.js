@@ -6,8 +6,8 @@ import {
     EXPECT_BEFORE_INPUT_ON,
     EXPECT_FROM_INPUT_FINISH_OFF,
     EXPECT_FROM_INPUT_OFF,
-    EXPECT_FROM_INPUT_ON,
-    LOADER,
+    EXPECT_FROM_INPUT_ON, KILL_POINT,
+    LOADER, SAVE_CLASS_LIST,
     SELECT_TAB,
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
@@ -34,7 +34,8 @@ const initState = {
     exactFrom: false,
     exactBefore: false,
     sortRp: [],
-    countdownRp: []
+    countdownRp: [],
+    listClasses : []
 }
 
 export const objectListReducer = (state = initState, action) => {
@@ -77,6 +78,11 @@ export const objectListReducer = (state = initState, action) => {
                 pzBefore: action.payload.max,
                 sortRp: action.payload.sortRp
 
+            }
+        case(SAVE_CLASS_LIST):
+            return {
+                ...state,
+                listClasses: action.payload
 
             }
         case(CALCULATION_GI_FROM):
@@ -133,6 +139,14 @@ export const objectListReducer = (state = initState, action) => {
                 exactBefore: false,
                 averageGi: state.pzFromGi
             }
+        case(KILL_POINT):
+            return {
+                ...state,
+                listClasses: action.payload
+
+            }
+
+
         default :
             return state
     }

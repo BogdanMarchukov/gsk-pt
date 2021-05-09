@@ -4,7 +4,7 @@ import classes from './RpInfo.module.css'
 import ToHome from "../../Components/ToHome/ToHome";
 import {
     calculationGi,
-    calculationRpList,
+    calculationRpList, contentInit,
     searchPZ,
     selectTab,
     startPzChengHandler
@@ -56,6 +56,11 @@ const RpInfo = (props) => {
                                      averageGi={props.averageGi}
                                      keyH={props.keyH}
                                      countdownRp={props.countdownRp}
+                                     itemClass={props.itemClass}
+                                     countdownRpList={props.countdownRpList}
+                                     contentInit={props.contentInit}
+
+
                                  />
                                  :
                                  <ShootingRp/>
@@ -97,6 +102,8 @@ function mapStateToProps(state) {
         exactBefore: state.objectListReducer.exactBefore,
         averageGi: state.objectListReducer.averageGi,
         countdownRp: state.objectListReducer.countdownRp,
+        itemClass: state.objectListReducer.listClasses,
+        countdownRpList: state.objectListReducer.countdownRpList
 
     }
 }
@@ -107,7 +114,8 @@ function mapDispatchToProps(dispatch) {
         startPzChengHandler: (name, event)=> dispatch(()=>startPzChengHandler(dispatch, name, event)),
         searchPZ: (from, before, pvo, rp) => dispatch(()=>searchPZ(dispatch, from, before, pvo, rp)),
         calculationGi: (name, dataPz, countdownInput, keyH)=> dispatch(()=> calculationGi(dispatch,name, dataPz, countdownInput, keyH)),
-        calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore))
+        calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)),
+        contentInit: (countdownRp, listClasses) => dispatch(()=> contentInit(dispatch, countdownRp, listClasses)),
     }
 }
 

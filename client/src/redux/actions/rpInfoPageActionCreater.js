@@ -6,14 +6,15 @@ import {
     EXPECT_BEFORE_INPUT_ON,
     EXPECT_FROM_INPUT_FINISH_OFF,
     EXPECT_FROM_INPUT_OFF,
-    EXPECT_FROM_INPUT_ON,
-    RESET_ERROR,
+    EXPECT_FROM_INPUT_ON, KILL_POINT,
+    RESET_ERROR, SAVE_CLASS_LIST,
     SELECT_TAB,
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
     START_PZ_FROM_HANDLER
 } from "../types";
 import classes from "../../pages/RpInfo/RpInfo.module.css";
+import React from "react";
 
 //============Переключение TAB====================
 export function selectTab(dispatch, payload) {
@@ -55,6 +56,7 @@ export function startPzChengHandler(dispatch, name, event) {
 // Поиск PZ из списка текущего проекта
 export function searchPZ(dispatch, from, before, pvo, rp) {
 
+
     let rangePvo = []
     let sortRp = []
     let min = 0
@@ -79,7 +81,7 @@ export function searchPZ(dispatch, from, before, pvo, rp) {
         }
         return true
     })
-    if(rangePvo.length === 2) {
+    if (rangePvo.length === 2) {
         if (+rangePvo[0].number > +rangePvo[1].number) {
             max = rangePvo[0]
             min = rangePvo[1]
@@ -102,8 +104,18 @@ export function searchPZ(dispatch, from, before, pvo, rp) {
             }
         })
     }
+    clsCreate(dispatch, sortRp)
+
+}
 
 
+// создание массива с классами
+function clsCreate(dispatch, list) {
+    let cls = []
+    list.forEach(() => {
+        cls.push(classes.content)
+    })
+    dispatch({type: SAVE_CLASS_LIST, payload: cls})
 }
 
 // вычесление ГИ прибора
@@ -111,11 +123,11 @@ export function calculationGi(dispatch, name, dataPz, countdownInput, keyH) {
 
     switch (name) {
         case ('From'):
-            const giFrom = (+dataPz*1000 + +countdownInput) / 1000 - +-keyH
+            const giFrom = (+dataPz * 1000 + +countdownInput) / 1000 - +-keyH
             dispatch({type: CALCULATION_GI_FROM, payload: giFrom})
             break
         case ('Before'):
-            const giBefore = (+dataPz*1000 + +countdownInput) / 1000 - +-keyH
+            const giBefore = (+dataPz * 1000 + +countdownInput) / 1000 - +-keyH
             dispatch({type: CALCULATION_GI_BEFORE, payload: giBefore})
             break
         default:
@@ -125,7 +137,7 @@ export function calculationGi(dispatch, name, dataPz, countdownInput, keyH) {
 
 // вычесление отсчетов
 
-export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore) {
+export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) {
     let list = []
 
     switch (name) {
@@ -135,7 +147,8 @@ export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFr
                     list.push({name: item.number, calculation: concat(gi, item)})
 
                 })
-                dispatch({type: EXPECT_FROM_INPUT_ON, payload: {list, gi: +gi} })
+                dispatch({type: EXPECT_FROM_INPUT_ON, payload: {list, gi: +gi}})
+                dispatch(() => contentInit(dispatch, countdownRp, itemClass))
             }
             if (exactBefore === false && exactFrom === true) {
                 dispatch({type: EXPECT_FROM_INPUT_OFF})
@@ -146,7 +159,8 @@ export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFr
                 rpList.forEach(item => {
                     list.push({name: item.number, calculation: concat(srGi, item)})
                 })
-                dispatch({type: EXPECT_FROM_INPUT_ON, payload: {list, gi: +srGi} })
+                dispatch({type: EXPECT_FROM_INPUT_ON, payload: {list, gi: +srGi}})
+                dispatch(() => contentInit(dispatch, countdownRp, itemClass))
             }
             if (exactBefore === true && exactFrom === true) {
                 dispatch({type: EXPECT_FROM_INPUT_FINISH_OFF})
@@ -160,6 +174,7 @@ export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFr
 
                 })
                 dispatch({type: EXPECT_BEFORE_INPUT_ON, payload: {list, gi: +gi}})
+                dispatch(() => contentInit(dispatch, countdownRp, itemClass))
             }
             if (exactFrom === false && exactBefore === true) {
                 dispatch({type: EXPECT_BEFORE_INPUT_OFF})
@@ -169,7 +184,8 @@ export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFr
                 rpList.forEach(item => {
                     list.push({name: item.number, calculation: concat(srGi, item)})
                 })
-                dispatch({type: EXPECT_BEFORE_INPUT_ON, payload: {list, gi: +srGi} })
+                dispatch({type: EXPECT_BEFORE_INPUT_ON, payload: {list, gi: +srGi}})
+                dispatch(() => contentInit(dispatch, countdownRp, itemClass))
             }
             if (exactBefore === true && exactFrom === true) {
                 dispatch({type: EXPECT_BEFORE_INPUT_FINISH_OFF})
@@ -182,16 +198,58 @@ export function calculationRpList(dispatch, name, rpList, gi, averageGi, exactFr
     }
 }
 
- /// добавляет 0 если число трехзначное
+/// добавляет 0 если число трехзначное
 function concat(gi, item) {
-    let i = +gi*1000 - +item.ugr*1000
-    if( i < 1000 && i >= 100) {
+    let i = +gi * 1000 - +item.ugr * 1000
+    if (i < 1000 && i >= 100) {
         return "0" + i
-    }
-    else if (i < 100) {
-        return "00" +i
-    }else {
+    } else if (i < 100) {
+        return "00" + i
+    } else {
         return i
     }
 
 }
+
+
+// отображение списка расчета
+export function contentInit(dispatch, countdownRp, listClasses) {
+    console.log()
+    let content = []
+    countdownRp.forEach((item, index) => {
+        content.push(
+            <div key={index} className={listClasses[index]}>
+                <p>Rp{item.name}</p>
+                <p>{item.calculation.toString().substr(-20, 6)}</p>
+                <label>
+                    <input
+                        id="indeterminate-checkbox" type="checkbox"
+                        onChange={(event) => killPoint(dispatch, index, listClasses, event.target.checked)}
+                    />
+                    <span>Ок</span>
+                </label>
+            </div>
+        )
+    })
+    return content
+
+}
+
+// изменение класс (перечеркивание пункта списка)
+
+export function killPoint(dispatch, index, listClasses, checked) {
+    let arrClass = []
+    listClasses.forEach((item, indexItem) => {
+        if (checked) {
+            if (item === classes.activeText || indexItem === index) {
+                arrClass.push(classes.activeText)
+            } else arrClass.push(classes.content)
+        } else if (indexItem === index) {
+            arrClass.push(classes.content)
+        }else arrClass.push(item)
+
+    })
+    dispatch({type: KILL_POINT, payload: arrClass})
+}
+
+///******************************************************************************************

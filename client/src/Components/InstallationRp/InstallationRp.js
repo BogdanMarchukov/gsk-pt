@@ -2,28 +2,28 @@ import React from 'react'
 import {Link} from "react-router-dom";
 import classes from './InstallationRp.module.css'
 
-const InstallationRp = (props) => {
-
-    function contentInit() {
-        let content = []
-            props.countdownRp.forEach((item, index) => {
-                content.push(
-                    <div key={index} className={classes.content}>
-                        <p>Rp{item.name}</p>
-                        <p>{item.calculation.toString().substr(-20, 6)}</p>
-                        <label>
-                            <input
-                                id="indeterminate-checkbox" type="checkbox"
-                            />
-                            <span>Ок</span>
-                        </label>
-                    </div>
-                )
-            })
-        return content
-
-    }
-
+const InstallationRp = ({
+                            pzFrom,
+                            pzBefore,
+                            pzFromGi,
+                            pzBeforeGi,
+                            startPzChengHandler,
+                            searchPZ,
+                            rp,
+                            pvo,
+                            startPzFrom,
+                            startPzBefore,
+                            calculationGi,
+                            calculationRpList,
+                            rpList,
+                            exactFrom,
+                            exactBefore,
+                            averageGi,
+                            keyH,
+                            countdownRp,
+                            itemClass,
+                            contentInit
+                        }) => {
 
 
 
@@ -33,7 +33,7 @@ const InstallationRp = (props) => {
                 <div className={'col s6'}>
                     <div className="input-field col s12">
                         <input
-                            onChange={event => props.startPzChengHandler('from', event.target.value)}
+                            onChange={event => startPzChengHandler('from', event.target.value)}
                             id="email" type="number" autoComplete={'off'}
                         />
                         <label htmlFor="email">Введите номер</label>
@@ -43,7 +43,7 @@ const InstallationRp = (props) => {
                 <div className={'col s6'}>
                     <div className="input-field col s12">
                         <input
-                            onChange={event => props.startPzChengHandler('before', event.target.value)}
+                            onChange={event => startPzChengHandler('before', event.target.value)}
                             id="email-2" type="number" autoComplete={'off'}
                         />
                         <label htmlFor="email-2">Введите номер</label>
@@ -56,7 +56,7 @@ const InstallationRp = (props) => {
                 <Link
                     to={'#'}
                     className=" waves-effect waves-light btn"
-                    onClick={()=> props.searchPZ(+props.startPzFrom, +props.startPzBefore, props.pvo, props.rp)}
+                    onClick={() => searchPZ(+startPzFrom, +startPzBefore, pvo, rp)}
                 >
                     Найти
                 </Link>
@@ -69,22 +69,23 @@ const InstallationRp = (props) => {
                             id="email-3"
                             type="number"
                             autoComplete={'off'}
-                            onChange={(event)=> props.calculationGi('From', props.pzFrom.h, event.target.value, props.keyH)}
+                            onChange={(event) => calculationGi('From', pzFrom.h, event.target.value, keyH)}
                         />
                         <label htmlFor="email-3">отсчет</label>
-                        <span className="helper-text" data-error="wrong" data-success="right">{props.pzFrom.number}</span>
+                        <span className="helper-text" data-error="wrong" data-success="right">{pzFrom.number}</span>
                     </div>
                     <div className={'col s8'}>
                         <div className={`${classes.Wrap}`}>
                             <p>ГИ-</p>
-                            <p>{props.pzFromGi}</p>
+                            <p>{pzFromGi}</p>
                             <label>
                                 <input
                                     id="indeterminate-checkbox"
                                     type="checkbox"
-                                    checked={props.exactFrom}
+                                    checked={exactFrom}
                                     onChange={event => {
-                                        props.calculationRpList('From', props.rpList, props.pzFromGi, props.averageGi , props.exactFrom, props.exactBefore )}
+                                        calculationRpList('From', rpList, pzFromGi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)
+                                    }
                                     }
                                 />
                                 <span>Принять</span>
@@ -99,23 +100,24 @@ const InstallationRp = (props) => {
                             id="email-4"
                             type="number"
                             autoComplete={'off'}
-                            onChange={(event)=> props.calculationGi('Before', props.pzBefore.h, event.target.value, props.keyH)}
+                            onChange={(event) => calculationGi('Before', pzBefore.h, event.target.value, keyH)}
 
                         />
                         <label htmlFor="email-4">отсчет</label>
-                        <span className="helper-text" data-error="wrong" data-success="right">{props.pzBefore.number}</span>
+                        <span className="helper-text" data-error="wrong" data-success="right">{pzBefore.number}</span>
                     </div>
                     <div className={'col s8'}>
                         <div className={`${classes.Wrap}`}>
                             <p>ГИ-</p>
-                            <p>{props.pzBeforeGi}</p>
+                            <p>{pzBeforeGi}</p>
                             <label>
                                 <input
                                     id="indeterminate-checkbox"
                                     type="checkbox"
-                                    checked={props.exactBefore}
+                                    checked={exactBefore}
                                     onChange={event => {
-                                        props.calculationRpList('Before', props.rpList, props.pzBeforeGi, props.averageGi , props.exactFrom, props.exactBefore )}
+                                        calculationRpList('Before', rpList, pzBeforeGi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)
+                                    }
                                     }
                                 />
                                 <span>Принять</span>
@@ -123,10 +125,9 @@ const InstallationRp = (props) => {
                         </div>
                     </div>
                 </div>
-               <div className={classes.flexColumn}>
-
-                   {contentInit()}
-               </div>
+                <div className={classes.flexColumn}>
+                    {contentInit(countdownRp, itemClass)}
+                </div>
             </div>
 
         </>
