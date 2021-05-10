@@ -214,7 +214,7 @@ function concat(gi, item) {
 
 // отображение списка расчета
 export function contentInit(dispatch, countdownRp, listClasses) {
-    console.log()
+
     let content = []
     countdownRp.forEach((item, index) => {
         content.push(
@@ -253,3 +253,29 @@ export function killPoint(dispatch, index, listClasses, checked) {
 }
 
 ///******************************************************************************************
+
+//================================= TAB Съемка ==============================================
+
+
+// отображение полей
+export function showList(dispatch, sortRp) {
+    let list = []
+   sortRp.forEach((item, index)=> {
+       list.push(
+           <div key={index} className={`row ${classes.ShootingRpWrapper}`}>
+               <p className={'col s4'}>Rp-{item.number}</p>
+               <div className="input-field col s4">
+                   <input
+                       id={`${index}`}
+                       type="number"
+                       autoComplete={'off'}
+                   />
+                   <label htmlFor={`${index}`}>введите</label>
+                   <span className="helper-text" data-error="wrong" data-success="right">отсчет</span>
+               </div>
+               <p className={'col s4'}>Дельта</p>
+           </div>
+       )
+   })
+    return list
+}

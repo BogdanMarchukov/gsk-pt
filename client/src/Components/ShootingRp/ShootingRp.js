@@ -1,9 +1,11 @@
 import React from 'react'
 import CalculationGi from "../СalculationGi/CalculationGi";
+import classes from "./ShootingRp.module.css"
+
 
 const ShootingRp = (props) => {
     return (
-        <div>
+        <div className={classes.ShootingRp}>
             <CalculationGi
                 calculationGi={props.calculationGi}
                 pzFrom={props.pzFrom}
@@ -21,6 +23,10 @@ const ShootingRp = (props) => {
                 activeTab={props.activeTab}
             />
             <hr/>
+            <div className={classes.content}>
+                {props.showList(props.sortRp)}
+            </div>
+
         </div>
     )
 }

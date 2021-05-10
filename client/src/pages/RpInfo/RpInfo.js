@@ -6,7 +6,7 @@ import {
     calculationGi,
     calculationRpList, contentInit,
     searchPZ,
-    selectTab,
+    selectTab, showList,
     startPzChengHandler
 } from "../../redux/actions/rpInfoPageActionCreater";
 import InstallationRp from "../../Components/InstallationRp/InstallationRp";
@@ -80,6 +80,8 @@ const RpInfo = (props) => {
                                      pzBeforeGi={props.pzBeforeGi}
                                      pzBefore={props.pzBefore}
                                      activeTab={props.activeTab}
+                                     showList={props.showList}
+                                     sortRp={props.rpList}
                                  />
                         }
                     </div>
@@ -134,6 +136,7 @@ function mapDispatchToProps(dispatch) {
         calculationGi: (name, dataPz, countdownInput, keyH)=> dispatch(()=> calculationGi(dispatch,name, dataPz, countdownInput, keyH)),
         calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)),
         contentInit: (countdownRp, listClasses) => dispatch(()=> contentInit(dispatch, countdownRp, listClasses)),
+        showList: (sortRp) => dispatch(()=> showList(dispatch, sortRp))
     }
 }
 
