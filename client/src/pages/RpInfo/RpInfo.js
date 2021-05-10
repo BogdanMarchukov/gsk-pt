@@ -82,6 +82,7 @@ const RpInfo = (props) => {
                                      activeTab={props.activeTab}
                                      showList={props.showList}
                                      sortRp={props.rpList}
+                                     deltaH={props.deltaH}
                                  />
                         }
                     </div>
@@ -123,20 +124,21 @@ function mapStateToProps(state) {
         countdownRp: state.objectListReducer.countdownRp,
         itemClass: state.objectListReducer.listClasses,
         countdownRpList: state.objectListReducer.countdownRpList,
-        activeTab: state.objectListReducer.activeTab
+        activeTab: state.objectListReducer.activeTab,
+        deltaH: state.objectListReducer.deltaH
 
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        selectTab: payload => dispatch(() => selectTab(dispatch, payload)),
+        selectTab: (payload) => dispatch(() => selectTab(dispatch, payload)),
         startPzChengHandler: (name, event)=> dispatch(()=>startPzChengHandler(dispatch, name, event)),
         searchPZ: (from, before, pvo, rp) => dispatch(()=>searchPZ(dispatch, from, before, pvo, rp)),
         calculationGi: (name, dataPz, countdownInput, keyH)=> dispatch(()=> calculationGi(dispatch,name, dataPz, countdownInput, keyH)),
         calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)),
         contentInit: (countdownRp, listClasses) => dispatch(()=> contentInit(dispatch, countdownRp, listClasses)),
-        showList: (sortRp) => dispatch(()=> showList(dispatch, sortRp))
+        showList: (sortRp, deltaH, averageGi) => dispatch(()=> showList(dispatch, sortRp, deltaH, averageGi))
     }
 }
 

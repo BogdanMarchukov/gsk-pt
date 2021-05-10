@@ -28,7 +28,6 @@ const InstallationRp = ({
                         }) => {
 
 
-
     return (
         <>
             <div className={'row'}>

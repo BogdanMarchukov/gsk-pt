@@ -24,7 +24,7 @@ const ShootingRp = (props) => {
             />
             <hr/>
             <div className={classes.content}>
-                {props.showList(props.sortRp)}
+                {props.showList(props.sortRp, props.deltaH, props.averageGi)}
             </div>
 
         </div>

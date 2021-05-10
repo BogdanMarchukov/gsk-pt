@@ -1,6 +1,6 @@
 import {
     CALCULATION_GI_BEFORE,
-    CALCULATION_GI_FROM,
+    CALCULATION_GI_FROM, CREATE_DELTA_LIST,
     CURRENT_OBJECT, EXPECT_BEFORE_INPUT_FINISH_OFF,
     EXPECT_BEFORE_INPUT_OFF,
     EXPECT_BEFORE_INPUT_ON,
@@ -11,7 +11,7 @@ import {
     SELECT_TAB,
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
-    START_PZ_FROM_HANDLER,
+    START_PZ_FROM_HANDLER, UPDATE_DELTA_LIST,
     UPDATE_LIST_OBJECT
 } from "../types";
 import classes from '../../pages/RpInfo/RpInfo.module.css'
@@ -36,7 +36,8 @@ const initState = {
     sortRp: [],
     countdownRp: [],
     listClasses : [],
-    activeTab: false
+    activeTab: false,
+    deltaH: []
 }
 
 export const objectListReducer = (state = initState, action) => {
@@ -66,6 +67,7 @@ export const objectListReducer = (state = initState, action) => {
                 countdownRp: [],
                 pzFromGi: 0,
                 pzBeforeGi: 0,
+                averageGi:0,
                 activeTab: !state.activeTab
             }
         case(START_PZ_FROM_HANDLER):
@@ -89,7 +91,8 @@ export const objectListReducer = (state = initState, action) => {
         case(SAVE_CLASS_LIST):
             return {
                 ...state,
-                listClasses: action.payload
+                listClasses: action.payload.cls,
+                deltaH: action.payload.deltaH
 
             }
         case(CALCULATION_GI_FROM):
@@ -150,6 +153,18 @@ export const objectListReducer = (state = initState, action) => {
             return {
                 ...state,
                 listClasses: action.payload
+
+            }
+        case(CREATE_DELTA_LIST):
+            return {
+                ...state,
+                deltaH: action.payload
+
+            }
+        case(UPDATE_DELTA_LIST):
+            return {
+                ...state,
+                deltaH: action.payload
 
             }
 

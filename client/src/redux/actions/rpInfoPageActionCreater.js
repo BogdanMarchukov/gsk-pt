@@ -11,19 +11,21 @@ import {
     SELECT_TAB,
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
-    START_PZ_FROM_HANDLER
+    START_PZ_FROM_HANDLER, UPDATE_DELTA_LIST
 } from "../types";
 import classes from "../../pages/RpInfo/RpInfo.module.css";
 import React from "react";
 
 //============Переключение TAB====================
 export function selectTab(dispatch, payload) {
+
     if (payload === true) {
         dispatch({
             type: SELECT_TAB, payload: {
                 rpInfoOption: true,
                 activeInstallationRp: classes.active,
                 activeShootingRp: ''
+
             }
         })
     } else if (payload === false) {
@@ -112,10 +114,12 @@ export function searchPZ(dispatch, from, before, pvo, rp) {
 // создание массива с классами
 function clsCreate(dispatch, list) {
     let cls = []
+    let deltaH = []
     list.forEach(() => {
         cls.push(classes.content)
+        deltaH.push('Дельта')
     })
-    dispatch({type: SAVE_CLASS_LIST, payload: cls})
+    dispatch({type: SAVE_CLASS_LIST, payload: {cls, deltaH}})
 }
 
 // вычесление ГИ прибора
@@ -214,7 +218,6 @@ function concat(gi, item) {
 
 // отображение списка расчета
 export function contentInit(dispatch, countdownRp, listClasses) {
-
     let content = []
     countdownRp.forEach((item, index) => {
         content.push(
@@ -231,6 +234,7 @@ export function contentInit(dispatch, countdownRp, listClasses) {
             </div>
         )
     })
+
     return content
 
 }
@@ -246,7 +250,7 @@ export function killPoint(dispatch, index, listClasses, checked) {
             } else arrClass.push(classes.content)
         } else if (indexItem === index) {
             arrClass.push(classes.content)
-        }else arrClass.push(item)
+        } else arrClass.push(item)
 
     })
     dispatch({type: KILL_POINT, payload: arrClass})
@@ -254,28 +258,46 @@ export function killPoint(dispatch, index, listClasses, checked) {
 
 ///******************************************************************************************
 
-//================================= TAB Съемка ==============================================
+//=================================  Съемка ==============================================
 
 
 // отображение полей
-export function showList(dispatch, sortRp) {
+export function showList(dispatch, sortRp, deltaH, averageGi, targetValue) {
     let list = []
-   sortRp.forEach((item, index)=> {
-       list.push(
-           <div key={index} className={`row ${classes.ShootingRpWrapper}`}>
-               <p className={'col s4'}>Rp-{item.number}</p>
-               <div className="input-field col s4">
-                   <input
-                       id={`${index}`}
-                       type="number"
-                       autoComplete={'off'}
-                   />
-                   <label htmlFor={`${index}`}>введите</label>
-                   <span className="helper-text" data-error="wrong" data-success="right">отсчет</span>
-               </div>
-               <p className={'col s4'}>Дельта</p>
-           </div>
-       )
-   })
+    sortRp.forEach((item, index) => {
+        list.push(
+            <div key={index} className={`row ${classes.ShootingRpWrapper}`}>
+                <p className={'col s4'}>Rp-{item.number}</p>
+                <div className="input-field col s4">
+                    <input
+                        id={`${index}`}
+                        type="number"
+                        autoComplete={'off'}
+                        onChange={(event) => deltaCalculation(dispatch, averageGi, deltaH, event.target.value, index, sortRp)}
+
+                    />
+                    <label htmlFor={`${index}`}>введите</label>
+                    <span className="helper-text" data-error="wrong" data-success="right">отсчет</span>
+                </div>
+                <p className={'col s4'}>{deltaH[index]}</p>
+            </div>
+        )
+    })
     return list
+}
+
+function deltaCalculation(dispatch, averageGi, deltaH, targetValue, index, sortRp) {
+
+    let fact = +averageGi*1000 - +targetValue
+    console.log(fact)
+
+    let delta = (fact - +sortRp[index].ugr * 1000)
+
+
+    const deltaUpdate = deltaH.map((item, indexItem) => {
+        if (indexItem === index) {
+            return delta
+        } else return item
+    })
+    dispatch({type: UPDATE_DELTA_LIST, payload: deltaUpdate})
 }
