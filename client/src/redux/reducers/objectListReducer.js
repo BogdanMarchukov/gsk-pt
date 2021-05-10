@@ -24,8 +24,8 @@ const initState = {
     rpInfoOption: true,
     activeInstallationRp: classes.active,
     activeShootingRp: '',
-    startPzFrom: "",
-    startPzBefore: "",
+    startPzFrom: "Введите номер",
+    startPzBefore: "Введите номер",
     pzFrom: {number: 'нет данных'},
     pzFromGi: 0,
     pzBefore: {number: 'нет данных'},
@@ -35,7 +35,8 @@ const initState = {
     exactBefore: false,
     sortRp: [],
     countdownRp: [],
-    listClasses : []
+    listClasses : [],
+    activeTab: false
 }
 
 export const objectListReducer = (state = initState, action) => {
@@ -59,7 +60,13 @@ export const objectListReducer = (state = initState, action) => {
                 ...state,
                 rpInfoOption: action.payload.rpInfoOption,
                 activeInstallationRp: action.payload.activeInstallationRp,
-                activeShootingRp: action.payload.activeShootingRp
+                activeShootingRp: action.payload.activeShootingRp,
+                exactFrom: false,
+                exactBefore: false,
+                countdownRp: [],
+                pzFromGi: 0,
+                pzBeforeGi: 0,
+                activeTab: !state.activeTab
             }
         case(START_PZ_FROM_HANDLER):
             return {

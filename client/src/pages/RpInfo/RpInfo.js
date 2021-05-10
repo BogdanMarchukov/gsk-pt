@@ -14,6 +14,7 @@ import ShootingRp from "../../Components/ShootingRp/ShootingRp";
 import Errors from "../../Components/Errors/Errors";
 
 
+
 const RpInfo = (props) => {
 
     return (
@@ -59,11 +60,27 @@ const RpInfo = (props) => {
                                      itemClass={props.itemClass}
                                      countdownRpList={props.countdownRpList}
                                      contentInit={props.contentInit}
+                                     activeTab={props.activeTab}
 
 
                                  />
                                  :
-                                 <ShootingRp/>
+                                 <ShootingRp
+                                     calculationGi={props.calculationGi}
+                                     pzFrom={props.pzFrom}
+                                     keyH={props.keyH}
+                                     pzFromGi={props.pzFromGi}
+                                     exactFrom={props.exactFrom}
+                                     calculationRpList={props.calculationRpList}
+                                     rpList={props.rpList}
+                                     averageGi={props.averageGi}
+                                     exactBefore={props.exactBefore}
+                                     countdownRp={props.countdownRp}
+                                     itemClass={props.itemClass}
+                                     pzBeforeGi={props.pzBeforeGi}
+                                     pzBefore={props.pzBefore}
+                                     activeTab={props.activeTab}
+                                 />
                         }
                     </div>
 
@@ -103,7 +120,8 @@ function mapStateToProps(state) {
         averageGi: state.objectListReducer.averageGi,
         countdownRp: state.objectListReducer.countdownRp,
         itemClass: state.objectListReducer.listClasses,
-        countdownRpList: state.objectListReducer.countdownRpList
+        countdownRpList: state.objectListReducer.countdownRpList,
+        activeTab: state.objectListReducer.activeTab
 
     }
 }

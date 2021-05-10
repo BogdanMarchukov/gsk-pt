@@ -14,7 +14,8 @@ const CalculationGi = ({
                            countdownRp,
                            itemClass,
                            pzBeforeGi,
-                           pzBefore
+                           pzBefore,
+                           activeTab
                        }) => {
     return (
         <>
@@ -39,7 +40,10 @@ const CalculationGi = ({
                                 type="checkbox"
                                 checked={exactFrom}
                                 onChange={event => {
-                                    calculationRpList('From', rpList, pzFromGi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)
+                                    if (activeTab === false) {
+                                        calculationRpList('From', rpList, pzFromGi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)
+
+                                    }
                                 }
                                 }
                             />
@@ -71,7 +75,10 @@ const CalculationGi = ({
                                 type="checkbox"
                                 checked={exactBefore}
                                 onChange={event => {
-                                    calculationRpList('Before', rpList, pzBeforeGi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)
+                                    if (activeTab === false) {
+                                        calculationRpList('Before', rpList, pzBeforeGi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)
+
+                                    }
                                 }
                                 }
                             />

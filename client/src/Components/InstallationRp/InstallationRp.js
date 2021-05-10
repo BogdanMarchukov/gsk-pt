@@ -23,7 +23,8 @@ const InstallationRp = ({
                             keyH,
                             countdownRp,
                             itemClass,
-                            contentInit
+                            contentInit,
+                            activeTab
                         }) => {
 
 
@@ -37,7 +38,7 @@ const InstallationRp = ({
                             onChange={event => startPzChengHandler('from', event.target.value)}
                             id="email" type="number" autoComplete={'off'}
                         />
-                        <label htmlFor="email">Введите номер</label>
+                        <label htmlFor="email">{startPzFrom}</label>
                         <span className="helper-text" data-error="wrong" data-success="right">От PZ Номер</span>
                     </div>
                 </div>
@@ -47,9 +48,10 @@ const InstallationRp = ({
                             onChange={event => startPzChengHandler('before', event.target.value)}
                             id="email-2" type="number" autoComplete={'off'}
                         />
-                        <label htmlFor="email-2">Введите номер</label>
+                        <label htmlFor="email-2">{startPzBefore}</label>
                         <span className="helper-text" data-error="wrong" data-success="right">До PZ Номер</span>
                     </div>
+
                 </div>
 
             </div>
@@ -78,6 +80,7 @@ const InstallationRp = ({
                     itemClass={itemClass}
                     pzBeforeGi={pzBeforeGi}
                     pzBefore={pzBefore}
+                    activeTab={activeTab}
                 />
                 <div className={classes.flexColumn}>
                     {contentInit(countdownRp, itemClass)}
