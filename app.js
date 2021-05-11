@@ -4,6 +4,7 @@ const config = require('config')
 const fileMiddleware = require('./middleware/file')
 const AddObject = require('./models/AddObject')
 const mongoose = require('mongoose')
+const path = require('path')
 
 const PORT = config.get('port') || 5000
 app.use(fileMiddleware.array("csv",2))
@@ -12,6 +13,13 @@ app.use(express.json({extended: true}))
 
 app.use('/api/add', require('./routes/add.routes'))
 app.use('/api', require('./routes/fatchListObject'))
+
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static(path.join(__dirname, 'client', 'build')))
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 
 
