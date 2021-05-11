@@ -24,8 +24,8 @@ const initState = {
     rpInfoOption: true,
     activeInstallationRp: classes.active,
     activeShootingRp: '',
-    startPzFrom: 30744,  //TODO изменить на "Введите номер"
-    startPzBefore: 30694,//TODO изменить на "Введите номер"
+    startPzFrom: "Введите номер",
+    startPzBefore: "Введите номер",
     pzFrom: {number: 'нет данных'},
     pzFromGi: 0,
     pzBefore: {number: 'нет данных'},
