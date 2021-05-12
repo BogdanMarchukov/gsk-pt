@@ -8,7 +8,7 @@ const RpInfoButton = () => {
         <div className={classes.btn}>
             <Link
                 to={'/rp'}
-                className="waves-effect blue accent-3 btn-large"
+                className="waves-effect blue accent-3 btn"
             >
                 <i
                     className="material-icons left"
