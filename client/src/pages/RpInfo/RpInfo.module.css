@@ -31,7 +31,7 @@
 .active {
     background: #b3e5fc;
     border-bottom: 1px solid #b3e5fc;
-    font-size: 20px;
+    font-size: 18px;
 }
 .content, .activeText {
     display: flex;

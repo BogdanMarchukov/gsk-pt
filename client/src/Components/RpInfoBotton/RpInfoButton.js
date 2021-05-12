@@ -1,10 +1,11 @@
 import React from 'react'
 import {Link} from "react-router-dom";
+import classes from './RpinfoButton.module.css'
 
 const RpInfoButton = () => {
 
     return (
-        <div>
+        <div className={classes.btn}>
             <Link
                 to={'/rp'}
                 className="waves-effect blue accent-3 btn-large"

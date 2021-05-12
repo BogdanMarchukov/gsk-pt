@@ -7,3 +7,8 @@
         margin-left: 5px;
     }
 }
+@media (max-width: 350px) {
+    .Rigger a {
+        font-size: 12px;
+    }
+}

@@ -20,7 +20,7 @@ const CalculationGi = ({
     return (
         <>
             <div className={`row ${classes.marginBottom}`}>
-                <div className="input-field col s4">
+                <div className="input-field col s3">
                     <input
                         id="email-3"
                         type="number"
@@ -30,7 +30,7 @@ const CalculationGi = ({
                     <label htmlFor="email-3">отсчет</label>
                     <span className="helper-text" data-error="wrong" data-success="right">{pzFrom.number}</span>
                 </div>
-                <div className={'col s8'}>
+                <div className={'col s9'}>
                     <div className={`${classes.Wrap}`}>
                         <p>ГИ-</p>
                         <p>{pzFromGi}</p>
@@ -52,7 +52,7 @@ const CalculationGi = ({
             </div>
             <p className={`${classes.marginNull} ${classes.textAlign}`}>Для среднего значения примите оба ГИ</p>
             <div className={`row ${classes.marginBottom}`}>
-                <div className="input-field col s4">
+                <div className="input-field col s3">
                     <input
                         id="email-4"
                         type="number"
@@ -63,7 +63,7 @@ const CalculationGi = ({
                     <label htmlFor="email-4">отсчет</label>
                     <span className="helper-text" data-error="wrong" data-success="right">{pzBefore.number}</span>
                 </div>
-                <div className={'col s8'}>
+                <div className={'col s9'}>
                     <div className={`${classes.Wrap}`}>
                         <p>ГИ-</p>
                         <p>{pzBeforeGi}</p>
