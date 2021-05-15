@@ -35,6 +35,7 @@ const CalculationGi = ({
                         <p>ГИ-</p>
                         <p>{pzFromGi}</p>
                         <label>
+
                             <input
                                 id="indeterminate-checkbox"
                                 type="checkbox"

@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import RpInfoButton from "../../Components/RpInfoBotton/RpInfoButton";
 import RiggerButton from "../../Components/RiggerButton/RiggerButton";
 import ToHome from "../../Components/ToHome/ToHome";
+import FactRpButton from "../../Components/FactRpButton/FactRpButton";
 
 
 const OptionsPage = (props) => {
@@ -13,6 +14,9 @@ const OptionsPage = (props) => {
             <div className={classes.displayFlex}>
                 <RpInfoButton/>
                 <RiggerButton/>
+            </div>
+            <div className={classes.displayFlex}>
+                <FactRpButton/>
             </div>
             <ToHome/>
         </div>
@@ -24,8 +28,6 @@ function mapStateToProps(state) {
         currentObject: state.objectListReducer.currentObject
     }
 }
-
-
 
 
 export default connect(mapStateToProps)(OptionsPage)

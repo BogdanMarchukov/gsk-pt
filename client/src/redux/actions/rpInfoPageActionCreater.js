@@ -127,11 +127,11 @@ export function calculationGi(dispatch, name, dataPz, countdownInput, keyH) {
 
     switch (name) {
         case ('From'):
-            const giFrom = (+dataPz * 1000 + +countdownInput) / 1000 - +-keyH
+            const giFrom = ((+dataPz * 1000 + +countdownInput) / 1000 - +-keyH).toFixed(3)
             dispatch({type: CALCULATION_GI_FROM, payload: giFrom})
             break
         case ('Before'):
-            const giBefore = (+dataPz * 1000 + +countdownInput) / 1000 - +-keyH
+            const giBefore = ((+dataPz * 1000 + +countdownInput) / 1000 - +-keyH).toFixed(3)
             dispatch({type: CALCULATION_GI_BEFORE, payload: giBefore})
             break
         default:
@@ -286,10 +286,11 @@ export function showList(dispatch, sortRp, deltaH, averageGi, targetValue) {
     return list
 }
 
+// вычисление Дельты
 function deltaCalculation(dispatch, averageGi, deltaH, targetValue, index, sortRp) {
 
-    let fact = +averageGi*1000 - +targetValue
-    console.log(fact)
+    let fact = +averageGi * 1000 - +targetValue
+
 
     let delta = (fact - +sortRp[index].ugr * 1000)
 
@@ -300,4 +301,23 @@ function deltaCalculation(dispatch, averageGi, deltaH, targetValue, index, sortR
         } else return item
     })
     dispatch({type: UPDATE_DELTA_LIST, payload: deltaUpdate})
+}
+
+// Сохранение съемки в localStorage
+export function saveDataToLocalStorage(dispatch, rpList, deltaH, nameObject) {
+    let storage = JSON.parse(localStorage.getItem(`${nameObject}Dh`))
+    let data = {}
+    if (storage) {
+        rpList.forEach((items, index)=> {
+            storage = {...storage, [items.number]:deltaH[index]}
+        })
+        data = storage
+    } else {
+        rpList.forEach((items, index)=> {
+            data = {...data, [items.number]:deltaH[index]}
+
+        })
+    }
+
+    localStorage.setItem(`${nameObject}Dh`, JSON.stringify(data))
 }

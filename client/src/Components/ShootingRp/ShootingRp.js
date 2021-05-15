@@ -1,6 +1,7 @@
 import React from 'react'
 import CalculationGi from "../СalculationGi/CalculationGi";
 import classes from "./ShootingRp.module.css"
+import {Link} from "react-router-dom";
 
 
 const ShootingRp = (props) => {
@@ -25,6 +26,13 @@ const ShootingRp = (props) => {
             <hr/>
             <div className={classes.content}>
                 {props.showList(props.sortRp, props.deltaH, props.averageGi)}
+                <Link
+                    onClick={()=> props.saveDataToLocalStorage(props.rpList, props.deltaH, props.nameObject)}
+                    to={'#'}
+                    className="waves-effect waves-light btn-small"
+                >
+                    Сохранить
+                </Link>
             </div>
 
         </div>

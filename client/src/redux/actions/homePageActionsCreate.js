@@ -92,6 +92,7 @@ export async function fetchObject(dispatch, update) {
         try {
             dispatch({type: LOADER, payload: true})
             const response = await fetch('/api/fetch')
+
             const data = await response.text()
             dispatch({type: UPDATE_LIST_OBJECT, payload: JSON.parse(data)})
             dispatch({type: LOADER, payload: false})

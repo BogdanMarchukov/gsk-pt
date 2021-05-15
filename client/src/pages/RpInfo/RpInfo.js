@@ -4,7 +4,7 @@ import classes from './RpInfo.module.css'
 import ToHome from "../../Components/ToHome/ToHome";
 import {
     calculationGi,
-    calculationRpList, contentInit,
+    calculationRpList, contentInit, saveDataToLocalStorage,
     searchPZ,
     selectTab, showList,
     startPzChengHandler
@@ -83,6 +83,9 @@ const RpInfo = (props) => {
                                      showList={props.showList}
                                      sortRp={props.rpList}
                                      deltaH={props.deltaH}
+                                     saveDataToLocalStorage={props.saveDataToLocalStorage}
+                                     nameObject={props.title}
+
                                  />
                         }
                     </div>
@@ -138,8 +141,9 @@ function mapDispatchToProps(dispatch) {
         calculationGi: (name, dataPz, countdownInput, keyH)=> dispatch(()=> calculationGi(dispatch,name, dataPz, countdownInput, keyH)),
         calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)),
         contentInit: (countdownRp, listClasses) => dispatch(()=> contentInit(dispatch, countdownRp, listClasses)),
-        showList: (sortRp, deltaH, averageGi) => dispatch(()=> showList(dispatch, sortRp, deltaH, averageGi))
-    }
+        showList: (sortRp, deltaH, averageGi) => dispatch(()=> showList(dispatch, sortRp, deltaH, averageGi)),
+        saveDataToLocalStorage: (rpList, deltaH, nameObject) => dispatch(()=>saveDataToLocalStorage(dispatch, rpList, deltaH, nameObject))
+}
 }
 
 
