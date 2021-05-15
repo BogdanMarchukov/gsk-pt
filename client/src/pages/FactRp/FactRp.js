@@ -5,12 +5,12 @@ import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
 
 const FactRp = () => {
     return (
-        <div className={'container'}>
+        <>
             <NavBarMenu
-                btnName={["Главная", "Назад"]}
-                linkTo={['/', '/options']}
+                btnName={["Главная", 'Репера', 'Рихтовка', "Назад"]}
+                linkTo={['/', '/rp', '/', '/options']}
             />
-        </div>
+        </>
     )
 }
 
