@@ -1,3 +1,11 @@
-.fact {
+.fact h1 {
+    text-align: center;
+    font-size: 40px;
+}
+
+@media (max-width: 500px) {
+    .fact h1 {
+        font-size: 20px;
+    }
 
 }
