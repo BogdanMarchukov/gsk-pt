@@ -2,10 +2,18 @@
     text-align: center;
     font-size: 40px;
 }
+.fact table {
+    width: 50%;
+    margin: 0 auto;
+}
+
 
 @media (max-width: 500px) {
     .fact h1 {
         font-size: 20px;
+    }
+    .fact table {
+        width: 100%;
     }
 
 }

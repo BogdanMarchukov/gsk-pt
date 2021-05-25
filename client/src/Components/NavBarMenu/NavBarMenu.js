@@ -7,12 +7,14 @@ const NavBarMenu = ({btnName, linkTo}) => {
         <div className={classes.wrapNav}>
                 {btnName.map((item, index) => {
                     return (
-                        <>
+                        <div
+                            key={index}
+                        >
                             <Link
                                 to={linkTo[index]}
                             >{item}
                             </Link>
-                        </>
+                        </div>
                     )
                 })}
 
