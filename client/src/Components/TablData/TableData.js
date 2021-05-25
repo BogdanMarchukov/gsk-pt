@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from './TableData.module.css'
+import {Link} from "react-router-dom";
 
 const TableData = (props) => {
 
@@ -65,6 +66,18 @@ const TableData = (props) => {
                     })}
                     </tbody>
                 </table>
+                {props.buttonHandler ?
+                    <Link
+                        to={'#'}
+                        className="waves-effect waves-light btn"
+                        onClick={()=> props.buttonHandler(props.data)}
+                    >
+                        Сохранить
+                    </Link>
+                    :
+                    null
+                }
+
             </div>
         )
     } else return null

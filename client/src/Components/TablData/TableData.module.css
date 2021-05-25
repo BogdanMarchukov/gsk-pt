@@ -2,8 +2,15 @@
     text-align: center;
     font-size: 20px;
 }
-.data table {
 
+.data {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.data a  {
+    margin: 20px auto;
+    width: 150px;
 }
 
 .flexColumn {

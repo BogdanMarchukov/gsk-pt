@@ -36,3 +36,17 @@ export function funcDecrement(dispatch, dataList, editColumn, index) {
     updateData = [...dataList]
     dispatch({type: UPDATE_TABLE_DATA_LOCAL, payload: updateData})
 }
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// =========================Сохранение съемки в БД=======================================
+
+export async function saveShooting(dispatch, data) {
+    const result = await fetch('api/save/shooting', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    })
+    console.log(result)
+}

@@ -7,7 +7,7 @@ import {
     EXPECT_FROM_INPUT_FINISH_OFF,
     EXPECT_FROM_INPUT_OFF,
     EXPECT_FROM_INPUT_ON, KILL_POINT,
-    RESET_ERROR, SAVE_CLASS_LIST,
+    RESET_ERROR, RESTART_SORT_RP, SAVE_CLASS_LIST,
     SELECT_TAB,
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
@@ -262,7 +262,7 @@ export function killPoint(dispatch, index, listClasses, checked) {
 
 
 // отображение полей
-export function showList(dispatch, sortRp, deltaH, averageGi, targetValue) {
+export function showList(dispatch, sortRp, deltaH, averageGi) {
     let list = []
     sortRp.forEach((item, index) => {
         list.push(
@@ -292,7 +292,7 @@ function deltaCalculation(dispatch, averageGi, deltaH, targetValue, index, sortR
     let fact = +averageGi * 1000 - +targetValue
 
 
-    let delta = (fact - +sortRp[index].ugr * 1000)
+    let delta = (fact - +sortRp[index].ugr * 1000).toFixed(0)
 
 
     const deltaUpdate = deltaH.map((item, indexItem) => {
@@ -318,6 +318,6 @@ export function saveDataToLocalStorage(dispatch, rpList, deltaH, nameObject) {
 
         })
     }
-
     localStorage.setItem(`${nameObject}Dh`, JSON.stringify(data))
+    dispatch({type: RESTART_SORT_RP})
 }

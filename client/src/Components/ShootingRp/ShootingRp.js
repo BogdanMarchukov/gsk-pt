@@ -26,13 +26,17 @@ const ShootingRp = (props) => {
             <hr/>
             <div className={classes.content}>
                 {props.showList(props.sortRp, props.deltaH, props.averageGi)}
-                <Link
-                    onClick={()=> props.saveDataToLocalStorage(props.rpList, props.deltaH, props.nameObject)}
-                    to={'#'}
-                    className="waves-effect waves-light btn-small"
-                >
-                    Сохранить
-                </Link>
+                {props.sortRp.length ?
+                    <Link
+                        onClick={()=> props.saveDataToLocalStorage(props.rpList, props.deltaH, props.nameObject)}
+                        to={'#'}
+                        className="waves-effect waves-light btn-small"
+                    >
+                        Сохранить
+                    </Link>
+                    : null
+                }
+
             </div>
 
         </div>
