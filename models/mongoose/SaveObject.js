@@ -3,15 +3,19 @@ const {Schema, model} = require('mongoose')
 const saveObject = Schema({
     title: {
         type: String,
-        required: true
+        required: false
     },
     pvo: {
         type: Array,
-        required: true
+        required: false
     },
     rp: {
         type: Array,
-        required: true
+        required: false
+    },
+    fact: {
+        type: Object,
+        required: false
     }
 })
 

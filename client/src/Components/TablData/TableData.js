@@ -17,6 +17,8 @@ const TableData = (props) => {
                                     key={index * 100}
                                 >
                                     <th>{item} </th>
+
+
                                 </React.Fragment>
 
                             )
@@ -26,40 +28,52 @@ const TableData = (props) => {
                         return (
                             <tr key={indexK * 22}>
                                 {itemK.map((item, index) => {
-                                    for (let i = 0; i < props.edit.length; i++) {
-                                        if (index === props.edit[i]) {
-                                            return (
+                                    if (props.edit) {
+                                        for (let i = 0; i < props.edit.length; i++) {
+                                            if (index === props.edit[i]) {
+                                                return (
+                                                    <React.Fragment
+                                                        key={index * 2}
+
+                                                    >
+                                                        <td>
+                                                            {item}
+                                                            <div className={`${classes.flexColumn} ${classes.data}`}>
+                                                                <i
+                                                                    className={'material-icons'}
+                                                                    onClick={()=> props.funcIncrement(props.data, props.edit[i], indexK)}
+                                                                >
+                                                                    keyboard_arrow_up
+                                                                </i>
+                                                                <i
+                                                                    className={'material-icons'}
+                                                                    onClick={()=> props.funcDecrement(props.data, props.edit[i], indexK)}
+                                                                >
+                                                                    keyboard_arrow_down
+                                                                </i>
+                                                            </div>
+                                                        </td>
+                                                    </React.Fragment>
+                                                )
+                                            }
+                                            else return (
                                                 <React.Fragment
-                                                    key={index * 2}
+                                                    key={index * 101}
                                                 >
-                                                    <td>
-                                                        {item}
-                                                        <div className={`${classes.flexColumn} ${classes.data}`}>
-                                                            <i
-                                                                className={'material-icons'}
-                                                                onClick={()=> props.funcIncrement(props.data, props.edit[i], indexK)}
-                                                            >
-                                                                keyboard_arrow_up
-                                                            </i>
-                                                            <i
-                                                                className={'material-icons'}
-                                                                onClick={()=> props.funcDecrement(props.data, props.edit[i], indexK)}
-                                                            >
-                                                                keyboard_arrow_down
-                                                            </i>
-                                                        </div>
-                                                    </td>
+                                                    <td>{item}</td>
                                                 </React.Fragment>
                                             )
-                                        } else return (
-                                            <React.Fragment
-                                                key={index * 101}
-                                            >
-                                                <td>{item}</td>
-                                            </React.Fragment>
-                                        )
+                                        }
+                                        return true
                                     }
-                                    return true
+                                    else return (
+                                        <React.Fragment
+                                            key={index * 101}
+                                        >
+                                            <td>{item}</td>
+                                        </React.Fragment>
+                                    )
+
                                 })}
                             </tr>
                         )
@@ -70,7 +84,7 @@ const TableData = (props) => {
                     <Link
                         to={'#'}
                         className="waves-effect waves-light btn"
-                        onClick={()=> props.buttonHandler(props.data)}
+                        onClick={()=> props.buttonHandler(props.data, props.id, props.title)}
                     >
                         Сохранить
                     </Link>

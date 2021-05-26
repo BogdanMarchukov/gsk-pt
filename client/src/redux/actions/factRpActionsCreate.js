@@ -1,4 +1,6 @@
-import {TABLE_DATA_LOCAL, UPDATE_TABLE_DATA_LOCAL} from "../types";
+import {CURRENT_OBJECT, LOADER, TABLE_DATA_LOCAL, UPDATE_TABLE_DATA_LOCAL} from "../types";
+import TableData from "../../Components/TablData/TableData";
+import React from "react";
 
 
 ///=================== Отображение таблицы с лакальными данными=============
@@ -17,7 +19,37 @@ export function localData(dispatch, dataStore, objName) {
 
         dispatch({type: TABLE_DATA_LOCAL, payload: data})
     }
+}
 
+// ====================Отоброжение таблицы с глобальными данными=========================
+
+export function showGlobalData(dispatch, fact) {
+    let list = []
+    if (fact) {
+        for (let item in fact) {
+            list.push((
+                <TableData
+                    key={Math.random()}
+                    tableName={`${item}`}
+                    columnName={['номер Rp', 'проект', 'факт', 'дельта Н']}
+                    edit={null}
+                    data={fact[item]}
+                    id={null}
+                    title={null}
+                    funcIncrement={null}
+                    funcDecrement={null}
+                    buttonHandler={null}
+                />
+            ))
+        }
+        return list
+    }
+    return (
+        <>
+            <h6>Нет ни одной сохранненой съемки</h6>
+
+        </>
+    )
 
 }
 
@@ -36,17 +68,33 @@ export function funcDecrement(dispatch, dataList, editColumn, index) {
     updateData = [...dataList]
     dispatch({type: UPDATE_TABLE_DATA_LOCAL, payload: updateData})
 }
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // =========================Сохранение съемки в БД=======================================
 
-export async function saveShooting(dispatch, data) {
-    const result = await fetch('api/save/shooting', {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
+export async function saveShooting(dispatch, data, id, title) {
+    const bodyData = {
+        data,
+        id
+    }
+    dispatch({type: LOADER, payload: true})
+    try {
+        const result = await fetch('api/save/shooting', {
+            method: "POST",
+            body: JSON.stringify(bodyData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        dispatch({type: LOADER, payload: false})
+        dispatch({type: TABLE_DATA_LOCAL, payload: [[]]})
+        if (result.status === 200) {
+            localStorage.removeItem(`${title}Dh`)
         }
+        const resultData = await result.json()
+        dispatch({type: CURRENT_OBJECT, payload: resultData})
+    } catch (e) {
+        console.log(e)
+    }
 
-    })
-    console.log(result)
 }

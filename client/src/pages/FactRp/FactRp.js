@@ -3,10 +3,25 @@ import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
 import {connect} from 'react-redux'
 import classes from './FactRp.module.css'
 import TableData from "../../Components/TablData/TableData";
-import {funcDecrement, funcIncrement, localData, saveShooting} from "../../redux/actions/factRpActionsCreate";
+import {
+    funcDecrement,
+    funcIncrement,
+    localData,
+    saveShooting,
+    showGlobalData
+} from "../../redux/actions/factRpActionsCreate";
+import Loader from "../../Components/Loader/Loader";
 
 
-const FactRp = ({dataStore, title, localData, localDataTable, funcIncrement, funcDecrement, saveShooting}) => {
+const FactRp = ({
+                    dataStore, title,
+                    localData, localDataTable,
+                    funcIncrement, funcDecrement,
+                    saveShooting, id,
+                    loading,
+                    showGlobalData,
+                    fact
+                }) => {
 
 
     useEffect(() => {
@@ -14,33 +29,49 @@ const FactRp = ({dataStore, title, localData, localDataTable, funcIncrement, fun
     }, [dataStore, title, localData])
 
     return (
-        <div className={classes.fact}>
-            <NavBarMenu
-                btnName={["Главная", 'Репера', 'Рихтовка', "Назад"]}
-                linkTo={['/', '/rp', '/', '/options']}
-            />
-            <h1>{title}</h1>
-            <TableData
-                tableName={'Съемка на вашем устройстве'}
-                columnName={['номер Rp', 'проект', 'факт', 'дельта Н']}
-                edit={[2]}
-                data={localDataTable}
-                funcIncrement={funcIncrement}
-                funcDecrement={funcDecrement}
-                buttonHandler={saveShooting}
+        <>
+            {
+                loading ?
+                    <Loader loading={loading}/>
+                    :
+                    <div className={classes.fact}>
+                        <NavBarMenu
+                            btnName={["Главная", 'Репера', 'Рихтовка', "Назад"]}
+                            linkTo={['/', '/rp', '/', '/options']}
+                        />
+                        <h1>{title}</h1>
+                        <TableData
+                            tableName={'Съемка на вашем устройстве'}
+                            columnName={['номер Rp', 'проект', 'факт', 'дельта Н']}
+                            edit={[2]}
+                            data={localDataTable}
+                            id={id}
+                            title={title}
+                            funcIncrement={funcIncrement}
+                            funcDecrement={funcDecrement}
+                            buttonHandler={saveShooting}
+                        />
 
-            />
+                        <hr/>
+                        {showGlobalData(fact)}
+                    </div>
 
-        </div>
+            }
+
+        </>
     )
 }
+
 
 function mapStateToProps(state) {
 
     return {
         title: state.objectListReducer.currentObject.title,
         localDataTable: state.factRpReducer.localDataTable,
-        dataStore: state.objectListReducer.currentObject.rp
+        dataStore: state.objectListReducer.currentObject.rp,
+        id: state.objectListReducer.currentObject._id,
+        loading: state.objectListReducer.loading,
+        fact: state.objectListReducer.currentObject.fact
     }
 }
 
@@ -49,7 +80,8 @@ function mapDispatchToProps(dispatch) {
         localData: (dataStore, objName) => dispatch(() => localData(dispatch, dataStore, objName)),
         funcIncrement: (dataList, editColumn, index) => dispatch(() => funcIncrement(dispatch, dataList, editColumn, index)),
         funcDecrement: (dataList, editColumn, index) => dispatch(() => funcDecrement(dispatch, dataList, editColumn, index)),
-        saveShooting: (data) => dispatch(() => saveShooting(dispatch, data))
+        saveShooting: (data, id, title) => dispatch(() => saveShooting(dispatch, data, id, title)),
+        showGlobalData: (fact) => dispatch(()=> showGlobalData(dispatch, fact))
     }
 }
 
