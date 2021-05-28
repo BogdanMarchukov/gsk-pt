@@ -6,7 +6,7 @@ const RiggerButton = () => {
     return (
         <div className={classes.Rigger}>
             <Link
-                to={'/'}
+                to={'/edit-rp'}
                 className="waves-effect orange darken-1 btn"
             >
                 <i

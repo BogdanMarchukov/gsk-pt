@@ -1,0 +1,41 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 800px;
+    border: solid 1px black;
+    background-color: #80deea;
+}
+
+.wrapper h1 {
+    font-size: 20px;
+    margin: 10px auto 10px;
+}
+
+.inputWrapper {
+    margin-left: 25% !important;
+    width: 50% !important;
+}
+
+.btnBlock {
+    display: flex;
+    justify-content: center;
+}
+.wrapper a:first-child {
+    margin-right: 50px;
+}
+.wrapper a {
+    margin-bottom: 20px;
+}
+
+
+
+@media (max-width: 500px) {
+    .wrapper {
+        width: 100%;
+    }
+    .inputWrapper {
+        width: 90% !important;
+        margin-left: 10px !important;
+    }
+}

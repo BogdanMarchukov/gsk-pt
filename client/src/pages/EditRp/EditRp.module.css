@@ -1,0 +1,18 @@
+.editWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.editWrapper h1 {
+    font-size: 30px;
+}
+
+.editWrapper h1, .editWrapper p {
+    text-align: center;
+}
+
+.editWrapper p {
+    font-size: 20px;
+}
