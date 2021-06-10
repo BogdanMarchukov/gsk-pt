@@ -4,18 +4,28 @@ const AddObject = require('../models/AddObject')
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, "./csv")
+        if (file.fieldname === 'csv') {
+            cb(null, "./csv")
+        }
+        if (file.fieldname === 'dataFile') {
+            cb(null, "./uploads")
+        }
 
     },
     filename(req, file, cb) {
-        if (AddObject.state.fileIndex === 0) {
-            cb(null, 'pvo.csv')
-            AddObject.state.fileIndex = 1
-            return
+        if (file.fieldname === 'csv') {
+            if (AddObject.state.fileIndex === 0) {
+                cb(null, 'pvo.csv')
+                AddObject.state.fileIndex = 1
+                return
+            }
+            if (AddObject.state.fileIndex === 1) {
+                cb(null, 'rp.csv')
+                AddObject.state.fileIndex = 0
+            }
         }
-        if (AddObject.state.fileIndex === 1) {
-            cb(null, 'rp.csv')
-            AddObject.state.fileIndex = 0
+        if (file.fieldname === "dataFile") {
+            cb(null, 'editRp.csv')
         }
 
     }
@@ -29,7 +39,6 @@ const fileFilter = (req, file, cb) => {
     } else {
         cb(null, false)
         AddObject.error()
-        i = 0
     }
 }
 

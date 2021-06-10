@@ -2,18 +2,21 @@ const express = require('express')
 const app = express()
 const config = require('config')
 const fileMiddleware = require('./middleware/file')
-const AddObject = require('./models/AddObject')
 const mongoose = require('mongoose')
 const path = require('path')
 
 const PORT = config.get('port') || 5000
-app.use(fileMiddleware.array("csv",2))
+app.use(fileMiddleware.fields( [
+    {name: "csv",maxCount : 2},
+    {name: "dataFile",maxCount : 1}
+    ]))
 app.use(express.json({extended: true}))
 
 
 app.use('/api/add', require('./routes/add.routes'))
 app.use('/api', require('./routes/fatchListObject'))
 app.use('/api', require('./routes/saveShooting.routes'))
+app.use('/api', require('./routes/editRp.routes'))
 
 
 if (process.env.NODE_ENV === 'production') {
