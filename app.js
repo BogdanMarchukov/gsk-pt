@@ -26,9 +26,6 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-
-
-
 const start = async () => {
     try {
         await mongoose.connect(config.get('mongoURL'), {
