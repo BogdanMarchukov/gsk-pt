@@ -21,16 +21,18 @@ router.post('/rp/file', async (req, res) => {
             })
 
             dataHandler.sort()
-
             dataHandler.mergerData()
-
+            console.log(dataHandler.dataBase)
+            // TODO обновить данные в БД
+            //SaveObject.findByIdAndUpdate(req.body.id, dataHandler.dataBase)
 
         }
         else {
-
+            // TODO обработать ошибки
             // res.send('Файл не соотверствует')
         }
     } catch (e) {
+        // TODO обработать ошибки
         console.log('error catch', e)
         // res.send(e)
     }

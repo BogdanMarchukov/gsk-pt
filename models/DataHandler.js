@@ -2,7 +2,7 @@ class DataHandler {
 
     constructor(options) {
         this.dataSortBase = [] // отсортированный массив из БД
-        this.dataBase = options.dataBase // обьект из базы данных
+        this.dataBase = options.dataBase // обьект из базы данных/ финальный обьект
         this.dataAdd = options.dataAdd // данные для обьединения от пользователя
         this.keySearch = options.keySearch // ключ поиска для сортировки массивов
         this.field = options.field // поле в базе данных (куда нужно добавить данные)
