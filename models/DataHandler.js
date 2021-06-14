@@ -1,28 +1,32 @@
 class DataHandler {
 
-    constructor(keySearch = '', field = '', dataBase = [], dataAdd = []) {
+    constructor(options) {
         this.dataSortBase = [] // отсортированный массив из БД
-        this.dataBase = dataBase
-        this.dataAdd = dataAdd
-        this.keySearch = keySearch // ключ поиска для сортировки массивов
-        this.field = field // поле в базе данных (куда нужно добавить данные)
+        this.dataBase = options.dataBase
+        this.dataAdd = options.dataAdd
+        this.keySearch = options.keySearch // ключ поиска для сортировки массивов
+        this.field = options.field // поле в базе данных (куда нужно добавить данные)
     }
 
     // сортировка данных из БД и данных пользователя
-
     sort() {
         let startIndex = 0
-        this.dataBase[this.field].forEach(item => {
-            if (item[this.keySearch] === this.dataAdd[startIndex][this.keySearch]) {
-                this.dataSortBase.push(item)
-                startIndex++
+        this.dataSortBase = this.dataBase[this.field].filter(item=> {
+            if (startIndex < this.dataAdd.length) {
+                if (item[this.keySearch] === this.dataAdd[startIndex][this.keySearch]){
+                    startIndex++
+                    return true
+                }
+                else return false
             }
+            else return false
         })
     }
 
     mergerData() {
-        console.log('test')
-        const finish = this.dataSortBase.map((item, index)=> {
+        console.log(this.dataSortBase)
+        const finish = this.dataSortBase.map((item, index) => {
+
 
         })
     }

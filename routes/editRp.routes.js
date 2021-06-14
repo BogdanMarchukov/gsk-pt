@@ -9,22 +9,30 @@ const valid = ["number", "factH", "Indent"]
 const csvHandler = new CsvHandler(path.join(__dirname, '../', 'uploads', 'editRp.csv'), valid)
 
 router.post('/rp/file', async (req, res) => {
-
     try {
         await csvHandler.readCsv()
         if (csvHandler.validateData()) {
             const dataMongo = await SaveObject.findById(req.body.id)
-            const dataHandler = new DataHandler('number', 'rp', dataMongo, csvHandler.data)
+            const dataHandler = new DataHandler({
+                dataBase: dataMongo,
+                dataAdd: csvHandler.data,
+                keySearch: "number",
+                field: 'rp'
+            })
+
             dataHandler.sort()
+
             dataHandler.mergerData()
 
 
         }
         else {
-            res.send('Файл не соотверствует')
+
+            // res.send('Файл не соотверствует')
         }
     } catch (e) {
-        res.send(e)
+        console.log('error catch', e)
+        // res.send(e)
     }
 
 
