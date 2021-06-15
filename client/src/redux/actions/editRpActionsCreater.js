@@ -1,4 +1,4 @@
-import {INPUT_HANDLER_FILE} from "../types";
+import {INPUT_HANDLER_FILE, LOADER, UPDATE_RP} from "../types";
 
 
 // ===========Сохранение файла из формы в store=======
@@ -10,6 +10,7 @@ export function inputHandler(dispatch, eventTarget) {
 
 
 export async function saveFileRp(dispatch, file, idObject) {
+    dispatch({type: LOADER, payload: true})
     const formData = new FormData()
     formData.append('id', idObject)
     formData.append('dataFile', file)
@@ -18,7 +19,13 @@ export async function saveFileRp(dispatch, file, idObject) {
             method: "POST",
             body: formData
         })
-        console.log(response)
+        const resultData = await response.json()
+        dispatch({type: LOADER, payload: false})
+        if (!resultData.error) {
+            dispatch({type: UPDATE_RP, payload: resultData.rp})
+        }
+        else console.log(resultData.error)
+
     } catch (e) {
         console.error(e)
     }

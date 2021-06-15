@@ -6,7 +6,7 @@ const initState = {
 }
 
 export const editRpReducer = (state = initState, action) => {
-    console.log(action.payload)
+
     switch (action.type){
         case (INPUT_HANDLER_FILE):
             return {

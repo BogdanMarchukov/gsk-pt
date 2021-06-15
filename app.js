@@ -6,10 +6,10 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 const PORT = config.get('port') || 5000
-app.use(fileMiddleware.fields( [
-    {name: "csv",maxCount : 2},
-    {name: "dataFile",maxCount : 1}
-    ]))
+app.use(fileMiddleware.fields([
+    {name: "csv", maxCount: 2},
+    {name: "dataFile", maxCount: 1}
+]))
 app.use(express.json({extended: true}))
 
 
@@ -31,7 +31,8 @@ const start = async () => {
         await mongoose.connect(config.get('mongoURL'), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useFindAndModify: false
         })
         app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
 

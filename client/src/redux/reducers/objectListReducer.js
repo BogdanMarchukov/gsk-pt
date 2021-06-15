@@ -12,7 +12,7 @@ import {
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
     START_PZ_FROM_HANDLER, UPDATE_DELTA_LIST,
-    UPDATE_LIST_OBJECT
+    UPDATE_LIST_OBJECT, UPDATE_RP
 } from "../types";
 import classes from '../../pages/RpInfo/RpInfo.module.css'
 
@@ -172,6 +172,11 @@ export const objectListReducer = (state = initState, action) => {
                 ...state,
                 sortRp: initState.sortRp
 
+            }
+        case(UPDATE_RP):
+            return {
+                ...state,
+                    currentObject: {...state.currentObject, rp: action.payload}
             }
 
 

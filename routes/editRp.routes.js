@@ -4,11 +4,13 @@ const path = require('path')
 const SaveObject = require('../models/mongoose/SaveObject')
 const DataHandler = require('../models/DataHandler')
 
+
 const router = Router()
 const valid = ["number", "factH", "Indent"]
 const csvHandler = new CsvHandler(path.join(__dirname, '../', 'uploads', 'editRp.csv'), valid)
 
 router.post('/rp/file', async (req, res) => {
+
     try {
         await csvHandler.readCsv()
         if (csvHandler.validateData()) {
@@ -19,22 +21,18 @@ router.post('/rp/file', async (req, res) => {
                 keySearch: "number",
                 field: 'rp'
             })
-
             dataHandler.sort()
             dataHandler.mergerData()
-            console.log(dataHandler.dataBase)
-            // TODO обновить данные в БД
-            //SaveObject.findByIdAndUpdate(req.body.id, dataHandler.dataBase)
+            const result = await SaveObject.findByIdAndUpdate(req.body.id, {rp: dataHandler.dataBase.rp}, {new: true})
+            res.send(JSON.stringify(result))
 
         }
         else {
-            // TODO обработать ошибки
-            // res.send('Файл не соотверствует')
+             res.send(JSON.stringify({error: "файл не соответствует"}))
         }
     } catch (e) {
-        // TODO обработать ошибки
-        console.log('error catch', e)
-        // res.send(e)
+        res.send(JSON.stringify({error: "ошибка на сервере"}))
+
     }
 
 
