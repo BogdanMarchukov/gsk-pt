@@ -1,4 +1,4 @@
-import {INPUT_HANDLER_FILE, LOADER, UPDATE_RP} from "../types";
+import {INPUT_HANDLER_FILE, LOADER, SHOW_MODEL_EDIT_RP, UPDATE_RP} from "../types";
 
 
 // ===========Сохранение файла из формы в store=======
@@ -8,7 +8,7 @@ export function inputHandler(dispatch, eventTarget) {
 }
 //***********************************************************
 
-
+// =============== отправка файла RP на сервер==================
 export async function saveFileRp(dispatch, file, idObject) {
     dispatch({type: LOADER, payload: true})
     const formData = new FormData()
@@ -22,6 +22,8 @@ export async function saveFileRp(dispatch, file, idObject) {
         const resultData = await response.json()
         dispatch({type: LOADER, payload: false})
         if (!resultData.error) {
+            dispatch({type: SHOW_MODEL_EDIT_RP, payload: false})
+            // TODO разобраться с обновлением state
             dispatch({type: UPDATE_RP, payload: resultData.rp})
         }
         else console.log(resultData.error)
@@ -29,5 +31,17 @@ export async function saveFileRp(dispatch, file, idObject) {
     } catch (e) {
         console.error(e)
     }
+}
+//******************************************************************
 
+// ================ Проверка на наличие данных===================
+
+export function chekData(dispatch, validateArr, dataArr) {
+    for (let i = 0; i < dataArr.length; i++) {
+        if (JSON.stringify(validateArr) === JSON.stringify(Object.keys(dataArr[i]))) {
+            dispatch({type: SHOW_MODEL_EDIT_RP, payload: false})
+            return true
+        }
+    }
+    dispatch({type: SHOW_MODEL_EDIT_RP, payload: true})
 }
