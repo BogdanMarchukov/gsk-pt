@@ -4,13 +4,17 @@ import ToHome from "../../Components/ToHome/ToHome"
 import {connect} from "react-redux"
 import Search from "../../Components/Search/Search";
 import WindowLoadingFile from "../../Components/WindowLoadingFile/WindowLoadingFile";
-import {chekData, inputHandler, saveFileRp} from "../../redux/actions/editRpActionsCreater";
+import {chekData, inputHandler, saveFileRp, submitHandler} from "../../redux/actions/editRpActionsCreater";
 import Loader from "../../Components/Loader/Loader";
+import Errors from "../../Components/Errors/Errors";
 
 
-const EditRp = ({dataArr, title, loading, inputHandler, saveFileRp, file, id, showModelRp, chekData}) => {
+const EditRp = ({
+                    dataArr, title, loading, inputHandler, saveFileRp, file, id, showModelRp, chekData,
+                    error, errorMassage, submitHandler, toRp, fromRp
+                }) => {
 
-    useEffect(()=> {
+    useEffect(() => {
         chekData(['number', 'pk', 'distance', 'ugr', 'elevation', 'factH', 'Indent'], dataArr)
     }, [dataArr, chekData, title])
 
@@ -18,22 +22,39 @@ const EditRp = ({dataArr, title, loading, inputHandler, saveFileRp, file, id, sh
         <div className={classes.editWrapper}>
             <h1>{title}</h1>
             <p>Рихтовка</p>
+            <Errors
+                error={error}
+                errorMassage={errorMassage}
+            />
             {loading ?
                 <Loader loading={loading}/>
                 :
                 <>
+                    {showModelRp ?
+                        <>
+                            <WindowLoadingFile
+                                title={'Отсутствуют данные Rp. Загрузить?'}
+                                inputHandler={inputHandler}
+                                submitHandler={saveFileRp}
+                                data={file}
+                                id={id}
+                            />
 
-                    <WindowLoadingFile
-                        title={'Отсутствуют данные Rp. Загрузить?'}
-                        inputHandler={inputHandler}
-                        submitHandler={saveFileRp}
-                        data={file}
-                        id={id}
-                        show={showModelRp}
-                    />
-                    <Search/>
-                    <hr/>
-                    <ToHome/>
+                        </>
+                        :
+                        <>
+                            <Search
+                                inputHandler={inputHandler}
+                                submitHandler={submitHandler}
+                                toRp={toRp}
+                                fromRp={fromRp}
+                                rpLIst={dataArr}
+                            />
+                            <hr/>
+                            <ToHome/>
+                        </>
+                    }
+
                 </>
             }
 
@@ -49,16 +70,22 @@ function mapStateToProps(state) {
         id: state.objectListReducer.currentObject._id,
         loading: state.objectListReducer.loading,
         showModelRp: state.editRpReducer.showModelRp,
-        dataArr: state.objectListReducer.currentObject.rp
+        dataArr: state.objectListReducer.currentObject.rp,
+        error: state.homePageReducer.errors.errorState,
+        errorMassage: state.homePageReducer.errors.errorMassage,
+        toRp: state.editRpReducer.rpTo,
+        fromRp: state.editRpReducer.rpFrom,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        inputHandler: eventTarget => dispatch(() => inputHandler(dispatch, eventTarget)),
+        inputHandler: (eventTarget, inputName) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
         saveFileRp: (file, idObject) => dispatch(() => saveFileRp(dispatch, file, idObject)),
-        chekData: (validateArr, dataArr) => dispatch(() => chekData(dispatch, validateArr, dataArr))
+        chekData: (validateArr, dataArr) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
+        submitHandler: (toRp, fromRp, rpList) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList))
     }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditRp)

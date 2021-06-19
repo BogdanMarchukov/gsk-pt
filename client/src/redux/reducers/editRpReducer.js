@@ -1,9 +1,18 @@
-import {INPUT_HANDLER_FILE, SHOW_MODEL_EDIT_RP} from "../types";
+import {
+    EDIT_RP_INPUT_HANDLER_FROM,
+    EDIT_RP_INPUT_HANDLER_TO,
+    INPUT_HANDLER_FILE,
+    SHOW_MODEL_EDIT_RP,
+    SORT_RP_EDIT_PAGE
+} from "../types";
 
 
 const initState = {
     rpFile: {},
-    showModelRp: false
+    showModelRp: false,
+    sortRp: [],
+    rpTo: 0,
+    rpFrom: 0
 }
 
 export const editRpReducer = (state = initState, action) => {
@@ -16,6 +25,19 @@ export const editRpReducer = (state = initState, action) => {
         case (SHOW_MODEL_EDIT_RP):
             return {
                 ...state, showModelRp: action.payload
+            }
+        case (EDIT_RP_INPUT_HANDLER_TO):
+            return {
+                ...state, rpTo: action.payload
+            }
+        case (EDIT_RP_INPUT_HANDLER_FROM):
+            return {
+                ...state, rpFrom: action.payload
+            }
+        case (SORT_RP_EDIT_PAGE):
+            console.log(action.payload)
+            return {
+                ...state, sortRp: action.payload
             }
         default:
             return state

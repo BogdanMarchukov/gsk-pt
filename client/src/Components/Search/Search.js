@@ -2,14 +2,14 @@ import React from 'react'
 import classes from "../InstallationRp/InstallationRp.module.css";
 import {Link} from "react-router-dom";
 
-const Search = ({startPzChengHandler, startPzFrom, startPzBefore}) => {
+const Search = (props) => {
     return (
         <>
             <div className={'row'}>
                 <div className={'col s6'}>
                     <div className="input-field col s12">
                         <input
-
+                            onChange={event => props.inputHandler(event, "toRp")}
                             id="email" type="number" autoComplete={'off'}
                         />
                         <label htmlFor="email">test</label>
@@ -19,7 +19,7 @@ const Search = ({startPzChengHandler, startPzFrom, startPzBefore}) => {
                 <div className={'col s6'}>
                     <div className="input-field col s12">
                         <input
-
+                            onChange={event => props.inputHandler(event, "toFrom")}
                             id="email-2" type="number" autoComplete={'off'}
                         />
                         <label htmlFor="email-2">test</label>
@@ -33,6 +33,7 @@ const Search = ({startPzChengHandler, startPzFrom, startPzBefore}) => {
                 <Link
                     to={'#'}
                     className=" waves-effect waves-light btn"
+                    onClick={()=> props.submitHandler(props.toRp, props.fromRp, props.rpLIst)}
 
                 >
                     Найти

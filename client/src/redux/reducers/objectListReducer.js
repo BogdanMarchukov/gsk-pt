@@ -174,7 +174,6 @@ export const objectListReducer = (state = initState, action) => {
 
             }
         case(UPDATE_RP):
-            console.log(action.payload)
             return {
                 ...state,
                     currentObject: {...state.currentObject, rp: action.payload}

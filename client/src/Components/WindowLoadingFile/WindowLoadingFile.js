@@ -3,7 +3,6 @@ import classes from './WindowLoadingFile.module.css'
 import {Link} from "react-router-dom";
 
 const WindowLoadingFile = (props) => {
-   if (props.show) {
        return (
            <div className={classes.wrapper}>
                <h1>{props.title}</h1>
@@ -12,7 +11,7 @@ const WindowLoadingFile = (props) => {
                        <span>Rp-проект/факт</span>
                        <input
                            type="file"
-                           onChange={(event)=> props.inputHandler(event)}
+                           onChange={(event)=> props.inputHandler(event, "formSaveFile")}
 
                        />
                    </div>
@@ -32,8 +31,6 @@ const WindowLoadingFile = (props) => {
                </div>
            </div>
        )
-
-   } else return null
 
 }
 
