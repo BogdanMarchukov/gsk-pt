@@ -6,8 +6,28 @@ import {
     SORT_RP_EDIT_PAGE
 } from "../types";
 
+interface sortRpObjectType {
+    number: number
+    pk: number
+    distance: number
+    ugr: number
+    elevation: number
+    factH: number
+    Indent: number
+}
 
-const initState = {
+interface initStateType {
+    rpFile: object
+    showModelRp: boolean
+    sortRp: Array<sortRpObjectType>
+    rpTo: number
+    rpFrom: number
+    type?: string
+    payload?: boolean | Array<sortRpObjectType>
+}
+
+
+const initState: initStateType = {
     rpFile: {},
     showModelRp: false,
     sortRp: [],
@@ -15,27 +35,27 @@ const initState = {
     rpFrom: 0
 }
 
-export const editRpReducer = (state = initState, action) => {
+export const editRpReducer = (state = initState, action: initStateType) => {
 
-    switch (action.type){
-        case (INPUT_HANDLER_FILE):
+    switch (action.type) {
+        case (INPUT_HANDLER_FILE)!:
             return {
                 ...state, rpFile: action.payload
             }
-        case (SHOW_MODEL_EDIT_RP):
+        case (SHOW_MODEL_EDIT_RP)!:
             return {
                 ...state, showModelRp: action.payload
             }
-        case (EDIT_RP_INPUT_HANDLER_TO):
+        case (EDIT_RP_INPUT_HANDLER_TO)!:
             return {
                 ...state, rpTo: action.payload
             }
-        case (EDIT_RP_INPUT_HANDLER_FROM):
+        case (EDIT_RP_INPUT_HANDLER_FROM)!:
             return {
                 ...state, rpFrom: action.payload
             }
-        case (SORT_RP_EDIT_PAGE):
-            console.log(action.payload)
+        case (SORT_RP_EDIT_PAGE)!:
+
             return {
                 ...state, sortRp: action.payload
             }

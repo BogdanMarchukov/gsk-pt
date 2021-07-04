@@ -11,6 +11,7 @@ export const factRpReducer = (state = initState, action) => {
     switch (action.type) {
         case (TABLE_DATA_LOCAL):
             return {
+
                 ...state, localDataTable: action.payload
             }
         case (UPDATE_TABLE_DATA_LOCAL):

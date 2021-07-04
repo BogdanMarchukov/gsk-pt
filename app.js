@@ -14,6 +14,7 @@ app.use(express.json({extended: true}))
 
 
 
+
 app.use('/api/add', require('./routes/add.routes'))
 app.use('/api', require('./routes/fatchListObject'))
 app.use('/api', require('./routes/saveShooting.routes'))
