@@ -17,9 +17,9 @@ interface sortRpObjectType {
 }
 
 interface initStateType {
-    rpFile: object
+    rpFile: object | null
     showModelRp: boolean
-    sortRp: Array<sortRpObjectType>
+    sortRp: Array<sortRpObjectType> | null
     rpTo: number
     rpFrom: number
     type?: string
@@ -28,14 +28,14 @@ interface initStateType {
 
 
 const initState: initStateType = {
-    rpFile: {},
+    rpFile: null,
     showModelRp: false,
-    sortRp: [],
+    sortRp: null,
     rpTo: 0,
     rpFrom: 0
 }
 
-export const editRpReducer = (state = initState, action: initStateType) => {
+export const editRpReducer = (state = initState, action: any): initStateType => {
 
     switch (action.type) {
         case (INPUT_HANDLER_FILE)!:
