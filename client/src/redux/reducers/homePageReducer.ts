@@ -6,7 +6,21 @@ import {
     SAVE_TO_STORE_INPUT_NAME, VALIDATE_FORM_ERROR
 } from "../types";
 
-const initState = {
+interface InitStateType {
+    isOpen: boolean
+    createObjectForm: {
+        name: string
+        pvo: string
+        rp: string
+    },
+    errors: {
+        errorState: boolean,
+        errorMassage: null | string
+    }
+
+}
+
+const initState: InitStateType = {
     isOpen: false,
     createObjectForm: {
         name: '',
@@ -19,7 +33,7 @@ const initState = {
     }
 }
 
-export const homePageReducer = (state = initState, action) => {
+export const homePageReducer = (state = initState, action: any): InitStateType => {
     switch (action.type) {
         case OPEN_WINDOW_NEW_OBJ:
             return {

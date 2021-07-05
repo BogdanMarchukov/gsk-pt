@@ -116,22 +116,35 @@ export function chekData(dispatch: (object: showModelEditRpType)=> void | boolea
 }
 
 function validator(validArr: Array<string>, object: object): boolean {
-    return JSON.stringify(validArr) === JSON.stringify(Object.keys(object));
+    return JSON.stringify(validArr) === JSON.stringify(Object.keys(object))
 }
 
 //****************************************************************
 
 // ======================= Поиск данных и сортировка================
-// TODO продолжить тут
-export function submitHandler(dispatch: any, toRp: number, fromRp: number, rpList: any) {
+
+interface RpListObjectType {
+    number: number
+    pk: number
+    distance: number
+    ugr: number
+    elevation: number
+    factH?: number
+    Indent?: number
+}
+interface ErrorServerActionType {
+    type: typeof ERROR_SERVER | typeof RESET_ERROR | typeof SORT_RP_EDIT_PAGE
+    payload?: string | Array<RpListObjectType>
+}
+export function submitHandler(dispatch: (object: ErrorServerActionType)=> boolean , toRp: number, fromRp: number, rpList: Array<RpListObjectType>) {
     let min = 0
     let max = 0
     if (toRp < fromRp) {
         min = toRp
         max = fromRp
     } else {
-        min = +fromRp
-        max = +toRp
+        min = fromRp
+        max = toRp
     }
     const sortRp = rpList.filter((item: any) => {
         return +item.number >= min && +item.number <= max;
