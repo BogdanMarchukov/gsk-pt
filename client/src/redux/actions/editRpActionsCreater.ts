@@ -74,16 +74,12 @@ export async function saveFileRp(dispatch: (object: saveFileRpActionType) => voi
             body: formData
         })
         const resultData = await response.json() // изменненые данные с сервера
-        resultData.rp.map((item: any)=> { // преобразование из string of number
-              for (let key in item) {
-                  item[key] = +item[key]
-              }
-              return item
-        })
+        const numberData = stringToNumber(resultData.rp)  // преобразование from string to number
+
         dispatch({type: LOADER, payload: false})// выключаем лоадер
         if (!resultData.error) {
             dispatch({type: SHOW_MODEL_EDIT_RP, payload: false}) // прячим модальное окно загрузки файла
-            dispatch({type: UPDATE_RP, payload: resultData}) // обновляем state с rp
+            dispatch({type: UPDATE_RP, payload: numberData}) // обновляем state с rp
         } else {
             dispatch({type: ERROR_SERVER, payload: "содержимое не соответствует"})// вызываем компонент ошибки
             setTimeout(() => {
@@ -105,7 +101,7 @@ interface showModelEditRpType {
     payload: boolean
 }
 
-export function chekData(dispatch: (object: showModelEditRpType)=> void | boolean, validateArr: Array<string>, dataArr: Array<object>) {
+export function chekData(dispatch: (object: showModelEditRpType) => void | boolean, validateArr: Array<string>, dataArr: Array<object>) {
     for (let i = 0; i < dataArr.length; i++) {
         if (validator(validateArr, dataArr[i])) {
             dispatch({type: SHOW_MODEL_EDIT_RP, payload: false})
@@ -121,6 +117,19 @@ function validator(validArr: Array<string>, object: object): boolean {
 
 //****************************************************************
 
+// =======================Преобразование строк обьекта а number===================
+
+function stringToNumber(startObject: Array<object>): Array<resultDataType> {
+    const finish =  startObject.map((item: any) => {
+        for (let key in item) {
+            item[key] = +item[key]
+        }
+        return item
+    })
+    return finish
+}
+//*************************************************************************
+
 // ======================= Поиск данных и сортировка================
 
 interface RpListObjectType {
@@ -132,11 +141,13 @@ interface RpListObjectType {
     factH?: number
     Indent?: number
 }
+
 interface ErrorServerActionType {
     type: typeof ERROR_SERVER | typeof RESET_ERROR | typeof SORT_RP_EDIT_PAGE
     payload?: string | Array<RpListObjectType>
 }
-export function submitHandler(dispatch: (object: ErrorServerActionType)=> boolean , toRp: number, fromRp: number, rpList: Array<RpListObjectType>) {
+
+export function submitHandler(dispatch: (object: ErrorServerActionType) => boolean, toRp: number, fromRp: number, rpList: Array<RpListObjectType>) {
     let min = 0
     let max = 0
     if (toRp < fromRp) {
@@ -161,7 +172,9 @@ export function submitHandler(dispatch: (object: ErrorServerActionType)=> boolea
             return false
         }
     }
-    dispatch({type: SORT_RP_EDIT_PAGE, payload: validArr})
+    const payloadArr = stringToNumber(validArr) // преобразование from string to number
+    dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr})
 
 }
+//***********************************************************************************************
 
