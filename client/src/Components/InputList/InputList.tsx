@@ -5,8 +5,10 @@ import classes from './InputList.module.css'
 type Props = {
     sortRp: Array<sortRpObjectType> | null
     deltaH_EditRp: Array<number>
+    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number) => void
+    inputValue: Array<number>
 }
-export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp}) => {
+export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed, inputValue}) => {
 
     return (
         <div className={`container ${classes.wrapper}`}>
@@ -16,6 +18,7 @@ export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp}) => {
                         <div className={'col s12'}>
                             <div className="input-field col s12">
                                 <input
+                                    onChange={(event) => deltaComputed(event.target.value, sortRp, deltaH_EditRp, inputValue,  index)}
                                     id={`inp ${index}`} type="number" autoComplete={'off'}
                                 />
                                 <label htmlFor={`inp ${index}`}>отсчет</label>

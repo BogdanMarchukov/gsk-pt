@@ -121,7 +121,7 @@ function validator(validArr: Array<string>, object: object): boolean {
 // =======================Преобразование строк обьекта а number===================
 
 function stringToNumber(startObject: Array<object>): Array<resultDataType> {
-    const finish =  startObject.map((item: any) => {
+    const finish = startObject.map((item: any) => {
         for (let key in item) {
             item[key] = +item[key]
         }
@@ -129,6 +129,7 @@ function stringToNumber(startObject: Array<object>): Array<resultDataType> {
     })
     return finish
 }
+
 //*************************************************************************
 
 // ======================= Поиск данных и сортировка================
@@ -175,14 +176,21 @@ export function submitHandler(dispatch: (object: ErrorServerActionType) => boole
         }
     }
     const payloadArr = stringToNumber(validArr) // преобразование from string to number
-    const deltaH = payloadArr.map(()=> 0) // создание массива длинной отсортированного массива со значением 0
+    const deltaH = payloadArr.map(() => 0) // создание массива длинной отсортированного массива со значением 0
     dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr, deltaH})
 }
+
 //***********************************************************************************************
 
 // ==================================Вычесление дельты ============================================
 
-export function deltaComputed(dispatch: ()=> void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, index: number ){
+export function deltaComputed(dispatch: () => void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number ) {
+
+    if (index > 0) {
+        const deltaProject = sortRp[index].factH - sortRp[index - 1].factH
+        console.log(deltaProject)
+        // TODO доделать
+    }
 
 }
 

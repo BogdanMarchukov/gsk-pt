@@ -4,7 +4,13 @@ import ToHome from "../../Components/ToHome/ToHome"
 import {connect} from "react-redux"
 import Search from "../../Components/Search/Search";
 import WindowLoadingFile from "../../Components/WindowLoadingFile/WindowLoadingFile";
-import {chekData, inputHandler, saveFileRp, submitHandler} from "../../redux/actions/editRpActionsCreater";
+import {
+    chekData,
+    deltaComputed,
+    inputHandler,
+    saveFileRp,
+    submitHandler
+} from "../../redux/actions/editRpActionsCreater";
 import Loader from "../../Components/Loader/Loader";
 import Errors from "../../Components/Errors/Errors";
 import {rpType} from "../../redux/reducers/objectListReducer";
@@ -12,28 +18,50 @@ import {InputList} from "../../Components/InputList/InputList";
 import {sortRpObjectType} from "../../redux/reducers/editRpReducer";
 
 type EditRpType = {
-    dataArr : rpType
-    title : string
-    loading : boolean
-    inputHandler : any
-    saveFileRp : any
-    file : any
-    id : any
-    showModelRp : any
-    chekData : any
-    error : any
-    errorMassage : any
-    submitHandler : any
-    toRp : any
-    fromRp : any
+    dataArr: rpType
+    title: string
+    loading: boolean
+    inputHandler: any
+    saveFileRp: any
+    file: any
+    id: any
+    showModelRp: any
+    chekData: any
+    error: any
+    errorMassage: any
+    submitHandler: any
+    toRp: any
+    fromRp: any
     sortRp: Array<sortRpObjectType> | null
     deltaH_EditRp: Array<number>
+    inputValue: Array<number>
+    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number) => void
+
+
 }
 
 const EditRp: React.FC<EditRpType> = ({
-                    dataArr, title, loading, inputHandler, saveFileRp, file, id, showModelRp, chekData,
-                    error, errorMassage, submitHandler, toRp, fromRp, sortRp, deltaH_EditRp
-                }) => {
+                                          dataArr,
+                                          title,
+                                          loading,
+                                          inputHandler,
+                                          saveFileRp,
+                                          file,
+                                          id,
+                                          showModelRp,
+                                          chekData,
+                                          error,
+                                          errorMassage,
+                                          submitHandler,
+                                          toRp,
+                                          fromRp,
+                                          sortRp,
+                                          deltaH_EditRp,
+                                          inputValue,
+                                          deltaComputed,
+
+
+                                      }) => {
 
     useEffect(() => {
         chekData(['number', 'pk', 'distance', 'ugr', 'elevation', 'factH', 'Indent'], dataArr)
@@ -75,6 +103,8 @@ const EditRp: React.FC<EditRpType> = ({
                             <InputList
                                 sortRp={sortRp}
                                 deltaH_EditRp={deltaH_EditRp}
+                                deltaComputed={deltaComputed}
+                                inputValue={inputValue}
                             />
                             <ToHome/>
                         </>
@@ -88,7 +118,7 @@ const EditRp: React.FC<EditRpType> = ({
 
 }
 
-function mapStateToProps(state: any)  {
+function mapStateToProps(state: any) {
     return {
         title: state.objectListReducer.currentObject.title,
         file: state.editRpReducer.rpFile,
@@ -101,7 +131,8 @@ function mapStateToProps(state: any)  {
         toRp: state.editRpReducer.rpTo,
         fromRp: state.editRpReducer.rpFrom,
         sortRp: state.editRpReducer.sortRp,
-        deltaH_EditRp: state.editRpReducer.deltaH_EditRp
+        deltaH_EditRp: state.editRpReducer.deltaH_EditRp,
+        inputValue: state.editRpReducer.inputValue
     }
 }
 
@@ -110,10 +141,10 @@ function mapDispatchToProps(dispatch: any) {
         inputHandler: (eventTarget: any, inputName: any) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
         saveFileRp: (file: any, idObject: any) => dispatch(() => saveFileRp(dispatch, file, idObject)),
         chekData: (validateArr: any, dataArr: any) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
-        submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList))
+        submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList)),
+        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number ) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index ))
     }
 }
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditRp)

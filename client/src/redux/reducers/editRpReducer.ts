@@ -23,6 +23,7 @@ interface initStateType {
     rpTo: number
     rpFrom: number
     deltaH_EditRp: Array<number>
+    inputValue: Array<number>
 
 }
 
@@ -33,7 +34,8 @@ const initState: initStateType = {
     sortRp: null,
     rpTo: 0,
     rpFrom: 0,
-    deltaH_EditRp: []
+    deltaH_EditRp: [],
+    inputValue: []
 }
 
 export const editRpReducer = (state = initState, action: any): initStateType => {
