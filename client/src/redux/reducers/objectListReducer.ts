@@ -25,7 +25,7 @@ type pvoType = {
     keyY?: string
     keyH: string | number
 }
-type rpType = {
+export type rpType = {
     number: string
     pk: string
     distance: string

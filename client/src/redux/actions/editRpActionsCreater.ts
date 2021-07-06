@@ -8,6 +8,7 @@ import {
     SHOW_MODEL_EDIT_RP, SORT_RP_EDIT_PAGE,
     UPDATE_RP
 } from "../types";
+import {sortRpObjectType} from "../reducers/editRpReducer";
 
 
 // ===========Обработка Inputs==============================
@@ -145,6 +146,7 @@ interface RpListObjectType {
 interface ErrorServerActionType {
     type: typeof ERROR_SERVER | typeof RESET_ERROR | typeof SORT_RP_EDIT_PAGE
     payload?: string | Array<RpListObjectType>
+    deltaH?: Array<number>
 }
 
 export function submitHandler(dispatch: (object: ErrorServerActionType) => boolean, toRp: number, fromRp: number, rpList: Array<RpListObjectType>) {
@@ -173,8 +175,14 @@ export function submitHandler(dispatch: (object: ErrorServerActionType) => boole
         }
     }
     const payloadArr = stringToNumber(validArr) // преобразование from string to number
-    dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr})
-
+    const deltaH = payloadArr.map(()=> 0) // создание массива длинной отсортированного массива со значением 0
+    dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr, deltaH})
 }
 //***********************************************************************************************
+
+// ==================================Вычесление дельты ============================================
+
+export function deltaComputed(dispatch: ()=> void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, index: number ){
+
+}
 

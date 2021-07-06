@@ -7,11 +7,32 @@ import WindowLoadingFile from "../../Components/WindowLoadingFile/WindowLoadingF
 import {chekData, inputHandler, saveFileRp, submitHandler} from "../../redux/actions/editRpActionsCreater";
 import Loader from "../../Components/Loader/Loader";
 import Errors from "../../Components/Errors/Errors";
+import {rpType} from "../../redux/reducers/objectListReducer";
+import {InputList} from "../../Components/InputList/InputList";
+import {sortRpObjectType} from "../../redux/reducers/editRpReducer";
 
+type EditRpType = {
+    dataArr : rpType
+    title : string
+    loading : boolean
+    inputHandler : any
+    saveFileRp : any
+    file : any
+    id : any
+    showModelRp : any
+    chekData : any
+    error : any
+    errorMassage : any
+    submitHandler : any
+    toRp : any
+    fromRp : any
+    sortRp: Array<sortRpObjectType> | null
+    deltaH_EditRp: Array<number>
+}
 
-const EditRp = ({
+const EditRp: React.FC<EditRpType> = ({
                     dataArr, title, loading, inputHandler, saveFileRp, file, id, showModelRp, chekData,
-                    error, errorMassage, submitHandler, toRp, fromRp
+                    error, errorMassage, submitHandler, toRp, fromRp, sortRp, deltaH_EditRp
                 }) => {
 
     useEffect(() => {
@@ -51,6 +72,10 @@ const EditRp = ({
                                 rpLIst={dataArr}
                             />
                             <hr/>
+                            <InputList
+                                sortRp={sortRp}
+                                deltaH_EditRp={deltaH_EditRp}
+                            />
                             <ToHome/>
                         </>
                     }
@@ -63,7 +88,7 @@ const EditRp = ({
 
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any)  {
     return {
         title: state.objectListReducer.currentObject.title,
         file: state.editRpReducer.rpFile,
@@ -75,17 +100,20 @@ function mapStateToProps(state) {
         errorMassage: state.homePageReducer.errors.errorMassage,
         toRp: state.editRpReducer.rpTo,
         fromRp: state.editRpReducer.rpFrom,
+        sortRp: state.editRpReducer.sortRp,
+        deltaH_EditRp: state.editRpReducer.deltaH_EditRp
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
     return {
-        inputHandler: (eventTarget, inputName) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
-        saveFileRp: (file, idObject) => dispatch(() => saveFileRp(dispatch, file, idObject)),
-        chekData: (validateArr, dataArr) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
-        submitHandler: (toRp, fromRp, rpList) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList))
+        inputHandler: (eventTarget: any, inputName: any) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
+        saveFileRp: (file: any, idObject: any) => dispatch(() => saveFileRp(dispatch, file, idObject)),
+        chekData: (validateArr: any, dataArr: any) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
+        submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList))
     }
 }
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditRp)

@@ -12,8 +12,8 @@ const Search = (props) => {
                             onChange={event => props.inputHandler(event, "toRp")}
                             id="email" type="number" autoComplete={'off'}
                         />
-                        <label htmlFor="email">test</label>
-                        <span className="helper-text" data-error="wrong" data-success="right">От PZ Номер</span>
+                        <label htmlFor="email">номер RP</label>
+                        <span className="helper-text" data-error="wrong" data-success="right">От RP Номер</span>
                     </div>
                 </div>
                 <div className={'col s6'}>
@@ -22,8 +22,8 @@ const Search = (props) => {
                             onChange={event => props.inputHandler(event, "toFrom")}
                             id="email-2" type="number" autoComplete={'off'}
                         />
-                        <label htmlFor="email-2">test</label>
-                        <span className="helper-text" data-error="wrong" data-success="right">До PZ Номер</span>
+                        <label htmlFor="email-2">номер RP</label>
+                        <span className="helper-text" data-error="wrong" data-success="right">До RP Номер</span>
                     </div>
 
                 </div>

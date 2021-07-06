@@ -6,7 +6,7 @@ import {
     SORT_RP_EDIT_PAGE
 } from "../types";
 
-interface sortRpObjectType {
+export interface sortRpObjectType {
     number: number
     pk: number
     distance: number
@@ -22,8 +22,8 @@ interface initStateType {
     sortRp: Array<sortRpObjectType> | null
     rpTo: number
     rpFrom: number
-    type?: string
-    payload?: boolean | Array<sortRpObjectType>
+    deltaH_EditRp: Array<number>
+
 }
 
 
@@ -32,7 +32,8 @@ const initState: initStateType = {
     showModelRp: false,
     sortRp: null,
     rpTo: 0,
-    rpFrom: 0
+    rpFrom: 0,
+    deltaH_EditRp: []
 }
 
 export const editRpReducer = (state = initState, action: any): initStateType => {
@@ -58,7 +59,7 @@ export const editRpReducer = (state = initState, action: any): initStateType => 
         case SORT_RP_EDIT_PAGE:
 
             return {
-                ...state, sortRp: action.payload
+                ...state, sortRp: action.payload, deltaH_EditRp:action.deltaH
             }
         default:
             return state
