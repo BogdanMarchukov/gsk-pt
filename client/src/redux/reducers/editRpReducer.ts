@@ -61,7 +61,7 @@ export const editRpReducer = (state = initState, action: any): initStateType => 
         case SORT_RP_EDIT_PAGE:
 
             return {
-                ...state, sortRp: action.payload, deltaH_EditRp:action.deltaH
+                ...state, sortRp: action.payload, deltaH_EditRp:action.deltaH, inputValue: action.deltaH
             }
         default:
             return state

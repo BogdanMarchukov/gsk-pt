@@ -7,8 +7,10 @@ type Props = {
     deltaH_EditRp: Array<number>
     deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number) => void
     inputValue: Array<number>
+    inputHandler: (eventTarget: any, inputName: string, index: number)=> boolean
 }
-export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed, inputValue}) => {
+export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed, inputValue, inputHandler}) => {
+
 
     return (
         <div className={`container ${classes.wrapper}`}>
@@ -18,7 +20,7 @@ export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed
                         <div className={'col s12'}>
                             <div className="input-field col s12">
                                 <input
-                                    onChange={(event) => deltaComputed(event.target.value, sortRp, deltaH_EditRp, inputValue,  index)}
+                                    onChange={(event) => inputHandler(event, "inputList", index )}
                                     id={`inp ${index}`} type="number" autoComplete={'off'}
                                 />
                                 <label htmlFor={`inp ${index}`}>отсчет</label>

@@ -7,7 +7,7 @@ import WindowLoadingFile from "../../Components/WindowLoadingFile/WindowLoadingF
 import {
     chekData,
     deltaComputed,
-    inputHandler,
+    inputHandler, mayEvent,
     saveFileRp,
     submitHandler
 } from "../../redux/actions/editRpActionsCreater";
@@ -21,7 +21,6 @@ type EditRpType = {
     dataArr: rpType
     title: string
     loading: boolean
-    inputHandler: any
     saveFileRp: any
     file: any
     id: any
@@ -36,7 +35,7 @@ type EditRpType = {
     deltaH_EditRp: Array<number>
     inputValue: Array<number>
     deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number) => void
-
+    inputHandler: (eventTarget: mayEvent, inputName: string)=> boolean
 
 }
 
@@ -105,6 +104,7 @@ const EditRp: React.FC<EditRpType> = ({
                                 deltaH_EditRp={deltaH_EditRp}
                                 deltaComputed={deltaComputed}
                                 inputValue={inputValue}
+                                inputHandler={inputHandler}
                             />
                             <ToHome/>
                         </>
@@ -138,11 +138,12 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
     return {
-        inputHandler: (eventTarget: any, inputName: any) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
         saveFileRp: (file: any, idObject: any) => dispatch(() => saveFileRp(dispatch, file, idObject)),
         chekData: (validateArr: any, dataArr: any) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
         submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList)),
-        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number ) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index ))
+        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number ) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index )),
+        inputHandler: (eventTarget: mayEvent, inputName: string, index?: number) => dispatch(()=> inputHandler(dispatch, eventTarget, inputName, index ))
+
     }
 }
 

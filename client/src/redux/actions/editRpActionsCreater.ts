@@ -14,12 +14,12 @@ import {sortRpObjectType} from "../reducers/editRpReducer";
 // ===========Обработка Inputs==============================
 
 
-interface inputHandlerType {
+export interface inputHandlerType {
     type: typeof INPUT_HANDLER_FILE | typeof EDIT_RP_INPUT_HANDLER_TO | typeof EDIT_RP_INPUT_HANDLER_FROM
     payload: object | number
 }
 
-interface mayEvent {
+export interface mayEvent {
     target: {
         value: number
         files: [object]
@@ -27,7 +27,7 @@ interface mayEvent {
 }
 
 
-export function inputHandler(dispatch: (object: inputHandlerType) => void, eventTarget: mayEvent, inputName: string): boolean | void {
+export function inputHandler(dispatch: (object: inputHandlerType) => void, eventTarget: mayEvent, inputName: string, index?: number): boolean | void {
 
     switch (inputName) {
 
@@ -39,6 +39,10 @@ export function inputHandler(dispatch: (object: inputHandlerType) => void, event
             break
         case("toFrom"):
             dispatch({type: EDIT_RP_INPUT_HANDLER_FROM, payload: +eventTarget.target.value})
+            break
+        case("inputList"):
+            console.log(+eventTarget.target.value, `index ${index}`)
+            // TODO продлжить
             break
 
         default :
@@ -189,7 +193,7 @@ export function deltaComputed(dispatch: () => void, event: string, sortRp: Array
     if (index > 0) {
         const deltaProject = sortRp[index].factH - sortRp[index - 1].factH
         console.log(deltaProject)
-        // TODO доделать
+
     }
 
 }
