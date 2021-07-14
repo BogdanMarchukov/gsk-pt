@@ -1,9 +1,9 @@
 import {
     EDIT_RP_INPUT_HANDLER_FROM,
     EDIT_RP_INPUT_HANDLER_TO,
-    INPUT_HANDLER_FILE,
+    INPUT_HANDLER_FILE, INPUT_VALUE_UPDATE,
     SHOW_MODEL_EDIT_RP,
-    SORT_RP_EDIT_PAGE
+    SORT_RP_EDIT_PAGE, UPDATE_DELTA_H_EDIT_RP
 } from "../types";
 
 export interface sortRpObjectType {
@@ -61,7 +61,17 @@ export const editRpReducer = (state = initState, action: any): initStateType => 
         case SORT_RP_EDIT_PAGE:
 
             return {
-                ...state, sortRp: action.payload, deltaH_EditRp:action.deltaH, inputValue: action.deltaH
+                ...state, sortRp: action.payload, deltaH_EditRp:action.deltaH, inputValue: action.inputValue
+            }
+        case INPUT_VALUE_UPDATE:
+
+            return {
+                ...state, inputValue : action.payload
+            }
+        case UPDATE_DELTA_H_EDIT_RP:
+
+            return {
+                ...state, deltaH_EditRp : action.payload
             }
         default:
             return state

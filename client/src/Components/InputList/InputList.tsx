@@ -5,11 +5,10 @@ import classes from './InputList.module.css'
 type Props = {
     sortRp: Array<sortRpObjectType> | null
     deltaH_EditRp: Array<number>
-    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number) => void
+    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) => void
     inputValue: Array<number>
-    inputHandler: (eventTarget: any, inputName: string, index: number)=> boolean
 }
-export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed, inputValue, inputHandler}) => {
+export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed, inputValue}) => {
 
 
     return (
@@ -20,8 +19,8 @@ export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed
                         <div className={'col s12'}>
                             <div className="input-field col s12">
                                 <input
-                                    onChange={(event) => inputHandler(event, "inputList", index )}
                                     id={`inp ${index}`} type="number" autoComplete={'off'}
+                                    onChange={event => deltaComputed(event.target.value, sortRp, deltaH_EditRp, inputValue, index, deltaH_EditRp )}
                                 />
                                 <label htmlFor={`inp ${index}`}>отсчет</label>
                                 <span className="helper-text" data-error="wrong"
@@ -32,7 +31,7 @@ export const InputList: React.FC<Props> = ({sortRp, deltaH_EditRp, deltaComputed
                             sortRp.length - 1 === index ?
                                 null
                                 :
-                                <h5>Дельта_H: {deltaH_EditRp[index]}</h5>
+                                <h5>Дельта_H: {deltaH_EditRp[index + 1]}</h5>
                         }
                     </div>
                 )

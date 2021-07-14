@@ -3,9 +3,12 @@ import {
     EDIT_RP_INPUT_HANDLER_TO,
     ERROR_SERVER,
     INPUT_HANDLER_FILE,
+    INPUT_VALUE_UPDATE,
     LOADER,
     RESET_ERROR,
-    SHOW_MODEL_EDIT_RP, SORT_RP_EDIT_PAGE,
+    SHOW_MODEL_EDIT_RP,
+    SORT_RP_EDIT_PAGE,
+    UPDATE_DELTA_H_EDIT_RP,
     UPDATE_RP
 } from "../types";
 import {sortRpObjectType} from "../reducers/editRpReducer";
@@ -27,7 +30,7 @@ export interface mayEvent {
 }
 
 
-export function inputHandler(dispatch: (object: inputHandlerType) => void, eventTarget: mayEvent, inputName: string, index?: number): boolean | void {
+export function inputHandler(dispatch: (object: inputHandlerType) => void, eventTarget: mayEvent, inputName: string): boolean | void {
 
     switch (inputName) {
 
@@ -39,10 +42,6 @@ export function inputHandler(dispatch: (object: inputHandlerType) => void, event
             break
         case("toFrom"):
             dispatch({type: EDIT_RP_INPUT_HANDLER_FROM, payload: +eventTarget.target.value})
-            break
-        case("inputList"):
-            console.log(+eventTarget.target.value, `index ${index}`)
-            // TODO продлжить
             break
 
         default :
@@ -125,13 +124,14 @@ function validator(validArr: Array<string>, object: object): boolean {
 // =======================Преобразование строк обьекта а number===================
 
 function stringToNumber(startObject: Array<object>): Array<resultDataType> {
-    const finish = startObject.map((item: any) => {
+    return startObject.map((item: any) => {
         for (let key in item) {
-            item[key] = +item[key]
+            if (item.hasOwnProperty(key)) {
+                item[key] = +item[key]
+            }
         }
         return item
     })
-    return finish
 }
 
 //*************************************************************************
@@ -152,6 +152,7 @@ interface ErrorServerActionType {
     type: typeof ERROR_SERVER | typeof RESET_ERROR | typeof SORT_RP_EDIT_PAGE
     payload?: string | Array<RpListObjectType>
     deltaH?: Array<number>
+    inputValue?: Array<number>
 }
 
 export function submitHandler(dispatch: (object: ErrorServerActionType) => boolean, toRp: number, fromRp: number, rpList: Array<RpListObjectType>) {
@@ -181,18 +182,29 @@ export function submitHandler(dispatch: (object: ErrorServerActionType) => boole
     }
     const payloadArr = stringToNumber(validArr) // преобразование from string to number
     const deltaH = payloadArr.map(() => 0) // создание массива длинной отсортированного массива со значением 0
-    dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr, deltaH})
+    const inputValue = payloadArr.map(() => 0) // создание массива длинной отсортированного массива со значением 0
+    dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr, deltaH, inputValue})
 }
 
 //***********************************************************************************************
 
 // ==================================Вычесление дельты ============================================
+interface DeltaComputedActionType {
+    type: typeof INPUT_VALUE_UPDATE | typeof UPDATE_DELTA_H_EDIT_RP
+    payload: Array<number>
+}
 
-export function deltaComputed(dispatch: () => void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number ) {
-
+export function deltaComputed(dispatch: (object: DeltaComputedActionType) => void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number, deltaH_EditRp: Array<number> ) {
+    inputValue[index] = +event
+    const inputValueFinisData = JSON.stringify(inputValue)
+    dispatch({type: INPUT_VALUE_UPDATE, payload: JSON.parse(inputValueFinisData)})
     if (index > 0) {
-        const deltaProject = sortRp[index].factH - sortRp[index - 1].factH
-        console.log(deltaProject)
+        const deltaProject = Math.round((sortRp[index].factH - sortRp[index - 1].factH)*1000)
+        const deltaFact = inputValue[index] - inputValue[index - 1]
+        deltaH_EditRp[index] = deltaProject - deltaFact
+
+        const finishData = JSON.stringify(deltaH_EditRp)
+        dispatch({type: UPDATE_DELTA_H_EDIT_RP, payload: JSON.parse(finishData)})
 
     }
 

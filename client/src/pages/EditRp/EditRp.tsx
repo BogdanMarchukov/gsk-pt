@@ -34,7 +34,7 @@ type EditRpType = {
     sortRp: Array<sortRpObjectType> | null
     deltaH_EditRp: Array<number>
     inputValue: Array<number>
-    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number) => void
+    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number, deltaH_EditRp: Array<number> ) => void
     inputHandler: (eventTarget: mayEvent, inputName: string)=> boolean
 
 }
@@ -104,7 +104,6 @@ const EditRp: React.FC<EditRpType> = ({
                                 deltaH_EditRp={deltaH_EditRp}
                                 deltaComputed={deltaComputed}
                                 inputValue={inputValue}
-                                inputHandler={inputHandler}
                             />
                             <ToHome/>
                         </>
@@ -141,8 +140,8 @@ function mapDispatchToProps(dispatch: any) {
         saveFileRp: (file: any, idObject: any) => dispatch(() => saveFileRp(dispatch, file, idObject)),
         chekData: (validateArr: any, dataArr: any) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
         submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList)),
-        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number ) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index )),
-        inputHandler: (eventTarget: mayEvent, inputName: string, index?: number) => dispatch(()=> inputHandler(dispatch, eventTarget, inputName, index ))
+        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number> ) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index, deltaH_EditRp )),
+        inputHandler: (eventTarget: mayEvent, inputName: string) => dispatch(()=> inputHandler(dispatch, eventTarget, inputName))
 
     }
 }
