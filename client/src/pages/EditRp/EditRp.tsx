@@ -16,6 +16,7 @@ import Errors from "../../Components/Errors/Errors";
 import {rpType} from "../../redux/reducers/objectListReducer";
 import {InputList} from "../../Components/InputList/InputList";
 import {sortRpObjectType} from "../../redux/reducers/editRpReducer";
+import CalculationsListEditRp from "../../Components/СalculationsListEditRp/CalculationsListEditRp";
 
 type EditRpType = {
     dataArr: rpType
@@ -104,6 +105,10 @@ const EditRp: React.FC<EditRpType> = ({
                                 deltaH_EditRp={deltaH_EditRp}
                                 deltaComputed={deltaComputed}
                                 inputValue={inputValue}
+                            />
+                            <CalculationsListEditRp
+                                columnName={['№ПП', 'Б.P', 'Д.Р', 'ок']}
+
                             />
                             <ToHome/>
                         </>

@@ -3,11 +3,12 @@ import classes from './TableData.module.css'
 import {Link} from "react-router-dom";
 
 const TableData = (props) => {
-
+       // праверяем наличие данных в таблице
     if (props.data[0].length) {
         return (
             <div className={classes.data}>
                 <table>
+                    {/*название таблицы*/}
                     <caption>{props.tableName}</caption>
                     <tbody>
                     <tr key={Math.random()}>
@@ -28,6 +29,7 @@ const TableData = (props) => {
                         return (
                             <tr key={indexK * 22}>
                                 {itemK.map((item, index) => {
+                                    // проверка на наличие поля для редактирования
                                     if (props.edit) {
                                         for (let i = 0; i < props.edit.length; i++) {
                                             if (index === props.edit[i]) {
@@ -57,6 +59,7 @@ const TableData = (props) => {
                                                 )
                                             }
                                             else return (
+                                                // если нет спецыальных полей просто выводим данные
                                                 <React.Fragment
                                                     key={index * 101}
                                                 >
@@ -67,6 +70,7 @@ const TableData = (props) => {
                                         return true
                                     }
                                     else return (
+                                        // вывод табличных данных
                                         <React.Fragment
                                             key={index * 101}
                                         >
@@ -80,6 +84,7 @@ const TableData = (props) => {
                     })}
                     </tbody>
                 </table>
+                {/*кнопка обработчик. Если есть*/}
                 {props.buttonHandler ?
                     <Link
                         to={'#'}
@@ -94,6 +99,7 @@ const TableData = (props) => {
 
             </div>
         )
+        // если данных нет выводим null
     } else return null
 
 }

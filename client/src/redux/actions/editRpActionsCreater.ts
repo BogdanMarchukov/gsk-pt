@@ -194,12 +194,12 @@ interface DeltaComputedActionType {
     payload: Array<number>
 }
 
-export function deltaComputed(dispatch: (object: DeltaComputedActionType) => void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number, deltaH_EditRp: Array<number> ) {
+export function deltaComputed(dispatch: (object: DeltaComputedActionType) => void, event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) {
     inputValue[index] = +event
     const inputValueFinisData = JSON.stringify(inputValue)
     dispatch({type: INPUT_VALUE_UPDATE, payload: JSON.parse(inputValueFinisData)})
     if (index > 0) {
-        const deltaProject = Math.round((sortRp[index].factH - sortRp[index - 1].factH)*1000)
+        const deltaProject = Math.round((sortRp[index].factH - sortRp[index - 1].factH) * 1000)
         const deltaFact = inputValue[index] - inputValue[index - 1]
         deltaH_EditRp[index] = deltaProject - deltaFact
 
