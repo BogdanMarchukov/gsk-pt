@@ -6,14 +6,21 @@ interface CalculationsListEditRpType {
 }
 
 
+const testData = [
+    [ 111, '1111', '1111'],
+    [ 22, '222', '2222']
+
+]
+
+
 const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => {
     return (
         <div className={classes.wrapper}>
             <table>
                 <tbody>
-                {/*название столбцов*/}
+                    {/*название столбцов*/}
                     <tr key={Math.random()}>
-                        {props.columnName.map((itemName, index)=> {
+                        {props.columnName.map((itemName, index) => {
                             return (
                                 <React.Fragment
                                     key={index}
@@ -23,9 +30,42 @@ const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => 
                             )
                         })}
                     </tr>
-                {/*//todo продолжить тут*/}
-                </tbody>
+                    {testData.map((item, index) => {
+                        return (
+                            <React.Fragment
+                                key={index}
+                            >
+                                <tr
+                                    key={Math.random()}
+                                >
+                                    {
+                                        item.map((i, indexItem) => {
+                                            return (
+                                                <React.Fragment
+                                                    key={indexItem}
+                                                >
+                                                    <td
+                                                        key={Math.random()}
+                                                    >{i}</td>
+                                                </React.Fragment>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {/*// todo редактировать*/}
+                                        <i>121</i>
+                                    </td>
 
+                                </tr>
+
+                            </React.Fragment>
+                        )
+
+                    })}
+
+                </tbody>
             </table>
         </div>
     )

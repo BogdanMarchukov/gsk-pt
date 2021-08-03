@@ -1,4 +1,5 @@
 import {
+    CALCULATION_LIST,
     EDIT_RP_INPUT_HANDLER_FROM,
     EDIT_RP_INPUT_HANDLER_TO,
     INPUT_HANDLER_FILE, INPUT_VALUE_UPDATE,
@@ -24,6 +25,7 @@ interface initStateType {
     rpFrom: number
     deltaH_EditRp: Array<number>
     inputValue: Array<number>
+    calculationDataList: Array<number>[] | null
 
 }
 
@@ -35,7 +37,8 @@ const initState: initStateType = {
     rpTo: 0,
     rpFrom: 0,
     deltaH_EditRp: [],
-    inputValue: []
+    inputValue: [],
+    calculationDataList: null
 }
 
 export const editRpReducer = (state = initState, action: any): initStateType => {
@@ -72,6 +75,11 @@ export const editRpReducer = (state = initState, action: any): initStateType => 
 
             return {
                 ...state, deltaH_EditRp : action.payload
+            }
+        case CALCULATION_LIST:
+
+            return {
+                ...state, calculationDataList: action.payload
             }
         default:
             return state

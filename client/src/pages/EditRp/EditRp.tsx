@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import Search from "../../Components/Search/Search";
 import WindowLoadingFile from "../../Components/WindowLoadingFile/WindowLoadingFile";
 import {
+    calculationList,
     chekData,
     deltaComputed,
     inputHandler, mayEvent,
@@ -35,8 +36,9 @@ type EditRpType = {
     sortRp: Array<sortRpObjectType> | null
     deltaH_EditRp: Array<number>
     inputValue: Array<number>
-    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>,inputValue: Array<number>, index: number, deltaH_EditRp: Array<number> ) => void
-    inputHandler: (eventTarget: mayEvent, inputName: string)=> boolean
+    deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) => void
+    inputHandler: (eventTarget: mayEvent, inputName: string) => boolean
+    calculationList: (sortRp: Array<sortRpObjectType>, inputValue: Array<number>) => void
 
 }
 
@@ -59,7 +61,7 @@ const EditRp: React.FC<EditRpType> = ({
                                           deltaH_EditRp,
                                           inputValue,
                                           deltaComputed,
-
+                                          calculationList
 
                                       }) => {
 
@@ -105,6 +107,7 @@ const EditRp: React.FC<EditRpType> = ({
                                 deltaH_EditRp={deltaH_EditRp}
                                 deltaComputed={deltaComputed}
                                 inputValue={inputValue}
+                                calculationList={calculationList}
                             />
                             <CalculationsListEditRp
                                 columnName={['№ПП', 'Б.P', 'Д.Р', 'ок']}
@@ -145,9 +148,9 @@ function mapDispatchToProps(dispatch: any) {
         saveFileRp: (file: any, idObject: any) => dispatch(() => saveFileRp(dispatch, file, idObject)),
         chekData: (validateArr: any, dataArr: any) => dispatch(() => chekData(dispatch, validateArr, dataArr)),
         submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList)),
-        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number> ) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index, deltaH_EditRp )),
-        inputHandler: (eventTarget: mayEvent, inputName: string) => dispatch(()=> inputHandler(dispatch, eventTarget, inputName))
-
+        deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index, deltaH_EditRp)),
+        inputHandler: (eventTarget: mayEvent, inputName: string) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
+        calculationList: (sortRp: Array<sortRpObjectType>, inputValue: Array<number>) => dispatch(() => calculationList(dispatch, sortRp, inputValue))
     }
 }
 

@@ -1,4 +1,5 @@
 import {
+    CALCULATION_LIST,
     EDIT_RP_INPUT_HANDLER_FROM,
     EDIT_RP_INPUT_HANDLER_TO,
     ERROR_SERVER,
@@ -209,4 +210,21 @@ export function deltaComputed(dispatch: (object: DeltaComputedActionType) => voi
     }
 
 }
+
+// ============================ Вычесление списка расчетов===================================
+
+interface CalculationListActionType {
+    type: typeof CALCULATION_LIST
+    payload: Array<number | string>[]
+}
+
+export function calculationList(dispatch: (object: CalculationListActionType) => void, sortRp: Array<sortRpObjectType>, inputValue: Array<number>) {
+    let data: Array<number | string>[] = []
+    // todo доделать промежуточные строки
+    sortRp.forEach((item, index) => {
+        data.push([item.number, Math.round(inputValue[index] - (item.ugr - item.factH)), Math.round((inputValue[index] - (item.ugr - item.factH)) - item.elevation), 'ok'])
+    })
+    dispatch({type: CALCULATION_LIST, payload: data})
+}
+
 
