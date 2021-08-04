@@ -215,16 +215,35 @@ export function deltaComputed(dispatch: (object: DeltaComputedActionType) => voi
 
 interface CalculationListActionType {
     type: typeof CALCULATION_LIST
-    payload: Array<number | string>[]
+    payload: [number, number, number, string][][]
 }
 
 export function calculationList(dispatch: (object: CalculationListActionType) => void, sortRp: Array<sortRpObjectType>, inputValue: Array<number>) {
-    let data: Array<number | string>[] = []
-    // todo доделать промежуточные строки
+    let data: [number, number, number, string][] = []
+
     sortRp.forEach((item, index) => {
         data.push([item.number, Math.round(inputValue[index] - (item.ugr - item.factH)), Math.round((inputValue[index] - (item.ugr - item.factH)) - item.elevation), 'ok'])
     })
-    dispatch({type: CALCULATION_LIST, payload: data})
+    const finishData = data.map((item, index) => {
+        let temporaryVariable: [number, number, number, string][]  = []
+        temporaryVariable.push(item)
+        if ( index < sortRp.length -1) {
+            const numberOfLines = Math.round(sortRp[index].distance / 2.5)
+            for (let i = 0; i < numberOfLines - 1; i++) {
+                const lines: any  = []
+                // todo куча багов
+                lines.push(i + 1)
+                lines.push(temporaryVariable[i][1] - ((data[index][1] - data[index + 1][1]) / numberOfLines))
+                lines.push(temporaryVariable[i][2] - ((data[index][2] - data[index + 1][2]) / numberOfLines))
+                lines.push('ок')
+                temporaryVariable.push(lines)
+            }
+            return
+        }
+        return temporaryVariable
+    })
+    console.log(finishData)
+    // dispatch({type: CALCULATION_LIST, payload: finishData})
 }
 
 

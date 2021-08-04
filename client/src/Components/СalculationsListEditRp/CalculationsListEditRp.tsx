@@ -3,14 +3,10 @@ import classes from './CalculationsListEditRp.module.css'
 
 interface CalculationsListEditRpType {
     columnName: Array<string>
+    calculationDataList: Array<number>[] | null
 }
 
 
-const testData = [
-    [ 111, '1111', '1111'],
-    [ 22, '222', '2222']
-
-]
 
 
 const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => {
@@ -30,7 +26,8 @@ const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => 
                             )
                         })}
                     </tr>
-                    {testData.map((item, index) => {
+                    {   props.calculationDataList?
+                        props.calculationDataList.map((item, index) => {
                         return (
                             <React.Fragment
                                 key={index}
@@ -63,7 +60,9 @@ const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => 
                             </React.Fragment>
                         )
 
-                    })}
+                    })
+                    : null
+                    }
 
                 </tbody>
             </table>

@@ -39,6 +39,7 @@ type EditRpType = {
     deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) => void
     inputHandler: (eventTarget: mayEvent, inputName: string) => boolean
     calculationList: (sortRp: Array<sortRpObjectType>, inputValue: Array<number>) => void
+    calculationDataList: Array<number>[] | null
 
 }
 
@@ -61,7 +62,8 @@ const EditRp: React.FC<EditRpType> = ({
                                           deltaH_EditRp,
                                           inputValue,
                                           deltaComputed,
-                                          calculationList
+                                          calculationList,
+                                          calculationDataList
 
                                       }) => {
 
@@ -111,6 +113,7 @@ const EditRp: React.FC<EditRpType> = ({
                             />
                             <CalculationsListEditRp
                                 columnName={['№ПП', 'Б.P', 'Д.Р', 'ок']}
+                                calculationDataList={calculationDataList}
 
                             />
                             <ToHome/>
@@ -139,7 +142,8 @@ function mapStateToProps(state: any) {
         fromRp: state.editRpReducer.rpFrom,
         sortRp: state.editRpReducer.sortRp,
         deltaH_EditRp: state.editRpReducer.deltaH_EditRp,
-        inputValue: state.editRpReducer.inputValue
+        inputValue: state.editRpReducer.inputValue,
+        calculationDataList: state.editRpReducer.calculationDataList
     }
 }
 
