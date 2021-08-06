@@ -215,35 +215,44 @@ export function deltaComputed(dispatch: (object: DeltaComputedActionType) => voi
 
 interface CalculationListActionType {
     type: typeof CALCULATION_LIST
-    payload: [number, number, number, string][][]
+    payload: [string, number, number, string][]
 }
 
 export function calculationList(dispatch: (object: CalculationListActionType) => void, sortRp: Array<sortRpObjectType>, inputValue: Array<number>) {
-    let data: [number, number, number, string][] = []
+    let data: [string, number, number, string][] = []
 
     sortRp.forEach((item, index) => {
-        data.push([item.number, Math.round(inputValue[index] - (item.ugr - item.factH)), Math.round((inputValue[index] - (item.ugr - item.factH)) - item.elevation), 'ok'])
-    })
-    const finishData = data.map((item, index) => {
-        let temporaryVariable: [number, number, number, string][]  = []
-        temporaryVariable.push(item)
-        if ( index < sortRp.length -1) {
+            data.push([ `Rp${item.number}`, Math.round(inputValue[index] - (item.ugr - item.factH)*1000), Math.round((inputValue[index] - (item.ugr - item.factH)*1000) - item.elevation), 'ok'])
             const numberOfLines = Math.round(sortRp[index].distance / 2.5)
-            for (let i = 0; i < numberOfLines - 1; i++) {
-                const lines: any  = []
-                // todo куча багов
-                lines.push(i + 1)
-                lines.push(temporaryVariable[i][1] - ((data[index][1] - data[index + 1][1]) / numberOfLines))
-                lines.push(temporaryVariable[i][2] - ((data[index][2] - data[index + 1][2]) / numberOfLines))
-                lines.push('ок')
-                temporaryVariable.push(lines)
+            if (index < sortRp.length - 1) {
+
+                for (let i = 0; i < numberOfLines - 1; i++) {
+                    const lines: any = []
+                    const valueMinIndex = Math.round(inputValue[index] - (item.ugr - item.factH)*1000)
+                    const valueMaxIndex = Math.round(inputValue[index + 1] - (item.ugr - item.factH)*1000)
+                    const elevationMinIndex = Math.round((inputValue[index] - (item.ugr - item.factH)*1000) - item.elevation)
+                    const elevationMaxIndex = Math.round((inputValue[index + 1] - (item.ugr - item.factH)*1000) - item.elevation)
+                    lines.push(`${i + 1}`)
+                    if (numberOfLines < 3) {
+                        if (valueMinIndex > valueMaxIndex) {
+                            lines.push(valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines)))
+                            lines.push(elevationMinIndex - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines)))
+                        } else {
+
+                            lines.push(valueMaxIndex - ((valueMaxIndex - valueMinIndex) / (numberOfLines)))
+                            lines.push(elevationMaxIndex - ((elevationMaxIndex - elevationMinIndex) / (numberOfLines)))
+                        }
+                    }
+
+
+                    lines.push('ок')
+                    data.push(lines)
+                }
+
             }
-            return
         }
-        return temporaryVariable
-    })
-    console.log(finishData)
-    // dispatch({type: CALCULATION_LIST, payload: finishData})
+    )
+     dispatch({type: CALCULATION_LIST, payload: data})
 }
 
 
