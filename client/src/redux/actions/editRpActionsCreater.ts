@@ -222,37 +222,97 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
     let data: [string, number, number, string][] = []
 
     sortRp.forEach((item, index) => {
-            data.push([ `Rp${item.number}`, Math.round(inputValue[index] - (item.ugr - item.factH)*1000), Math.round((inputValue[index] - (item.ugr - item.factH)*1000) - item.elevation), 'ok'])
+            data.push([`Rp${item.number}`, Math.round(inputValue[index] - (item.ugr - item.factH) * 1000), Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation), 'ok'])
             const numberOfLines = Math.round(sortRp[index].distance / 2.5)
             if (index < sortRp.length - 1) {
+                let countValue = 0
+                let countElevation = 0
+                const maxLines: [string, number, number, string] = ['1', 1, 1, '1']
+
 
                 for (let i = 0; i < numberOfLines - 1; i++) {
                     const lines: any = []
-                    const valueMinIndex = Math.round(inputValue[index] - (item.ugr - item.factH)*1000)
-                    const valueMaxIndex = Math.round(inputValue[index + 1] - (item.ugr - item.factH)*1000)
-                    const elevationMinIndex = Math.round((inputValue[index] - (item.ugr - item.factH)*1000) - item.elevation)
-                    const elevationMaxIndex = Math.round((inputValue[index + 1] - (item.ugr - item.factH)*1000) - item.elevation)
-                    lines.push(`${i + 1}`)
+                    const valueMinIndex = Math.round(inputValue[index] - (item.ugr - item.factH) * 1000)
+                    const valueMaxIndex = Math.round(inputValue[index + 1] - (sortRp[index + 1].ugr - sortRp[index + 1].factH) * 1000)
+                    const elevationMinIndex = Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation)
+                    const elevationMaxIndex = Math.round((inputValue[index + 1] - (sortRp[index + 1].ugr - sortRp[index + 1].factH) * 1000) - sortRp[index + 1].elevation)
+
                     if (numberOfLines < 3) {
                         if (valueMinIndex > valueMaxIndex) {
+                            lines.push(`${i + 1}`)
                             lines.push(valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines)))
                             lines.push(elevationMinIndex - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines)))
+                            lines.push('ок')
                         } else {
-
+                            lines.push(`${i + 1}`)
                             lines.push(valueMaxIndex - ((valueMaxIndex - valueMinIndex) / (numberOfLines)))
                             lines.push(elevationMaxIndex - ((elevationMaxIndex - elevationMinIndex) / (numberOfLines)))
+                            lines.push('ок')
+                        }
+                    } else {
+
+                        if (valueMinIndex > valueMaxIndex) {
+
+                            if (countValue < valueMinIndex) {
+                                console.log('test1')
+                                countValue = valueMinIndex
+                                countElevation = elevationMinIndex
+                                lines.push(`${i + 1}`)
+                                lines.push(valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines)))
+                                lines.push(elevationMinIndex + ((elevationMinIndex - elevationMaxIndex) / (numberOfLines)))
+                                lines.push('ок')
+                            } else {
+                                console.log('test2')
+                                countValue = countValue + ((valueMinIndex - valueMaxIndex) / (numberOfLines))
+                                countElevation = countElevation + ((elevationMinIndex - elevationMaxIndex) / (numberOfLines))
+                                lines.push(`${i + 1}`)
+                                lines.push(countValue)
+                                lines.push(countElevation)
+                                lines.push('ок')
+                            }
+
+                        } else {
+                            if (valueMinIndex < valueMaxIndex) {
+                                if (countValue < valueMinIndex) {
+                                    console.log('test3')
+                                    countValue = valueMinIndex
+                                    countElevation = elevationMinIndex
+                                    console.log(valueMaxIndex)
+                                    console.log(valueMinIndex)
+                                    maxLines[0] = `${numberOfLines - 1}`
+                                    maxLines[1] = valueMaxIndex - ((valueMaxIndex - valueMinIndex) / (numberOfLines))
+                                    maxLines[2] = elevationMaxIndex - ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
+                                    maxLines[3] = 'ок'
+                                } else {
+                                    console.log('test4')
+                                    countValue = countValue + ((valueMaxIndex - valueMinIndex) / (numberOfLines))
+                                    countElevation = countElevation + ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
+                                    lines.push(`${i}`)
+                                    lines.push(countValue)
+                                    lines.push(countElevation)
+                                    lines.push('ок')
+                                }
+                            }
+
+
                         }
                     }
+                    if (i === numberOfLines - 2) {
+                        data.push(lines)
+                        data[numberOfLines] = maxLines
 
 
-                    lines.push('ок')
-                    data.push(lines)
+                    } else if (lines.length) {
+                        data.push(lines)
+
+                    }
+
                 }
 
             }
         }
     )
-     dispatch({type: CALCULATION_LIST, payload: data})
+    dispatch({type: CALCULATION_LIST, payload: data})
 }
 
 
