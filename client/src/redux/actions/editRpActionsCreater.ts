@@ -227,7 +227,7 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
             if (index < sortRp.length - 1) {
                 let countValue = 0
                 let countElevation = 0
-                const maxLines: [string, number, number, string] = ['1', 1, 1, '1']
+                let maxLines: [string, number, number, string] = ['1', 1, 1, '1']
 
 
                 for (let i = 0; i < numberOfLines - 1; i++) {
@@ -297,7 +297,7 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
 
                         }
                     }
-                    if (i === numberOfLines - 2) {
+                    if (i === numberOfLines - 2 && maxLines[0] !== '1') {
                         data.push(lines)
                         data[numberOfLines] = maxLines
 
@@ -307,8 +307,12 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
 
                     }
 
-                }
 
+
+                }
+                countValue = 0
+                countElevation = 0
+                maxLines = ['1', 1, 1, '1']
             }
         }
     )
