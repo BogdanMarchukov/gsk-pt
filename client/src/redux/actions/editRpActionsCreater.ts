@@ -219,26 +219,28 @@ interface CalculationListActionType {
 }
 
 export function calculationList(dispatch: (object: CalculationListActionType) => void, sortRp: Array<sortRpObjectType>, inputValue: Array<number>) {
-    let data: [string, number, number, string][] = []
+    let data: [string, number, number, string][] = [] // создаем пустой массив, для формирования строк расчетов в таблицу
 
-    sortRp.forEach((item, index) => {
+    sortRp.forEach((item, index) => { // перебераем отсортерованный массив
+
+            // ===== формеруем первую строку расчетов=========
             data.push([`Rp${item.number}`, Math.round(inputValue[index] - (item.ugr - item.factH) * 1000), Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation), 'ok'])
-            const numberOfLines = Math.round(sortRp[index].distance / 2.5)
-            if (index < sortRp.length - 1) {
-                let countValue = 0
-                let countElevation = 0
-                let maxLines: [string, number, number, string] = ['1', 1, 1, '1']
+            // ================================================
 
+            const numberOfLines = Math.round(sortRp[index].distance / 2.5) // вычесляем колличество промежутоцных строк
+            let countValue = 0
+            let countElevation = 0
+            if (index < sortRp.length - 1) { // исключаем добовление промежуточных строк после последней строки
 
-                for (let i = 0; i < numberOfLines - 1; i++) {
-                    const lines: any = []
-                    const valueMinIndex = Math.round(inputValue[index] - (item.ugr - item.factH) * 1000)
-                    const valueMaxIndex = Math.round(inputValue[index + 1] - (sortRp[index + 1].ugr - sortRp[index + 1].factH) * 1000)
-                    const elevationMinIndex = Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation)
-                    const elevationMaxIndex = Math.round((inputValue[index + 1] - (sortRp[index + 1].ugr - sortRp[index + 1].factH) * 1000) - sortRp[index + 1].elevation)
+                for (let i = 0; i < numberOfLines - 1; i++) { // цикл добавления промежуточных точек
+                    const lines: any = [] // массив с промежуточной строкой
+                    const valueMinIndex = Math.round(inputValue[index] - (item.ugr - item.factH) * 1000) // данные из input введенные пользователем (минимальный индекс)
+                    const valueMaxIndex = Math.round(inputValue[index + 1] - (sortRp[index + 1].ugr - sortRp[index + 1].factH) * 1000) // данные из input введенные пользователем (максимальный индекс)
+                    const elevationMinIndex = Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation) // возвышение (минимальный индекс)
+                    const elevationMaxIndex = Math.round((inputValue[index + 1] - (sortRp[index + 1].ugr - sortRp[index + 1].factH) * 1000) - sortRp[index + 1].elevation) // возвышение (максимальный индекс)
 
-                    if (numberOfLines < 3) {
-                        if (valueMinIndex > valueMaxIndex) {
+                    if (numberOfLines < 3) { // блок добавления одной строки
+                        if (valueMinIndex > valueMaxIndex) { // проверка на возростание отсчета
                             lines.push(`${i + 1}`)
                             lines.push(valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines)))
                             lines.push(elevationMinIndex - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines)))
@@ -249,22 +251,20 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
                             lines.push(elevationMaxIndex - ((elevationMaxIndex - elevationMinIndex) / (numberOfLines)))
                             lines.push('ок')
                         }
-                    } else {
+                    } else { // блок добавления множества промежуточных строк
 
-                        if (valueMinIndex > valueMaxIndex) {
+                        if (valueMinIndex > valueMaxIndex) { // проверка на возростание
 
-                            if (countValue < valueMinIndex) {
-                                console.log('test1')
-                                countValue = valueMinIndex
-                                countElevation = elevationMinIndex
+                            if (countValue < valueMaxIndex) { // сохраняем в счетчик минимальное значение затем будем к нему прибавлять
+                                countValue = valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines))
+                                countElevation = elevationMinIndex - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines))
                                 lines.push(`${i + 1}`)
-                                lines.push(valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines)))
-                                lines.push(elevationMinIndex + ((elevationMinIndex - elevationMaxIndex) / (numberOfLines)))
+                                lines.push(countValue)
+                                lines.push(countElevation)
                                 lines.push('ок')
-                            } else {
-                                console.log('test2')
-                                countValue = countValue + ((valueMinIndex - valueMaxIndex) / (numberOfLines))
-                                countElevation = countElevation + ((elevationMinIndex - elevationMaxIndex) / (numberOfLines))
+                            } else { // прибавляем к минимальному значению каафициент
+                                countValue = countValue - ((valueMinIndex - valueMaxIndex) / (numberOfLines))
+                                countElevation = countElevation - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines))
                                 lines.push(`${i + 1}`)
                                 lines.push(countValue)
                                 lines.push(countElevation)
@@ -272,47 +272,30 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
                             }
 
                         } else {
-                            if (valueMinIndex < valueMaxIndex) {
+                            if (valueMinIndex < valueMaxIndex) { // строки на убывание
                                 if (countValue < valueMinIndex) {
-                                    console.log('test3')
-                                    countValue = valueMinIndex
-                                    countElevation = elevationMinIndex
-                                    console.log(valueMaxIndex)
-                                    console.log(valueMinIndex)
-                                    maxLines[0] = `${numberOfLines - 1}`
-                                    maxLines[1] = valueMaxIndex - ((valueMaxIndex - valueMinIndex) / (numberOfLines))
-                                    maxLines[2] = elevationMaxIndex - ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
-                                    maxLines[3] = 'ок'
-                                } else {
-                                    console.log('test4')
-                                    countValue = countValue + ((valueMaxIndex - valueMinIndex) / (numberOfLines))
-                                    countElevation = countElevation + ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
-                                    lines.push(`${i}`)
+                                    countValue = valueMinIndex + ((valueMaxIndex - valueMinIndex) / (numberOfLines))
+                                    countElevation = elevationMinIndex + ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
+                                    lines.push(`${i + 1}`)
                                     lines.push(countValue)
                                     lines.push(countElevation)
                                     lines.push('ок')
+                                } else {
+                                    countValue = countValue + ((valueMaxIndex - valueMinIndex) / (numberOfLines))
+                                    countElevation = countElevation + ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
+                                    lines.push(`${i + 1}`)
+                                    lines.push(countValue)
+                                    lines.push(countElevation)
+                                    lines.push('ок')
+
                                 }
                             }
 
 
                         }
                     }
-                    if (i === numberOfLines - 2 && maxLines[0] !== '1') {
-                        data.push(lines)
-                        data[numberOfLines] = maxLines
-
-
-                    } else if (lines.length) {
-                        data.push(lines)
-
-                    }
-
-
-
+                    data.push(lines)
                 }
-                countValue = 0
-                countElevation = 0
-                maxLines = ['1', 1, 1, '1']
             }
         }
     )
