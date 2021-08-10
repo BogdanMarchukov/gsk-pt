@@ -1,4 +1,5 @@
 import {
+    ACTIVE_CLASS_LIST,
     CALCULATION_LIST,
     EDIT_RP_INPUT_HANDLER_FROM,
     EDIT_RP_INPUT_HANDLER_TO,
@@ -13,6 +14,7 @@ import {
     UPDATE_RP
 } from "../types";
 import {sortRpObjectType} from "../reducers/editRpReducer";
+import classes from '../../Components/СalculationsListEditRp/CalculationsListEditRp.module.css';
 
 
 // ===========Обработка Inputs==============================
@@ -212,19 +214,24 @@ export function deltaComputed(dispatch: (object: DeltaComputedActionType) => voi
 }
 
 // ============================ Вычесление списка расчетов===================================
+interface payloadCalcType {
+    data: [string, number, number][]
+    classData: string[][]
+    further: '-'| '+'
+}
 
 interface CalculationListActionType {
     type: typeof CALCULATION_LIST
-    payload: [string, number, number, string][]
+    payload: payloadCalcType
 }
 
-export function calculationList(dispatch: (object: CalculationListActionType) => void, sortRp: Array<sortRpObjectType>, inputValue: Array<number>) {
-    let data: [string, number, number, string][] = [] // создаем пустой массив, для формирования строк расчетов в таблицу
+export function calculationList(dispatch: (object: CalculationListActionType) => void, sortRp: Array<sortRpObjectType>, inputValue: Array<number>, further: '-'| '+' = '-') {
+    let data: [string, number, number][] = [] // создаем пустой массив, для формирования строк расчетов в таблицу
 
     sortRp.forEach((item, index) => { // перебераем отсортерованный массив
 
             // ===== формеруем первую строку расчетов=========
-            data.push([`Rp${item.number}`, Math.round(inputValue[index] - (item.ugr - item.factH) * 1000), Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation), 'ok'])
+            data.push([`Rp${item.number}`, Math.round(inputValue[index] - (item.ugr - item.factH) * 1000), Math.round((inputValue[index] - (item.ugr - item.factH) * 1000) - item.elevation)])
             // ================================================
 
             const numberOfLines = Math.round(sortRp[index].distance / 2.5) // вычесляем колличество промежутоцных строк
@@ -244,12 +251,12 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
                             lines.push(`${i + 1}`)
                             lines.push(valueMinIndex - ((valueMinIndex - valueMaxIndex) / (numberOfLines)))
                             lines.push(elevationMinIndex - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines)))
-                            lines.push('ок')
+
                         } else {
                             lines.push(`${i + 1}`)
                             lines.push(valueMaxIndex - ((valueMaxIndex - valueMinIndex) / (numberOfLines)))
                             lines.push(elevationMaxIndex - ((elevationMaxIndex - elevationMinIndex) / (numberOfLines)))
-                            lines.push('ок')
+
                         }
                     } else { // блок добавления множества промежуточных строк
 
@@ -261,14 +268,14 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
                                 lines.push(`${i + 1}`)
                                 lines.push(countValue)
                                 lines.push(countElevation)
-                                lines.push('ок')
+
                             } else { // прибавляем к минимальному значению каафициент
                                 countValue = countValue - ((valueMinIndex - valueMaxIndex) / (numberOfLines))
                                 countElevation = countElevation - ((elevationMinIndex - elevationMaxIndex) / (numberOfLines))
                                 lines.push(`${i + 1}`)
                                 lines.push(countValue)
                                 lines.push(countElevation)
-                                lines.push('ок')
+
                             }
 
                         } else {
@@ -279,14 +286,13 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
                                     lines.push(`${i + 1}`)
                                     lines.push(countValue)
                                     lines.push(countElevation)
-                                    lines.push('ок')
+
                                 } else {
                                     countValue = countValue + ((valueMaxIndex - valueMinIndex) / (numberOfLines))
                                     countElevation = countElevation + ((elevationMaxIndex - elevationMinIndex) / (numberOfLines))
                                     lines.push(`${i + 1}`)
                                     lines.push(countValue)
                                     lines.push(countElevation)
-                                    lines.push('ок')
 
                                 }
                             }
@@ -299,7 +305,51 @@ export function calculationList(dispatch: (object: CalculationListActionType) =>
             }
         }
     )
-    dispatch({type: CALCULATION_LIST, payload: data})
+    // создаем массив css классов для дальнейсего изменения
+    const classData = data.map(item => {
+        const out = item.map(i => classes.activeNo)
+        return out
+    })
+
+    dispatch({type: CALCULATION_LIST, payload: {data, classData, further}})
+}
+
+// =============подсветка элемента таблицы при нажатии================
+interface activeClassOnPayloadType {
+    type: typeof ACTIVE_CLASS_LIST
+    payload: string [][]
+}
+
+export function activeClassOn(dispatch: (object: activeClassOnPayloadType) => void, classListData: string [][], indexArray: number, indexItem: number) {
+
+    if (classListData[indexArray][indexItem] === classes.active) {
+        classListData[indexArray][indexItem] = classes.activeNo
+    } else {
+        classListData[indexArray][indexItem] = classes.active
+    }
+    const updateClassList = JSON.stringify(classListData) // изменение ссылки
+
+    dispatch({type: ACTIVE_CLASS_LIST, payload: JSON.parse(updateClassList)})
+}
+//***********************************************************************************
+
+// ======================изменение знака в поле elevation на противоположный===============================
+
+
+export function elevationRevers(dispatch: any, sortRp: Array<sortRpObjectType>, further: '-' | '+', inputValue: Array<number> ) {
+    let furtherPayload: '-' | '+' = '-'
+    const reversData = sortRp.map(item => {
+        if (further === '+') {
+            furtherPayload = '-'
+            item.elevation = +item.elevation
+        } else {
+            item.elevation = -item.elevation
+            furtherPayload = '+'
+        }
+        return item
+    })
+    dispatch(()=> calculationList(dispatch, reversData, inputValue, furtherPayload))
+
 }
 
 

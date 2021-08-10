@@ -5,9 +5,10 @@ import {connect} from "react-redux"
 import Search from "../../Components/Search/Search";
 import WindowLoadingFile from "../../Components/WindowLoadingFile/WindowLoadingFile";
 import {
+    activeClassOn,
     calculationList,
     chekData,
-    deltaComputed,
+    deltaComputed, elevationRevers,
     inputHandler, mayEvent,
     saveFileRp,
     submitHandler
@@ -39,8 +40,11 @@ type EditRpType = {
     deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) => void
     inputHandler: (eventTarget: mayEvent, inputName: string) => boolean
     calculationList: (sortRp: Array<sortRpObjectType>, inputValue: Array<number>) => void
-    calculationDataList: Array<number>[] | null
-
+    calculationDataList: [string, number, number][] | null
+    classListData: string [][]
+    activeClassOn: (classListData: string [][], indexArray: number, indexItem: number) => void
+    further: '-' | '+'
+    elevationRevers: (sortRp: Array<sortRpObjectType>, further: '-' | '+', inputValue: Array<number>) => void
 }
 
 const EditRp: React.FC<EditRpType> = ({
@@ -63,7 +67,11 @@ const EditRp: React.FC<EditRpType> = ({
                                           inputValue,
                                           deltaComputed,
                                           calculationList,
-                                          calculationDataList
+                                          calculationDataList,
+                                          classListData,
+                                          activeClassOn,
+                                          further,
+                                          elevationRevers
 
                                       }) => {
 
@@ -112,8 +120,14 @@ const EditRp: React.FC<EditRpType> = ({
                                 calculationList={calculationList}
                             />
                             <CalculationsListEditRp
-                                columnName={['№ПП', 'Б.P', 'Д.Р', 'ок']}
+                                columnName={['№ПП', 'Б.P', 'Д.Р']}
                                 calculationDataList={calculationDataList}
+                                classListData={classListData}
+                                activeClassOn={activeClassOn}
+                                further={further}
+                                elevationRevers={elevationRevers}
+                                sortRp={sortRp}
+                                inputValue={inputValue}
 
                             />
                             <ToHome/>
@@ -143,7 +157,9 @@ function mapStateToProps(state: any) {
         sortRp: state.editRpReducer.sortRp,
         deltaH_EditRp: state.editRpReducer.deltaH_EditRp,
         inputValue: state.editRpReducer.inputValue,
-        calculationDataList: state.editRpReducer.calculationDataList
+        calculationDataList: state.editRpReducer.calculationDataList,
+        classListData: state.editRpReducer.classListData,
+        further: state.editRpReducer.further
     }
 }
 
@@ -154,7 +170,9 @@ function mapDispatchToProps(dispatch: any) {
         submitHandler: (toRp: any, fromRp: any, rpList: any) => dispatch(() => submitHandler(dispatch, toRp, fromRp, rpList)),
         deltaComputed: (event: string, sortRp: Array<sortRpObjectType>, deltaH: Array<number>, inputValue: Array<number>, index: number, deltaH_EditRp: Array<number>) => dispatch(() => deltaComputed(dispatch, event, sortRp, deltaH, inputValue, index, deltaH_EditRp)),
         inputHandler: (eventTarget: mayEvent, inputName: string) => dispatch(() => inputHandler(dispatch, eventTarget, inputName)),
-        calculationList: (sortRp: Array<sortRpObjectType>, inputValue: Array<number>) => dispatch(() => calculationList(dispatch, sortRp, inputValue))
+        calculationList: (sortRp: Array<sortRpObjectType>, inputValue: Array<number>) => dispatch(() => calculationList(dispatch, sortRp, inputValue)),
+        activeClassOn: (classListData: string [][], indexArray: number, indexItem: number) => dispatch(() => activeClassOn(dispatch, classListData, indexArray, indexItem)),
+        elevationRevers: (sortRp: Array<sortRpObjectType>, further: '-' | '+', inputValue: Array<number>) => dispatch(() => elevationRevers(dispatch, sortRp, further, inputValue))
     }
 }
 

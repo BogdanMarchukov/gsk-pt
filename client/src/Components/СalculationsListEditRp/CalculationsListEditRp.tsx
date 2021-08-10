@@ -1,17 +1,31 @@
 import React from 'react'
 import classes from './CalculationsListEditRp.module.css'
+// @ts-ignore
+import {Link} from 'react-router-dom'
+import {sortRpObjectType} from "../../redux/reducers/editRpReducer";
+
 
 interface CalculationsListEditRpType {
     columnName: Array<string>
-    calculationDataList: Array<number>[] | null
+    calculationDataList: [string, number, number][] | null
+    classListData: string [][]
+    activeClassOn: (classListData: string [][], indexArray: number, indexItem: number) => void
+    further: '-' | '+'
+    elevationRevers: (sortRp: Array<sortRpObjectType>, further: '-' | '+', inputValue: Array<number>) => void
+    sortRp: Array<sortRpObjectType> | null
+    inputValue: Array<number>
 }
 
 
 
 
 const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => {
+
+
+
     return (
         <div className={classes.wrapper}>
+            <Link onClick={()=> props.sortRp ? props.elevationRevers(props.sortRp, props.further, props.inputValue): null} to={'#'} className="waves-effect  green darken-1 btn">{`${props.further} ДР`}</Link>
             <table>
                 <tbody>
                     {/*название столбцов*/}
@@ -42,6 +56,8 @@ const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => 
                                                     key={indexItem}
                                                 >
                                                     <td
+                                                        onClick={()=> props.activeClassOn(props.classListData, index, indexItem)}
+                                                        className={props.classListData[index][indexItem]}
                                                         key={Math.random()}
                                                     >{i}</td>
                                                 </React.Fragment>
@@ -50,10 +66,11 @@ const CalculationsListEditRp: React.FC<CalculationsListEditRpType> = (props) => 
                                     }
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td colSpan={3}>
                                         {/*// todo редактировать*/}
-                                        <i>121</i>
+                                        <i>+</i>
                                     </td>
+
 
                                 </tr>
 

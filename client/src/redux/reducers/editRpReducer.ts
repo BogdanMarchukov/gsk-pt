@@ -1,4 +1,5 @@
 import {
+    ACTIVE_CLASS_LIST,
     CALCULATION_LIST,
     EDIT_RP_INPUT_HANDLER_FROM,
     EDIT_RP_INPUT_HANDLER_TO,
@@ -25,7 +26,9 @@ interface initStateType {
     rpFrom: number
     deltaH_EditRp: Array<number>
     inputValue: Array<number>
-    calculationDataList: Array<number>[] | null
+    calculationDataList: [string, number, number][] | null
+    classListData: string [][] | null
+    further: '-' | '+'
 
 }
 
@@ -38,7 +41,9 @@ const initState: initStateType = {
     rpFrom: 0,
     deltaH_EditRp: [],
     inputValue: [],
-    calculationDataList: null
+    calculationDataList:  null,
+    classListData: null,
+    further: "-"
 }
 
 export const editRpReducer = (state = initState, action: any): initStateType => {
@@ -55,11 +60,11 @@ export const editRpReducer = (state = initState, action: any): initStateType => 
             }
         case EDIT_RP_INPUT_HANDLER_TO:
             return {
-                ...state, rpTo: action.payload
+                ...state, rpTo: action.payload, sortRp : initState.sortRp, calculationDataList: initState.calculationDataList
             }
         case EDIT_RP_INPUT_HANDLER_FROM:
             return {
-                ...state, rpFrom: action.payload
+                ...state, rpFrom: action.payload, sortRp: initState.sortRp, calculationDataList: initState.calculationDataList
             }
         case SORT_RP_EDIT_PAGE:
 
@@ -79,8 +84,14 @@ export const editRpReducer = (state = initState, action: any): initStateType => 
         case CALCULATION_LIST:
 
             return {
-                ...state, calculationDataList: action.payload
+                ...state, calculationDataList: action.payload.data, classListData: action.payload.classData, further: action.payload.further
             }
+        case ACTIVE_CLASS_LIST:
+
+            return {
+                ...state, classListData: action.payload
+            }
+
         default:
             return state
     }
