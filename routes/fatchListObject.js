@@ -5,7 +5,10 @@ const SaveObject = require('../models/mongoose/SaveObject')
 router.get('/fetch', async (req, res) => {
     try {
         const result = await SaveObject.find()
-        res.send(JSON.stringify(result))
+        res.json(result)
+
+
+
     }catch (e) {
         console.log(e)
     }
