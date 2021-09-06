@@ -54,9 +54,5 @@ async function networkFirst(req) {
         const cachedRes = await cache.match(req)
         return cachedRes
 
-
-
-
-
     }
 }

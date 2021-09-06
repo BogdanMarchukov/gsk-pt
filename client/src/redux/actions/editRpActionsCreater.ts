@@ -186,7 +186,8 @@ export function submitHandler(dispatch: (object: ErrorServerActionType) => boole
     const payloadArr = stringToNumber(validArr) // преобразование from string to number
     const deltaH = payloadArr.map(() => 0) // создание массива длинной отсортированного массива со значением 0
     const inputValue = payloadArr.map(() => 0) // создание массива длинной отсортированного массива со значением 0
-    dispatch({type: SORT_RP_EDIT_PAGE, payload: payloadArr, deltaH, inputValue})
+    const newObject = JSON.stringify(payloadArr)
+    dispatch({type: SORT_RP_EDIT_PAGE, payload: JSON.parse(newObject), deltaH, inputValue})
 }
 
 //***********************************************************************************************

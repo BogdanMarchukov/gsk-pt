@@ -8,8 +8,6 @@ import RpInfo from "./pages/RpInfo/RpInfo";
 import FactRp from "./pages/FactRp/FactRp";
 import EditRp from "./pages/EditRp/EditRp";
 
-
-
 function App() {
     return (
         <Layout>
