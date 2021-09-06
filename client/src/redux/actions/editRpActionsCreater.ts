@@ -205,7 +205,7 @@ export function deltaComputed(dispatch: (object: DeltaComputedActionType) => voi
     if (index > 0) {
         const deltaProject = Math.round((sortRp[index].factH - sortRp[index - 1].factH) * 1000)
         const deltaFact = inputValue[index] - inputValue[index - 1]
-        deltaH_EditRp[index] = deltaProject - deltaFact
+        deltaH_EditRp[index] = deltaProject + deltaFact
 
         const finishData = JSON.stringify(deltaH_EditRp)
         dispatch({type: UPDATE_DELTA_H_EDIT_RP, payload: JSON.parse(finishData)})
