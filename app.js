@@ -5,7 +5,7 @@ const fileMiddleware = require('./middleware/file')
 const mongoose = require('mongoose')
 const path = require('path')
 
-const PORT = config.get('port') || 5000
+const PORT = 5000 //config.get('port') || 5000
 app.use(fileMiddleware.fields([
     {name: "csv", maxCount: 2},
     {name: "dataFile", maxCount: 1}
