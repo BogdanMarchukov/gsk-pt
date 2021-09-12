@@ -1,10 +1,19 @@
-const staticCacheName = 'static-app - v5'
+const staticCacheName = 'static-app - v32'
 const dynamicCacheName = 'dynamic - v5'
 const staticUrl = [
     'index.html',
     '/static/js/bundle.js',
     '/static/js/main.chunk.js',
-    '/static/js/vendors~main.chunk.js'
+    '/static/js/vendors~main.chunk.js',
+    'manifest.json',
+    '/icons/icon-48-48.png',
+    '/icons/icon-72-72.png',
+    '/icons/icon-96-96.png',
+    '/icons/icon-144-144.png',
+    '/icons/icon-192-192.png',
+    '/icons/icon-512-512.png',
+    'favicon.ico'
+
 ]
 
 self.addEventListener('install', async event => {
@@ -40,14 +49,15 @@ self.addEventListener('fetch', event => {
 
 async function cacheFirst(req) {
     const url = new URL(req.url)
-    console.log(url, 'url111')
     if (url.pathname === '/') {
         const cached = await caches.match(`${url.origin}/index.html`)
         return cached ??  await fetch(req)
     }
     const cached = await caches.match(req.url)
+    console.log(cached, 'cached')
 
-    return cached ??  await fetch(req)
+    return cached ?? await fetch(req)
+
 
 
 }
