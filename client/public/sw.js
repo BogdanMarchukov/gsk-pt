@@ -41,7 +41,7 @@ self.addEventListener('fetch', event => {
 async function cacheFirst(req) {
     const cached = await caches.match(req)
     console.log(cached, 'cached')
-    return cached ?? console.log('error 11111') //await fetch(req)
+    return cached ?? await fetch(req)
 }
 
 async function networkFirst(req) {
