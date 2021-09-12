@@ -31,7 +31,7 @@ self.addEventListener('fetch', event => {
     if (url.pathname === '/') {
         event.respondWith(cacheFirst(request))
     } else {
-        event.respondWith(networkFirst(request))
+       // event.respondWith(networkFirst(request))
 
     }
 
@@ -40,7 +40,8 @@ self.addEventListener('fetch', event => {
 
 async function cacheFirst(req) {
     const cached = await caches.match(req)
-    return cached ?? await fetch(req)
+    console.log(cached, 'cached')
+    return cached ?? console.log('error 11111') //await fetch(req)
 }
 
 async function networkFirst(req) {
