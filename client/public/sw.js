@@ -1,5 +1,5 @@
-const staticCacheName = 'static-app - v2'
-const dynamicCacheName = 'dynamic - v3'
+const staticCacheName = 'static-app - v5'
+const dynamicCacheName = 'dynamic - v5'
 const staticUrl = [
     'index.html',
     '/static/js/bundle.js',
@@ -28,7 +28,7 @@ self.addEventListener('fetch', event => {
     const {request} = event
     const url = new URL(request.url)
 
-    if (url.pathname === '/') {
+    if (url.origin === location.origin) {
         event.respondWith(cacheFirst(request))
     } else {
        // event.respondWith(networkFirst(request))
@@ -39,9 +39,17 @@ self.addEventListener('fetch', event => {
 })
 
 async function cacheFirst(req) {
-    const cached = await caches.match(req)
-    console.log(cached, 'cached')
-    return cached ?? await fetch(req)
+    const url = new URL(req.url)
+    console.log(url, 'url111')
+    if (url.pathname === '/') {
+        const cached = await caches.match(`${url.origin}/index.html`)
+        return cached ??  await fetch(req)
+    }
+    const cached = await caches.match(req.url)
+
+    return cached ??  await fetch(req)
+
+
 }
 
 async function networkFirst(req) {
