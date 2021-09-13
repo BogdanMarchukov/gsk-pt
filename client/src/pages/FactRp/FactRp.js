@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
 import {connect} from 'react-redux'
 import classes from './FactRp.module.css'
-import TableData from "../../Components/TablData/TableData";
+import TableData from "../../Components/TablData/TableData.tsx";
 import {
     funcDecrement,
     funcIncrement,

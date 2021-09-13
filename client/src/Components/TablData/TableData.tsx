@@ -2,7 +2,20 @@ import React from 'react'
 import classes from './TableData.module.css'
 import {Link} from "react-router-dom";
 
-const TableData = (props) => {
+interface TableDataPropType {
+    tableName: string
+    columnName: string[]
+    edit?: any
+    data:  number[][] | string[][]
+    id?: number
+    title?: string
+    funcIncrement?: any
+    funcDecrement?: any
+    buttonHandler?: any
+
+}
+
+const TableData = (props: TableDataPropType) => {
        // праверяем наличие данных в таблице
     if (props.data[0].length) {
         return (
@@ -25,7 +38,7 @@ const TableData = (props) => {
                             )
                         })}
                     </tr>
-                    {props.data.map((itemK, indexK) => {
+                    {props.data.map((itemK , indexK) => {
                         return (
                             <tr key={indexK * 22}>
                                 {itemK.map((item, index) => {
@@ -43,7 +56,13 @@ const TableData = (props) => {
                                                             <div className={`${classes.flexColumn} ${classes.data}`}>
                                                                 <i
                                                                     className={'material-icons'}
-                                                                    onClick={()=> props.funcIncrement(props.data, props.edit[i], indexK)}
+
+                                                                        onClick={
+                                                                            ()=> props.funcIncrement(props.data,  props.edit[i], indexK)
+                                                                        }
+
+
+
                                                                 >
                                                                     keyboard_arrow_up
                                                                 </i>

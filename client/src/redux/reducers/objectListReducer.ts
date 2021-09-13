@@ -43,7 +43,7 @@ type objectListType = {
     title: string
     __v: number
 }
-type currentObjectType = {
+export type currentObjectType = {
     pvo: Array<pvoType>
     rp?: rpType
     _id?: string
@@ -61,7 +61,7 @@ type countdownRpType = {
     calculation: string
 }
 
-interface InitStateType {
+export interface InitStateType {
     objectList : Array<objectListType>
     update: boolean
     loading: boolean

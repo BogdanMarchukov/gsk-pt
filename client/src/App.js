@@ -3,10 +3,11 @@ import 'materialize-css'
 import Layout from "./Layout/Layout";
 import {Switch, Route, BrowserRouter} from 'react-router-dom'
 import HomePage from "./pages/HomePage/HomePage";
-import OptionsPage from "./pages/OptionsPage/OptionsPage";
+import OptionsPage from "./pages/OptionsPage/OptionsPage.tsx";
 import RpInfo from "./pages/RpInfo/RpInfo";
 import FactRp from "./pages/FactRp/FactRp";
 import EditRp from "./pages/EditRp/EditRp";
+import RpListPage from "./pages/RpListPage/RpListPage";
 
 function App() {
     return (
@@ -27,6 +28,9 @@ function App() {
                     </Route>
                     <Route path='/edit-rp' exact>
                         <EditRp/>
+                    </Route>
+                    <Route path='/rp-list' exact>
+                        <RpListPage/>
                     </Route>
                 </Switch>
             </BrowserRouter>
