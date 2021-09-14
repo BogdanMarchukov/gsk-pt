@@ -1,19 +1,22 @@
 import React from 'react'
 import ToHome from "../../Components/ToHome/ToHome";
 import TableData from "../../Components/TablData/TableData";
+import classes from './RpListPage.module.css'
+import FilterData from "../../Components/FilterData/FilterData";
 
 type Props = {
     
 }
 const RpListPage = (props: Props) => {
     return (
-        <div>
-            <h1>Hello RpListPage</h1>
+        <div className={classes.wrapper}>
+            <FilterData/>
             <TableData
-                tableName={'test'}
+                tableName={'title'}
                 columnName={['1', '2', '3', '4', '5']}
                 data={[[1,2,3,4,5]]}
             />
+
             <ToHome/>
         </div>
     )

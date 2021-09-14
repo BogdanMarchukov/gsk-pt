@@ -1,0 +1,17 @@
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex span {
+    color: black;
+}
+
+@media (min-width: 400px ) {
+    .flex {
+        justify-content: center;
+    }
+    .flex p {
+        margin: 0 20px;
+    }
+}
