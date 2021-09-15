@@ -7,43 +7,43 @@ import {connect} from "react-redux";
 
 type Props = {
     checked: boolean[]
+    title: string
+    filter: string[]
+    listData: number[][]
 }
 const RpListPage = (props: Props) => {
     return (
         <div className={classes.wrapper}>
             <FilterData
                 inputList={[
+
                     {
                         checkDefault: props.checked[0], inputHandler: () => {
-                        }, inputName: '№ Rp'
-                    },
-                    {
-                        checkDefault: props.checked[1], inputHandler: () => {
                         }, inputName: 'PK'
                     },
                     {
-                        checkDefault: props.checked[2], inputHandler: () => {
+                        checkDefault: props.checked[1], inputHandler: () => {
                         }, inputName: 'H-Пр.'
                     },
                     {
-                        checkDefault: props.checked[3], inputHandler: () => {
+                        checkDefault: props.checked[2], inputHandler: () => {
                         }, inputName: 'H-Факт'
                     },
                     {
-                        checkDefault: props.checked[4], inputHandler: () => {
+                        checkDefault: props.checked[3], inputHandler: () => {
                         }, inputName: 'Возвыш.'
                     },
                     {
-                        checkDefault: props.checked[5], inputHandler: () => {
+                        checkDefault: props.checked[4], inputHandler: () => {
                         }, inputName: 'Домер'
                     }
 
                 ]}
             />
             <TableData
-                tableName={'title'}
-                columnName={['1', '2', '3', '4', '5']}
-                data={[[1,2,3,4,5]]}
+                tableName={props.title}
+                columnName={props.filter}
+                data={props.listData}
             />
 
             <ToHome/>
@@ -53,7 +53,10 @@ const RpListPage = (props: Props) => {
 
 function mapStateToProps(state: any) {
     return {
-        checked: state.rpListReducer.checked
+        checked: state.rpListReducer.checked,
+        title: state.objectListReducer.currentObject.title,
+        filter: state.rpListReducer.filter,
+        listData: state.rpListReducer.listData
     }
 }
 

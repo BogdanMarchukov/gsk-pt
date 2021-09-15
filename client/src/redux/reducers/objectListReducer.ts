@@ -112,6 +112,7 @@ const initState: InitStateType = {
 export const objectListReducer = (state = initState, action: any): InitStateType => {
 
 
+
     switch (action.type){
         case UPDATE_LIST_OBJECT:
             return {
@@ -123,7 +124,7 @@ export const objectListReducer = (state = initState, action: any): InitStateType
             }
         case CURRENT_OBJECT:
             return {
-                ...state, currentObject: action.payload
+                ...state, currentObject: action.payload.list
             }
         case SELECT_TAB:
             return {
