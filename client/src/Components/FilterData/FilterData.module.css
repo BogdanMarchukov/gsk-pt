@@ -7,11 +7,12 @@
     color: black;
 }
 
+
 @media (min-width: 400px ) {
     .flex {
         justify-content: center;
     }
     .flex p {
-        margin: 0 20px;
+        margin: 10px 50px;
     }
 }

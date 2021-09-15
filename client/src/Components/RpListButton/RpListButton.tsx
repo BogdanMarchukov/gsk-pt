@@ -14,7 +14,7 @@ const RpListButton = () => {
                 >
                     format_list_numbered
                 </i>
-                Список Rp
+                Каталог Rp
             </Link>
         </div>
 
