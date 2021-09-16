@@ -1,5 +1,5 @@
-const staticCacheName = 'static-app - v2'
-const dynamicCacheName = 'dynamic - v1'
+const staticCacheName = 'static-app - v5'
+const dynamicCacheName = 'dynamic - v4'
 const staticUrl = [
     'index.html',
     '/static/js/bundle.js',
@@ -71,10 +71,10 @@ async function networkFirst(req) {
         const response = await fetch(req)
 
         await cache.put(req, response.clone())
-        console.log(response)
+
         return response
     } catch (e) {
-        console.log('zzz')
+
         return await cache.match(req)
 
     }
