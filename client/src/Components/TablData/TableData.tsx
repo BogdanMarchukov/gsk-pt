@@ -1,10 +1,11 @@
 import React from 'react'
 import classes from './TableData.module.css'
 import {Link} from "react-router-dom";
+import {filter} from "../../redux/actions/rpListActionCreater";
 
 interface TableDataPropType {
     tableName: string
-    columnName: string[]
+    columnName: string[] | filter
     edit?: any
     data:  number[][] | string[][]
     id?: number
@@ -26,16 +27,19 @@ const TableData = (props: TableDataPropType) => {
                     <tbody>
                     <tr key={Math.random()}>
                         {props.columnName.map((item, index) => {
-                            return (
-                                <React.Fragment
-                                    key={index * 100}
-                                >
-                                    <th>{item} </th>
+                            if (item) {
+                                return (
+                                    <React.Fragment
+                                        key={index * 100}
+                                    >
+                                        <th>{item} </th>
 
 
-                                </React.Fragment>
+                                    </React.Fragment>
 
-                            )
+                                )
+                            }
+                            return null
                         })}
                     </tr>
                     {props.data.map((itemK , indexK) => {
@@ -77,26 +81,31 @@ const TableData = (props: TableDataPropType) => {
                                                     </React.Fragment>
                                                 )
                                             }
-                                            else return (
-                                                // если нет спецыальных полей просто выводим данные
-                                                <React.Fragment
-                                                    key={index * 101}
-                                                >
-                                                    <td>{item}</td>
-                                                </React.Fragment>
-                                            )
-                                        }
-                                        return true
-                                    }
-                                    else return (
-                                        // вывод табличных данных
-                                        <React.Fragment
-                                            key={index * 101}
-                                        >
-                                            <td>{item}</td>
-                                        </React.Fragment>
-                                    )
 
+                                            else if (item){
+                                                return (
+                                                    // если нет спецыальных полей просто выводим данные
+                                                    <React.Fragment
+                                                        key={index * 101}
+                                                    >
+                                                        <td>{item}</td>
+                                                    </React.Fragment>
+                                                )
+                                            }
+                                        }
+                                        return null
+                                    }
+                                    else if (item) {
+                                        return (
+                                            // вывод табличных данных
+                                            <React.Fragment
+                                                key={index * 101}
+                                            >
+                                                <td>{item}</td>
+                                            </React.Fragment>
+                                        )
+                                    }
+                                    return null
                                 })}
                             </tr>
                         )

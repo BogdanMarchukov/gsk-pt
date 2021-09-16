@@ -10,7 +10,6 @@ export function currentInfoObject(dispatch, list) {
         data.push(+item.ugr)
         listData.push(data)
     })
-    console.log(listData)
 
     dispatch({type: CURRENT_OBJECT, payload: {list, listData} })
 }

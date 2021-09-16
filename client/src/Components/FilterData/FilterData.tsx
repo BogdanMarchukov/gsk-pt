@@ -47,7 +47,7 @@ const FilterData = (props: Props) => {
                                     return (
                                         <p key={(indexI + 1) * 5}>
                                             <label key={(indexI + 1) * 2}>
-                                                <input onChange={()=> true} checked={i.checkDefault} key={(indexI + 1) * 3} type="checkbox" className="filled-in"/>
+                                                <input onChange={() => i.inputHandler()}  checked={i.checkDefault} key={(indexI + 1) * 3} type="checkbox" className="filled-in"/>
                                                 <span key={(indexI + 1) * 4}>{i.inputName}</span>
                                             </label>
                                         </p>
