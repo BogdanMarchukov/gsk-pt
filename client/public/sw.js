@@ -14,9 +14,9 @@ const staticUrl = [
     '/icons/icon-512-512.png',
     'favicon.ico',
     'static/css/2.0f7ccd32.chunk.css',
-    'static/css/main.81888e3b.chunk.css',
-    'static/js/main.8db47e19.chunk.js',
-    'static/js/2.21c8389d.chunk.js'
+    'static/css/main.994899a3.chunk.css',
+    'static/js/main.5ae4c14e.chunk.js',
+    'static/js/2.27a3e958.chunk.js'
 
 ]
 
