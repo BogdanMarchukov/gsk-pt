@@ -1,5 +1,5 @@
 import {rpType} from "../reducers/objectListReducer";
-import {ADD_DATA_LIST_DATA_RP, CLEAR_DATA_LIST_DATA_RP} from "../types";
+import {ADD_DATA_LIST_DATA_RP, CLEAR_DATA_LIST_DATA_RP, SEARCH_RP_INPUT_HANDLER} from "../types";
 
 //=================Функция обработки фильтров ======================================================================
 export type filter = ['№ Rp' | null, 'PK' | null, 'H-Пр.' | null, 'H-Факт' | null, 'Возвыш.' | null, 'Домер' | null]
@@ -163,4 +163,14 @@ const cleatData = (data: listData, index: number) => {
         })
         return itemData
     })
+}
+
+// ================ поиск репера из списка============================
+interface searchInputHandlerDispatch {
+    type: typeof SEARCH_RP_INPUT_HANDLER
+    payload: string
+}
+
+export function searchInputHandler (dispatch: (object: searchInputHandlerDispatch) => void, eventTarget: string) {
+    dispatch({type: SEARCH_RP_INPUT_HANDLER, payload: eventTarget})
 }

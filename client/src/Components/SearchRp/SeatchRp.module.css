@@ -1,0 +1,8 @@
+.displayFlex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.displayFlex a {
+    margin-left: 10px;
+}

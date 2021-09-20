@@ -5,9 +5,10 @@ import classes from './RpListPage.module.css'
 import FilterData from "../../Components/FilterData/FilterData";
 import {connect} from "react-redux";
 import {rpType} from "../../redux/reducers/objectListReducer";
-import {filter} from "../../redux/actions/rpListActionCreater";
+import {filter, searchInputHandler} from "../../redux/actions/rpListActionCreater";
 import {listData} from "../../redux/actions/rpListActionCreater";
 import {rpListInputHandler} from "../../redux/actions/rpListActionCreater";
+import SearchRp from "../../Components/SearchRp/SearchRp";
 
 type Props = {
     checked: boolean[]
@@ -23,6 +24,7 @@ type Props = {
 
     )=> void
     rp: Array<rpType>
+    searchInputHandler: (eventTarget: string) => void
 }
 const RpListPage = (props: Props) => {
 
@@ -60,6 +62,9 @@ const RpListPage = (props: Props) => {
 
                 ]}
             />
+            <SearchRp
+                searchInputHandler={props.searchInputHandler}
+            />
             <TableData
                 tableName={props.title}
                 columnName={props.filter}
@@ -89,7 +94,8 @@ function mapDispatchToProps(dispatch: any) {
             checked: boolean[],
             rp: Array<rpType>,
             listData: listData
-        )=> dispatch (()=> rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData))
+        )=> dispatch (()=> rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData)),
+        searchInputHandler: (eventTarget: string) => dispatch (()=> searchInputHandler(dispatch, eventTarget))
     }
 }
 
