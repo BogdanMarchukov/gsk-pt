@@ -5,10 +5,11 @@ import classes from './RpListPage.module.css'
 import FilterData from "../../Components/FilterData/FilterData";
 import {connect} from "react-redux";
 import {rpType} from "../../redux/reducers/objectListReducer";
-import {filter, searchInputHandler} from "../../redux/actions/rpListActionCreater";
+import {buttonHandler, filter, searchInputHandler} from "../../redux/actions/rpListActionCreater";
 import {listData} from "../../redux/actions/rpListActionCreater";
 import {rpListInputHandler} from "../../redux/actions/rpListActionCreater";
 import SearchRp from "../../Components/SearchRp/SearchRp";
+import Errors from "../../Components/Errors/Errors";
 
 type Props = {
     checked: boolean[]
@@ -24,13 +25,21 @@ type Props = {
 
     )=> void
     rp: Array<rpType>
-    searchInputHandler: (eventTarget: string) => void
+    searchInputHandler: (eventTarget: string, listDataCache: number[][]) => void
+    buttonHandler: (listData: number[][], numberRp: number) => void
+    searchInput: number
+    listDataCache: number[][]
+    errorMassage: string | null
+    error: boolean
 }
 const RpListPage = (props: Props) => {
 
-
     return (
         <div className={classes.wrapper}>
+            <Errors
+                errorMassage={props.errorMassage}
+                error={props.error}
+            />
             <FilterData
                 inputList={[
 
@@ -64,12 +73,15 @@ const RpListPage = (props: Props) => {
             />
             <SearchRp
                 searchInputHandler={props.searchInputHandler}
+                buttonHandler={()=> props.buttonHandler(props.listData, props.searchInput)}
+                listDataCache={props.listDataCache}
             />
             <TableData
                 tableName={props.title}
                 columnName={props.filter}
                 data={props.listData}
             />
+
 
             <ToHome/>
         </div>
@@ -82,7 +94,11 @@ function mapStateToProps(state: any) {
         title: state.objectListReducer.currentObject.title,
         filter: state.rpListReducer.filter,
         listData: state.rpListReducer.listData,
-        rp: state.objectListReducer.currentObject.rp
+        rp: state.objectListReducer.currentObject.rp,
+        searchInput: state.rpListReducer.searchInput,
+        listDataCache: state.rpListReducer.listDataCache,
+        errorMassage: state.rpListReducer.errorMassage,
+        error: state.rpListReducer.error
     }
 }
 
@@ -95,7 +111,8 @@ function mapDispatchToProps(dispatch: any) {
             rp: Array<rpType>,
             listData: listData
         )=> dispatch (()=> rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData)),
-        searchInputHandler: (eventTarget: string) => dispatch (()=> searchInputHandler(dispatch, eventTarget))
+        searchInputHandler: (eventTarget: string, listDataCache: number[][]) => dispatch (()=> searchInputHandler(dispatch, eventTarget, listDataCache)),
+        buttonHandler: (listData: number[][], numberRp: number) => dispatch (()=> buttonHandler(dispatch, listData, numberRp))
     }
 }
 

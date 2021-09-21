@@ -1,5 +1,11 @@
 import {rpType} from "../reducers/objectListReducer";
-import {ADD_DATA_LIST_DATA_RP, CLEAR_DATA_LIST_DATA_RP, SEARCH_RP_INPUT_HANDLER} from "../types";
+import {
+    ADD_DATA_LIST_DATA_RP,
+    CLEAR_DATA_LIST_DATA_RP, ERROR_RESET_RP_LIST_PAGE,
+    ERROR_RP_LIST_PAGE,
+    SEARCH_RP_BUTTON_HANDLER,
+    SEARCH_RP_INPUT_HANDLER
+} from "../types";
 
 //=================Функция обработки фильтров ======================================================================
 export type filter = ['№ Rp' | null, 'PK' | null, 'H-Пр.' | null, 'H-Факт' | null, 'Возвыш.' | null, 'Домер' | null]
@@ -166,11 +172,44 @@ const cleatData = (data: listData, index: number) => {
 }
 
 // ================ поиск репера из списка============================
-interface searchInputHandlerDispatch {
-    type: typeof SEARCH_RP_INPUT_HANDLER
-    payload: string
+interface searchInputHandlerPayload {
+    eventTarget: string
+    listDataCache: number[][]
 }
 
-export function searchInputHandler (dispatch: (object: searchInputHandlerDispatch) => void, eventTarget: string) {
-    dispatch({type: SEARCH_RP_INPUT_HANDLER, payload: eventTarget})
+interface searchInputHandlerDispatch {
+    type: typeof SEARCH_RP_INPUT_HANDLER
+    payload: searchInputHandlerPayload
+}
+// сохранение event в store
+export function searchInputHandler (dispatch: (object: searchInputHandlerDispatch) => void, eventTarget: string, listDataCache: number[][]) {
+    dispatch({type: SEARCH_RP_INPUT_HANDLER, payload: {eventTarget, listDataCache: JSON.parse(JSON.stringify(listDataCache))}})
+}
+
+interface errorType {
+    errorMassage: string | null
+    error: boolean
+}
+
+interface buttonHandlerDispatchType {
+    type: typeof SEARCH_RP_BUTTON_HANDLER | typeof ERROR_RP_LIST_PAGE | typeof ERROR_RESET_RP_LIST_PAGE
+    payload: number[][] | errorType
+}
+
+// обработчик кнопки поиск
+export function buttonHandler (dispatch: (object: buttonHandlerDispatchType)=> void, listData: number[][], numberRp: number) {
+    const outData: number[][] = []
+        listData.forEach(item => {
+        if (item[0] >= numberRp) {
+            outData.push(item)
+        }
+    })
+    if (outData.length) {
+        dispatch({type: SEARCH_RP_BUTTON_HANDLER, payload: outData})
+    } else {
+        dispatch({type: ERROR_RP_LIST_PAGE, payload: {errorMassage: 'Репер не найден', error: true} })
+        setTimeout(()=> {
+            dispatch({type: ERROR_RESET_RP_LIST_PAGE, payload: {errorMassage: null, error: false}})
+        }, 200)
+    }
 }
