@@ -1,4 +1,4 @@
-const staticCacheName = 'static-app - v5'
+const staticCacheName = 'static-app - v6'
 const dynamicCacheName = 'dynamic - v4'
 const staticUrl = [
     'index.html',
