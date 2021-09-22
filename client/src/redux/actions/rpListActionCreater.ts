@@ -1,4 +1,4 @@
-import {rpType} from "../reducers/objectListReducer";
+import {currentObjectType, rpType} from "../reducers/objectListReducer";
 import {
     ADD_DATA_LIST_DATA_RP,
     CLEAR_DATA_LIST_DATA_RP, ERROR_RESET_RP_LIST_PAGE,
@@ -6,6 +6,7 @@ import {
     SEARCH_RP_BUTTON_HANDLER,
     SEARCH_RP_INPUT_HANDLER
 } from "../types";
+import {currentInfoObject} from "./optionsPageActionsCreater";
 
 //=================Функция обработки фильтров ======================================================================
 export type filter = ['№ Rp' | null, 'PK' | null, 'H-Пр.' | null, 'H-Факт' | null, 'Возвыш.' | null, 'Домер' | null]
@@ -174,7 +175,8 @@ const cleatData = (data: listData, index: number) => {
 // ================ поиск репера из списка============================
 interface searchInputHandlerPayload {
     eventTarget: string
-    listDataCache: number[][]
+    rpList: rpType[]
+
 }
 
 interface searchInputHandlerDispatch {
@@ -182,8 +184,10 @@ interface searchInputHandlerDispatch {
     payload: searchInputHandlerPayload
 }
 // сохранение event в store
-export function searchInputHandler (dispatch: (object: searchInputHandlerDispatch) => void, eventTarget: string, listDataCache: number[][]) {
-    dispatch({type: SEARCH_RP_INPUT_HANDLER, payload: {eventTarget, listDataCache: JSON.parse(JSON.stringify(listDataCache))}})
+export function searchInputHandler (dispatch: (object: searchInputHandlerDispatch) => void, eventTarget: string, list: currentObjectType) {
+    const rpList = JSON.parse(JSON.stringify(list.rp))
+    currentInfoObject(dispatch, list)
+    dispatch({type: SEARCH_RP_INPUT_HANDLER, payload: {eventTarget, rpList}})
 }
 
 interface errorType {
@@ -191,21 +195,28 @@ interface errorType {
     error: boolean
 }
 
+interface buttonHandlerPayloadType {
+    outData: number[][]
+    outRpList: rpType[]
+}
+
 interface buttonHandlerDispatchType {
     type: typeof SEARCH_RP_BUTTON_HANDLER | typeof ERROR_RP_LIST_PAGE | typeof ERROR_RESET_RP_LIST_PAGE
-    payload: number[][] | errorType
+    payload: buttonHandlerPayloadType | errorType
 }
 
 // обработчик кнопки поиск
-export function buttonHandler (dispatch: (object: buttonHandlerDispatchType)=> void, listData: number[][], numberRp: number) {
+export function buttonHandler (dispatch: (object: buttonHandlerDispatchType)=> void, listData: number[][], numberRp: number, rpList: rpType[]) {
     const outData: number[][] = []
         listData.forEach(item => {
         if (item[0] >= numberRp) {
             outData.push(item)
         }
     })
+    const outRpList = rpList.filter(i => +i.number >= numberRp)
+
     if (outData.length) {
-        dispatch({type: SEARCH_RP_BUTTON_HANDLER, payload: outData})
+        dispatch({type: SEARCH_RP_BUTTON_HANDLER, payload: {outData, outRpList} })
     } else {
         dispatch({type: ERROR_RP_LIST_PAGE, payload: {errorMassage: 'Репер не найден', error: true} })
         setTimeout(()=> {
