@@ -1,4 +1,4 @@
-const staticCacheName = 'static-app - v6'
+const staticCacheName = 'static-app - v7'
 const dynamicCacheName = 'dynamic - v4'
 const staticUrl = [
     'index.html',
@@ -13,10 +13,10 @@ const staticUrl = [
     '/icons/icon-192-192.png',
     '/icons/icon-512-512.png',
     'favicon.ico',
-    'static/css/2.0f7ccd32.chunk.css',
-    'static/css/main.07ad4a85.chunk.css',
-    'static/js/main.f7631121.chunk.js',
-    'static/js/2.5b71ad1d.chunk.js'
+    'static/css/*.chunk.css',
+    'static/css/main.*.chunk.css',
+    'static/js/main.*.chunk.js',
+    'static/js/*.chunk.js'
 
 ]
 
