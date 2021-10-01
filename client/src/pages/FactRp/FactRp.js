@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
+import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu.tsx";
 import {connect} from 'react-redux'
 import classes from './FactRp.module.css'
 import TableData from "../../Components/TablData/TableData.tsx";
@@ -36,8 +36,8 @@ const FactRp = ({
                     :
                     <div className={classes.fact}>
                         <NavBarMenu
-                            btnName={["Главная", 'Репера', 'Рихтовка', "Назад"]}
-                            linkTo={['/', '/rp', '/', '/options']}
+                            btnName={["Главная", 'Репера', 'Рихтовка', 'Каталог_RP', 'Назад']}
+                            linkTo={['/', '/rp','/edit-rp' ,'/rp-list',  '/options']}
                         />
                         <h1>{title}</h1>
                         <TableData

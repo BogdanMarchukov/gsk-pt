@@ -12,93 +12,100 @@ import {
 import InstallationRp from "../../Components/InstallationRp/InstallationRp";
 import ShootingRp from "../../Components/ShootingRp/ShootingRp";
 import Errors from "../../Components/Errors/Errors";
-
+import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
 
 
 const RpInfo = (props) => {
 
     return (
-        <div className={`container ${classes.RpInfo}`}>
-            <h1>{props.title}</h1>
-            <div className={'card'}>
-                <div className={'row'}>
-                    <div
-                        className={`col s6 ${classes.btn} ${classes.border} ${props.activeInstallationRp}`}
-                        onClick={() => props.selectTab(true)}
-                    >
-                        <span>Установка RP</span>
-                    </div>
-                    <div
-                        onClick={() => props.selectTab(false)}
-                        className={`col s6 ${classes.btn} ${classes.border} ${props.activeShootingRp}`}
-
-                    >
-                        <span>Съемка RP</span>
-                    </div>
-                    <div className={`col s12 light-blue lighten-4 ${classes.card}`}>
-                        {
-                             props.rpInfoOption ?
-                                 <InstallationRp
-                                     pzFrom={props.pzFrom}
-                                     pzBefore={props.pzBefore}
-                                     pzFromGi={props.pzFromGi}
-                                     pzBeforeGi={props.pzBeforeGi}
-                                     startPzChengHandler={props.startPzChengHandler}
-                                     searchPZ={props.searchPZ}
-                                     rp={props.rp}
-                                     pvo={props.pvo}
-                                     startPzFrom={props.startPzFrom}
-                                     startPzBefore={props.startPzBefore}
-                                     calculationGi={props.calculationGi}
-                                     calculationRpList={props.calculationRpList}
-                                     rpList={props.rpList}
-                                     exactFrom={props.exactFrom}
-                                     exactBefore={props.exactBefore}
-                                     averageGi={props.averageGi}
-                                     keyH={props.keyH}
-                                     countdownRp={props.countdownRp}
-                                     itemClass={props.itemClass}
-                                     countdownRpList={props.countdownRpList}
-                                     contentInit={props.contentInit}
-                                     activeTab={props.activeTab}
-
-
-                                 />
-                                 :
-                                 <ShootingRp
-                                     calculationGi={props.calculationGi}
-                                     pzFrom={props.pzFrom}
-                                     keyH={props.keyH}
-                                     pzFromGi={props.pzFromGi}
-                                     exactFrom={props.exactFrom}
-                                     calculationRpList={props.calculationRpList}
-                                     rpList={props.rpList}
-                                     averageGi={props.averageGi}
-                                     exactBefore={props.exactBefore}
-                                     countdownRp={props.countdownRp}
-                                     itemClass={props.itemClass}
-                                     pzBeforeGi={props.pzBeforeGi}
-                                     pzBefore={props.pzBefore}
-                                     activeTab={props.activeTab}
-                                     showList={props.showList}
-                                     sortRp={props.rpList}
-                                     deltaH={props.deltaH}
-                                     saveDataToLocalStorage={props.saveDataToLocalStorage}
-                                     nameObject={props.title}
-
-                                 />
-                        }
-                    </div>
-
-                </div>
-            </div>
-            <Errors
-                error={props.error}
-                errorMassage={props.errorMassage}
+        <>
+            <NavBarMenu
+                btnName={["Главная", 'Рихтовка', 'Каталог_RP', 'Съемка', 'Назад']}
+                linkTo={['/', '/edit-rp', '/rp-list', '/fact', '/options']}
             />
-            <ToHome/>
+            <div className={`container ${classes.RpInfo}`}>
 
-        </div>
+                <h1>{props.title}</h1>
+                <div className={'card'}>
+                    <div className={'row'}>
+                        <div
+                            className={`col s6 ${classes.btn} ${classes.border} ${props.activeInstallationRp}`}
+                            onClick={() => props.selectTab(true)}
+                        >
+                            <span>Установка RP</span>
+                        </div>
+                        <div
+                            onClick={() => props.selectTab(false)}
+                            className={`col s6 ${classes.btn} ${classes.border} ${props.activeShootingRp}`}
+
+                        >
+                            <span>Съемка RP</span>
+                        </div>
+                        <div className={`col s12 light-blue lighten-4 ${classes.card}`}>
+                            {
+                                props.rpInfoOption ?
+                                    <InstallationRp
+                                        pzFrom={props.pzFrom}
+                                        pzBefore={props.pzBefore}
+                                        pzFromGi={props.pzFromGi}
+                                        pzBeforeGi={props.pzBeforeGi}
+                                        startPzChengHandler={props.startPzChengHandler}
+                                        searchPZ={props.searchPZ}
+                                        rp={props.rp}
+                                        pvo={props.pvo}
+                                        startPzFrom={props.startPzFrom}
+                                        startPzBefore={props.startPzBefore}
+                                        calculationGi={props.calculationGi}
+                                        calculationRpList={props.calculationRpList}
+                                        rpList={props.rpList}
+                                        exactFrom={props.exactFrom}
+                                        exactBefore={props.exactBefore}
+                                        averageGi={props.averageGi}
+                                        keyH={props.keyH}
+                                        countdownRp={props.countdownRp}
+                                        itemClass={props.itemClass}
+                                        countdownRpList={props.countdownRpList}
+                                        contentInit={props.contentInit}
+                                        activeTab={props.activeTab}
+
+
+                                    />
+                                    :
+                                    <ShootingRp
+                                        calculationGi={props.calculationGi}
+                                        pzFrom={props.pzFrom}
+                                        keyH={props.keyH}
+                                        pzFromGi={props.pzFromGi}
+                                        exactFrom={props.exactFrom}
+                                        calculationRpList={props.calculationRpList}
+                                        rpList={props.rpList}
+                                        averageGi={props.averageGi}
+                                        exactBefore={props.exactBefore}
+                                        countdownRp={props.countdownRp}
+                                        itemClass={props.itemClass}
+                                        pzBeforeGi={props.pzBeforeGi}
+                                        pzBefore={props.pzBefore}
+                                        activeTab={props.activeTab}
+                                        showList={props.showList}
+                                        sortRp={props.rpList}
+                                        deltaH={props.deltaH}
+                                        saveDataToLocalStorage={props.saveDataToLocalStorage}
+                                        nameObject={props.title}
+
+                                    />
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                <Errors
+                    error={props.error}
+                    errorMassage={props.errorMassage}
+                />
+                <ToHome/>
+
+            </div>
+        </>
     )
 }
 
@@ -136,14 +143,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         selectTab: (payload) => dispatch(() => selectTab(dispatch, payload)),
-        startPzChengHandler: (name, event)=> dispatch(()=>startPzChengHandler(dispatch, name, event)),
-        searchPZ: (from, before, pvo, rp) => dispatch(()=>searchPZ(dispatch, from, before, pvo, rp)),
-        calculationGi: (name, dataPz, countdownInput, keyH)=> dispatch(()=> calculationGi(dispatch,name, dataPz, countdownInput, keyH)),
-        calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) => dispatch(()=> calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)),
-        contentInit: (countdownRp, listClasses) => dispatch(()=> contentInit(dispatch, countdownRp, listClasses)),
-        showList: (sortRp, deltaH, averageGi) => dispatch(()=> showList(dispatch, sortRp, deltaH, averageGi)),
-        saveDataToLocalStorage: (rpList, deltaH, nameObject) => dispatch(()=>saveDataToLocalStorage(dispatch, rpList, deltaH, nameObject))
-}
+        startPzChengHandler: (name, event) => dispatch(() => startPzChengHandler(dispatch, name, event)),
+        searchPZ: (from, before, pvo, rp) => dispatch(() => searchPZ(dispatch, from, before, pvo, rp)),
+        calculationGi: (name, dataPz, countdownInput, keyH) => dispatch(() => calculationGi(dispatch, name, dataPz, countdownInput, keyH)),
+        calculationRpList: (name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass) => dispatch(() => calculationRpList(dispatch, name, rpList, gi, averageGi, exactFrom, exactBefore, countdownRp, itemClass)),
+        contentInit: (countdownRp, listClasses) => dispatch(() => contentInit(dispatch, countdownRp, listClasses)),
+        showList: (sortRp, deltaH, averageGi) => dispatch(() => showList(dispatch, sortRp, deltaH, averageGi)),
+        saveDataToLocalStorage: (rpList, deltaH, nameObject) => dispatch(() => saveDataToLocalStorage(dispatch, rpList, deltaH, nameObject))
+    }
 }
 
 

@@ -19,6 +19,7 @@ import {rpType} from "../../redux/reducers/objectListReducer";
 import {InputList} from "../../Components/InputList/InputList";
 import {sortRpObjectType} from "../../redux/reducers/editRpReducer";
 import CalculationsListEditRp from "../../Components/СalculationsListEditRp/CalculationsListEditRp";
+import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
 
 type EditRpType = {
     dataArr: rpType
@@ -81,6 +82,10 @@ const EditRp: React.FC<EditRpType> = ({
 
     return (
         <div className={classes.editWrapper}>
+            <NavBarMenu
+                btnName={["Главная", 'Репера', 'Каталог_RP', 'Съемка', 'Назад']}
+                linkTo={['/', '/rp', '/rp-list', '/fact', '/options']}
+            />
             <h1>{title}</h1>
             <p>Рихтовка</p>
             <Errors

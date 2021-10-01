@@ -10,6 +10,7 @@ import {listData} from "../../redux/actions/rpListActionCreater";
 import {rpListInputHandler} from "../../redux/actions/rpListActionCreater";
 import SearchRp from "../../Components/SearchRp/SearchRp";
 import Errors from "../../Components/Errors/Errors";
+import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
 
 type Props = {
     checked: boolean[]
@@ -22,8 +23,7 @@ type Props = {
         checked: boolean[],
         rp: Array<rpType>,
         listData: listData
-
-    )=> void
+    ) => void
     rp: Array<rpType>
     searchInputHandler: (eventTarget: string, list: currentObjectType) => void
     buttonHandler: (listData: number[][], numberRp: number, rpList: rpType[]) => void
@@ -36,56 +36,63 @@ type Props = {
 const RpListPage = (props: Props) => {
 
     return (
-        <div className={classes.wrapper}>
-            <Errors
-                errorMassage={props.errorMassage}
-                error={props.error}
+        <>
+            <NavBarMenu
+                btnName={["Главная", 'Репера', 'Рихтовка', 'Съемка', 'Назад']}
+                linkTo={['/', '/rp', '/edit-rp', '/fact', '/options']}
             />
-            <FilterData
-                inputList={[
+            <div className={classes.wrapper}>
 
-                    {
-                        checkDefault: props.checked[0], inputHandler: () => {
-                            props.rpListInputHandler(0, props.filter, props.checked, props.rp, props.listData)
-                        }, inputName: 'PK'
-                    },
-                    {
-                        checkDefault: props.checked[1], inputHandler: () => {
-                            props.rpListInputHandler(1, props.filter, props.checked, props.rp, props.listData)
-                        }, inputName: 'H-Пр.'
-                    },
-                    {
-                        checkDefault: props.checked[2], inputHandler: () => {
-                            props.rpListInputHandler(2, props.filter, props.checked, props.rp, props.listData)
-                        }, inputName: 'H-Факт'
-                    },
-                    {
-                        checkDefault: props.checked[3], inputHandler: () => {
-                            props.rpListInputHandler(3, props.filter, props.checked, props.rp, props.listData)
-                        }, inputName: 'Возвыш.'
-                    },
-                    {
-                        checkDefault: props.checked[4], inputHandler: () => {
-                            props.rpListInputHandler(4, props.filter, props.checked, props.rp, props.listData)
-                        }, inputName: 'Домер'
-                    }
+                <Errors
+                    errorMassage={props.errorMassage}
+                    error={props.error}
+                />
+                <FilterData
+                    inputList={[
 
-                ]}
-            />
-            <SearchRp
-                searchInputHandler={props.searchInputHandler}
-                buttonHandler={()=> props.buttonHandler(props.listData, props.searchInput, props.rp)}
-                list={props.currentObject}
-            />
-            <TableData
-                tableName={props.title}
-                columnName={props.filter}
-                data={props.listData}
-            />
+                        {
+                            checkDefault: props.checked[0], inputHandler: () => {
+                                props.rpListInputHandler(0, props.filter, props.checked, props.rp, props.listData)
+                            }, inputName: 'PK'
+                        },
+                        {
+                            checkDefault: props.checked[1], inputHandler: () => {
+                                props.rpListInputHandler(1, props.filter, props.checked, props.rp, props.listData)
+                            }, inputName: 'H-Пр.'
+                        },
+                        {
+                            checkDefault: props.checked[2], inputHandler: () => {
+                                props.rpListInputHandler(2, props.filter, props.checked, props.rp, props.listData)
+                            }, inputName: 'H-Факт'
+                        },
+                        {
+                            checkDefault: props.checked[3], inputHandler: () => {
+                                props.rpListInputHandler(3, props.filter, props.checked, props.rp, props.listData)
+                            }, inputName: 'Возвыш.'
+                        },
+                        {
+                            checkDefault: props.checked[4], inputHandler: () => {
+                                props.rpListInputHandler(4, props.filter, props.checked, props.rp, props.listData)
+                            }, inputName: 'Домер'
+                        }
+
+                    ]}
+                />
+                <SearchRp
+                    searchInputHandler={props.searchInputHandler}
+                    buttonHandler={() => props.buttonHandler(props.listData, props.searchInput, props.rp)}
+                    list={props.currentObject}
+                />
+                <TableData
+                    tableName={props.title}
+                    columnName={props.filter}
+                    data={props.listData}
+                />
 
 
-            <ToHome/>
-        </div>
+                <ToHome/>
+            </div>
+        </>
     )
 }
 
@@ -112,9 +119,9 @@ function mapDispatchToProps(dispatch: any) {
             checked: boolean[],
             rp: Array<rpType>,
             listData: listData
-        )=> dispatch (()=> rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData)),
-        searchInputHandler: (eventTarget: string, list: currentObjectType) => dispatch (()=> searchInputHandler(dispatch, eventTarget, list)),
-        buttonHandler: (listData: number[][], numberRp: number, rpList: rpType[]) => dispatch (()=> buttonHandler(dispatch, listData, numberRp, rpList))
+        ) => dispatch(() => rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData)),
+        searchInputHandler: (eventTarget: string, list: currentObjectType) => dispatch(() => searchInputHandler(dispatch, eventTarget, list)),
+        buttonHandler: (listData: number[][], numberRp: number, rpList: rpType[]) => dispatch(() => buttonHandler(dispatch, listData, numberRp, rpList))
     }
 }
 
