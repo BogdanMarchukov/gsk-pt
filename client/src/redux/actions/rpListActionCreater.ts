@@ -7,6 +7,7 @@ import {
     SEARCH_RP_INPUT_HANDLER
 } from "../types";
 import {currentInfoObject} from "./optionsPageActionsCreater";
+import React from "react";
 
 //=================Функция обработки фильтров ======================================================================
 export type filter = ['№ Rp' | null, 'PK' | null, 'H-Пр.' | null, 'H-Факт' | null, 'Возвыш.' | null, 'Домер' | null]
@@ -222,5 +223,19 @@ export function buttonHandler (dispatch: (object: buttonHandlerDispatchType)=> v
         setTimeout(()=> {
             dispatch({type: ERROR_RESET_RP_LIST_PAGE, payload: {errorMassage: null, error: false}})
         }, 200)
+    }
+}
+
+// ===============Добавление данных в БД ================================
+
+export function addFactDataHandler(
+    dispatch: ()=> void,
+    inputH: React.MutableRefObject<null>,
+    inputD: React.MutableRefObject<null>,
+    file: React.MutableRefObject<HTMLInputElement | null>
+){
+    if (file.current) {
+        console.log(file.current.files)
+
     }
 }

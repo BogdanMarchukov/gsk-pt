@@ -15,6 +15,8 @@ interface initStateType {
     errorMassage: string | null
     error: boolean
     rpList: rpType[] | null
+    inputH: boolean
+    inputD: boolean
 }
 
 const initState: initStateType = {
@@ -24,7 +26,9 @@ const initState: initStateType = {
     searchInput: null,
     errorMassage: null,
     error: false,
-    rpList: null
+    rpList: null,
+    inputH: false,
+    inputD: false
 
 }
 

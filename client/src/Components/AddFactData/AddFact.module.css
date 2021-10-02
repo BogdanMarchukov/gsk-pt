@@ -1,0 +1,48 @@
+.addWrap {
+    width: 500px;
+    margin: 5px auto;
+    height: 200px;
+}
+.addWrap p {
+    text-align: center;
+}
+.addWrap input[type="checkbox"]:checked+span:not(.lever):before {
+     top: -4px;
+     left: -5px;
+     width: 12px;
+     height: 22px;
+     border-top: 2px solid transparent;
+     border-left: 2px solid transparent;
+     border-right: 2px solid greenyellow;
+     border-bottom: 2px solid greenyellow;
+     transform: rotate(
+             40deg);
+     -webkit-backface-visibility: hidden;
+     backface-visibility: hidden;
+     transform-origin: 100% 100%;
+ }
+.addWrap input[type="checkbox"]+span:not(.lever):before, [type="checkbox"]:not(.filled-in)+span:not(.lever):after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    z-index: 0;
+    border: 2px solid white;
+    border-radius: 1px;
+    margin-top: 3px;
+    transition: .2s;
+}
+
+.margin {
+    margin: 21px 0 0 0;
+}
+
+
+
+@media (max-width: 1000px) {
+    .addWrap {
+        display: none;
+    }
+}

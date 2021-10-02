@@ -5,12 +5,13 @@ import classes from './RpListPage.module.css'
 import FilterData from "../../Components/FilterData/FilterData";
 import {connect} from "react-redux";
 import {currentObjectType, rpType} from "../../redux/reducers/objectListReducer";
-import {buttonHandler, filter, searchInputHandler} from "../../redux/actions/rpListActionCreater";
+import {addFactDataHandler, buttonHandler, filter, searchInputHandler} from "../../redux/actions/rpListActionCreater";
 import {listData} from "../../redux/actions/rpListActionCreater";
 import {rpListInputHandler} from "../../redux/actions/rpListActionCreater";
 import SearchRp from "../../Components/SearchRp/SearchRp";
 import Errors from "../../Components/Errors/Errors";
 import NavBarMenu from "../../Components/NavBarMenu/NavBarMenu";
+import AddFactData from "../../Components/AddFactData/AddFactData";
 
 type Props = {
     checked: boolean[]
@@ -32,6 +33,7 @@ type Props = {
     errorMassage: string | null
     error: boolean
     currentObject: currentObjectType
+    addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>) => void
 }
 const RpListPage = (props: Props) => {
 
@@ -46,6 +48,10 @@ const RpListPage = (props: Props) => {
                 <Errors
                     errorMassage={props.errorMassage}
                     error={props.error}
+                />
+                <AddFactData
+                    addFactDataHandler={props.addFactDataHandler}
+                    show={true}
                 />
                 <FilterData
                     inputList={[
@@ -121,7 +127,8 @@ function mapDispatchToProps(dispatch: any) {
             listData: listData
         ) => dispatch(() => rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData)),
         searchInputHandler: (eventTarget: string, list: currentObjectType) => dispatch(() => searchInputHandler(dispatch, eventTarget, list)),
-        buttonHandler: (listData: number[][], numberRp: number, rpList: rpType[]) => dispatch(() => buttonHandler(dispatch, listData, numberRp, rpList))
+        buttonHandler: (listData: number[][], numberRp: number, rpList: rpType[]) => dispatch(() => buttonHandler(dispatch, listData, numberRp, rpList)),
+        addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>) => dispatch(()=> addFactDataHandler(dispatch, inputH, inputD, file))
     }
 }
 
