@@ -33,7 +33,8 @@ type Props = {
     errorMassage: string | null
     error: boolean
     currentObject: currentObjectType
-    addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>) => void
+    addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>, id: number) => void
+    id: number
 }
 const RpListPage = (props: Props) => {
 
@@ -52,6 +53,7 @@ const RpListPage = (props: Props) => {
                 <AddFactData
                     addFactDataHandler={props.addFactDataHandler}
                     show={true}
+                    id={props.id}
                 />
                 <FilterData
                     inputList={[
@@ -113,7 +115,8 @@ function mapStateToProps(state: any) {
         listDataCache: state.rpListReducer.listDataCache,
         errorMassage: state.rpListReducer.errorMassage,
         error: state.rpListReducer.error,
-        currentObject: state.objectListReducer.currentObject
+        currentObject: state.objectListReducer.currentObject,
+        id: state.objectListReducer.currentObject._id
     }
 }
 
@@ -128,7 +131,7 @@ function mapDispatchToProps(dispatch: any) {
         ) => dispatch(() => rpListInputHandler(dispatch, indexHandler, filter, checked, rp, listData)),
         searchInputHandler: (eventTarget: string, list: currentObjectType) => dispatch(() => searchInputHandler(dispatch, eventTarget, list)),
         buttonHandler: (listData: number[][], numberRp: number, rpList: rpType[]) => dispatch(() => buttonHandler(dispatch, listData, numberRp, rpList)),
-        addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>) => dispatch(()=> addFactDataHandler(dispatch, inputH, inputD, file))
+        addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>, id: number) => dispatch(()=> addFactDataHandler(dispatch, inputH, inputD, file, id))
     }
 }
 

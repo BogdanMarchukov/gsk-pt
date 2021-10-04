@@ -8,19 +8,17 @@ const path = require('path')
 const PORT = 5000 //config.get('port') || 5000
 app.use(fileMiddleware.fields([
     {name: "csv", maxCount: 2},
-    {name: "dataFile", maxCount: 1}
+    {name: "dataFile", maxCount: 1},
+    {name: "file", maxCount: 1},
+
 ]))
 app.use(express.json({extended: true}))
-
-
-
-
-
 
 app.use('/api/add', require('./routes/add.routes'))
 app.use('/api', require('./routes/fatchListObject'))
 app.use('/api', require('./routes/saveShooting.routes'))
 app.use('/api', require('./routes/editRp.routes'))
+app.use('/api', require('./routes/addFactData.routes'))
 
 
 if (process.env.NODE_ENV === 'production') {

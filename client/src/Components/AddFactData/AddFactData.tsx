@@ -3,7 +3,8 @@ import classes from './AddFact.module.css'
 
 type Props = {
     show: boolean
-    addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>) => void
+    id: number
+    addFactDataHandler: (inputH: React.MutableRefObject<null>, inputD: React.MutableRefObject<null>, file: React.MutableRefObject<HTMLInputElement | null>, id: number) => void
 }
 const AddFactData = (props: Props) => {
     const checkInputH = useRef(null)
@@ -52,7 +53,7 @@ const AddFactData = (props: Props) => {
                                 type="submit"
                                 name="action"
 
-                                onClick={()=> props.addFactDataHandler(checkInputH, checkInputD, file)}
+                                onClick={()=> props.addFactDataHandler(checkInputH, checkInputD, file, props.id)}
                             >
                                 Отправить
                                 <i className="material-icons right">send</i>

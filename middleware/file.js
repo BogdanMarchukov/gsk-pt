@@ -10,6 +10,9 @@ const storage = multer.diskStorage({
         if (file.fieldname === 'dataFile') {
             cb(null, "./uploads")
         }
+        if (file.fieldname === 'file') {
+            cb(null, "./uploads")
+        }
 
     },
     filename(req, file, cb) {
@@ -26,6 +29,9 @@ const storage = multer.diskStorage({
         }
         if (file.fieldname === "dataFile") {
             cb(null, 'editRp.csv')
+        }
+        if (file.fieldname === "file") {
+            cb(null, 'factDataRp.csv')
         }
 
     }

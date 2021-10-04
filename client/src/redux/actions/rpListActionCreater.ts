@@ -228,14 +228,32 @@ export function buttonHandler (dispatch: (object: buttonHandlerDispatchType)=> v
 
 // ===============Добавление данных в БД ================================
 
-export function addFactDataHandler(
+export async function addFactDataHandler(
     dispatch: ()=> void,
     inputH: React.MutableRefObject<null>,
     inputD: React.MutableRefObject<null>,
-    file: React.MutableRefObject<HTMLInputElement | null>
+    file: React.MutableRefObject<HTMLInputElement | null>,
+    id: number
 ){
-    if (file.current) {
-        console.log(file.current.files)
+    // @ts-ignore
+    if (file.current.files[0] && inputD.current.checked | inputH.current.checked) {
+        // @ts-ignore
+        console.log(file.current.files[0])
+       const formData = new FormData()
+        // @ts-ignore
+        formData.append('inputH', inputH.current.checked)
+        // @ts-ignore
+        formData.append('inputD', inputD.current.checked)
+        // @ts-ignore
+        formData.append('file', file.current.files[0])
+        // @ts-ignore
+        formData.append('id', id)
+        const response = await fetch('api/add-fact-data', {
+            method: 'POST',
+            body: formData
+        })
+        console.log(response)
 
     }
+    // todo обработать ошибку
 }
