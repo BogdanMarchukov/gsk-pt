@@ -11,7 +11,7 @@ import {
     SELECT_TAB,
     SORT_RP_PZ_DATA,
     START_PZ_BEFORE_HANDLER,
-    START_PZ_FROM_HANDLER, UPDATE_DELTA_LIST,
+    START_PZ_FROM_HANDLER, UPDATE_CURRENT_OBJECT, UPDATE_DELTA_LIST,
     UPDATE_LIST_OBJECT, UPDATE_RP
 } from "../types";
 import classes from '../../pages/RpInfo/RpInfo.module.css'
@@ -112,7 +112,6 @@ const initState: InitStateType = {
 export const objectListReducer = (state = initState, action: any): InitStateType => {
 
 
-
     switch (action.type){
         case UPDATE_LIST_OBJECT:
             return {
@@ -125,6 +124,10 @@ export const objectListReducer = (state = initState, action: any): InitStateType
         case CURRENT_OBJECT:
             return {
                 ...state, currentObject: action.payload.list
+            }
+        case UPDATE_CURRENT_OBJECT:
+            return {
+                ...state, currentObject: action.payload
             }
         case SELECT_TAB:
             return {

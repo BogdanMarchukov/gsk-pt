@@ -17,15 +17,26 @@ class DataHandler {
                     startIndex++
                     return true
                 } else return false
+
+
             } else return false
         })
     }
+
     // **********************************************************************************
     // ============================= дописание информации ==============================
     mergerData() {
         let startIndex = 0
 
         const merger = this.dataSortBase.map((item, index) => {
+            const arrayKeyDataAdd = Object.keys(this.dataAdd[index])
+            const arrayKeyItem = Object.keys(item)
+            arrayKeyDataAdd.forEach(i=> {
+                if(arrayKeyItem.includes(i)) {
+                    delete this.dataAdd[index][i]
+                }
+            })
+
             return {
                 ...item, ...this.dataAdd[index]
             }
@@ -40,6 +51,7 @@ class DataHandler {
 
         })
     }
+
     //********************************************************************************
 
 }

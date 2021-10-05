@@ -4,7 +4,7 @@ import {
     CLEAR_DATA_LIST_DATA_RP, ERROR_RESET_RP_LIST_PAGE,
     ERROR_RP_LIST_PAGE,
     SEARCH_RP_BUTTON_HANDLER,
-    SEARCH_RP_INPUT_HANDLER
+    SEARCH_RP_INPUT_HANDLER, UPDATE_CURRENT_OBJECT
 } from "../types";
 import {currentInfoObject} from "./optionsPageActionsCreater";
 import React from "react";
@@ -228,8 +228,13 @@ export function buttonHandler (dispatch: (object: buttonHandlerDispatchType)=> v
 
 // ===============Добавление данных в БД ================================
 
+interface AddFactDataActionType {
+    type: typeof UPDATE_CURRENT_OBJECT
+    payload: currentObjectType
+}
+
 export async function addFactDataHandler(
-    dispatch: ()=> void,
+    dispatch: (object: AddFactDataActionType)=> void,
     inputH: React.MutableRefObject<null>,
     inputD: React.MutableRefObject<null>,
     file: React.MutableRefObject<HTMLInputElement | null>,
@@ -238,7 +243,6 @@ export async function addFactDataHandler(
     // @ts-ignore
     if (file.current.files[0] && inputD.current.checked | inputH.current.checked) {
         // @ts-ignore
-        console.log(file.current.files[0])
        const formData = new FormData()
         // @ts-ignore
         formData.append('inputH', inputH.current.checked)
@@ -252,7 +256,8 @@ export async function addFactDataHandler(
             method: 'POST',
             body: formData
         })
-        console.log(response)
+        const responseData = await response.json()
+        dispatch({type: UPDATE_CURRENT_OBJECT, payload: responseData})
 
     }
     // todo обработать ошибку
