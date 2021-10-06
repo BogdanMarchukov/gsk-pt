@@ -1,5 +1,5 @@
-const staticCacheName = 'static-app - v8'
-const dynamicCacheName = 'dynamic - v4'
+const staticCacheName = 'static-app - v9'
+const dynamicCacheName = 'dynamic - v5'
 const staticUrl = [
     'index.html',
     '/static/js/bundle.js',
