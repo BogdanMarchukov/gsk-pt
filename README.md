@@ -16,10 +16,12 @@ Open [https://mark-gsk.ru](https://mark-gsk.ru) - production version
 ## Description 
 <img src="https://i.ytimg.com/vi/_BciQExgGDw/maxresdefault.jpg" alt="JavaScript" width="80" align="center" /> - PWA Application
 
-###Language:
-<img src="https://miro.medium.com/max/940/1*mQ2N6Fe_XhfWNlWJITHZjg.png" alt="JavaScript" width="80" />
-<img src="https://hsto.org/files/342/d22/dae/342d22daea70487fa2b1a51402f0c220.png" alt="JavaScript" width="80" />
+### Language:
 
+<img  src="https://miro.medium.com/max/940/1*mQ2N6Fe_XhfWNlWJITHZjg.png" alt="JavaScript" width="80" />
+<img  src="https://hsto.org/files/342/d22/dae/342d22daea70487fa2b1a51402f0c220.png" alt="JavaScript" width="80" />
+
+---
 
 ### FrontEnd:
 - [React.js](https://ru.reactjs.org)
